@@ -24,34 +24,28 @@
 declare(strict_types=1);
 namespace Implactor\tasks;
 
-use pocketmine\level\{
-	Level, Position
-};
-use pocketmine\{
-        Player, Server
-};
-use pocketmine\scheduler\Task;
-use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\protocol\LevelEventPacket as JoinPacket;
 
+use pocketmine\Player;
+use pocketmine\network\mcpe\protocol\LevelEventPacket as JoinPacket;
 use Implactor\Implade;
+use pocketmine\scheduler\Task;
 
 class GuardianJoinTask extends Task {
 
-	private $player;
-	private $plugin;
+  private $player;
+  private $plugin;
 
-	public function __construct(Implade $plugin, Player $player){
-        $this->plugin = $plugin;
-        $this->player = $player;
-	}
-	
-	public function onRun(int $currentTick): void{
-		$player = $this->player;
-		$packetJoin = new JoinPacket();
-		$packetJoin->evid = JoinPacket::EVENT_GUARDIAN_CURSE;
-		$packetJoin->data = 0;
-		$packetJoin->position = $player->asVector3();
-		$player->sendDataPacket($packetJoin);
-	}
+  public function __construct(Implade $plugin, Player $player) {
+    $this->plugin = $plugin;
+    $this->player = $player;
+  }
+
+  public function onRun(int $currentTick): void {
+    $player = $this->player;
+    $packetJoin = new JoinPacket();
+    $packetJoin->evid = JoinPacket::EVENT_GUARDIAN_CURSE;
+    $packetJoin->data = 0;
+    $packetJoin->position = $player->asVector3();
+    $player->sendDataPacket($packetJoin);
+  }
 }

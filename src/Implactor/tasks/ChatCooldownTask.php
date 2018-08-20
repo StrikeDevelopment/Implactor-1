@@ -31,15 +31,15 @@ use Implactor\Implade;
 
 class ChatCooldownTask extends Task {
 
-    private $plugin;
-    private $player;
+  private $plugin;
+  private $player;
 
-    public function __construct(Implade $plugin, Player $player){
-        $this->plugin = $plugin;
-        $this->player = $player;
-    }
+  public function __construct(Implade $plugin, Player $player) {
+    $this->plugin = $plugin;
+    $this->player = $player;
+  }
 
-    public function onRun(int $currentTick): void{
-        unset($this->plugin->ichat[$this->player->getName()]);
-    }
+  public function onRun(int $currentTick): void {
+    unset($this->plugin->ichat[$this->player->getName()]);
+  }
 }

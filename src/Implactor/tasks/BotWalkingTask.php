@@ -33,30 +33,30 @@ use Implactor\entities\BotHuman;
 
 class BotWalkingTask extends Task {
 
-	private $plugin, $entity;
+  private $plugin, $entity;
 
-	public function __construct(Implade $plugin, Entity $entity){
-		$this->plugin = $plugin;
-		$this->entity = $entity;
-	}
+  public function __construct(Implade $plugin, Entity $entity) {
+    $this->plugin = $plugin;
+    $this->entity = $entity;
+  }
 
-	public function onRun(int $tick): void{
-			$entity = $this->entity;
-			if($entity instanceof BotHuman){
-				switch($entity->getDirection()){
-				case 0:
-				$entity->setMotion(new Vector3(0.7, 0, 0));
-				break;
-				case 1:
-				$entity->setMotion(new Vector3(0, 0, 0.7));
-				break;
-				case 2:
-				$entity->setMotion(new Vector3(-0.7, 0, 0));
-				break;
-				case 3:
-				$entity->setMotion(new Vector3(0, 0, -0.7));
-				break;
-			}
-		}
-	}
+  public function onRun(int $tick): void {
+    $entity = $this->entity;
+    if ($entity instanceof BotHuman) {
+      switch ($entity->getDirection()) {
+        case 0:
+          $entity->setMotion(new Vector3(0.7, 0, 0));
+          break;
+        case 1:
+          $entity->setMotion(new Vector3(0, 0, 0.7));
+          break;
+        case 2:
+          $entity->setMotion(new Vector3(-0.7, 0, 0));
+          break;
+        case 3:
+          $entity->setMotion(new Vector3(0, 0, -0.7));
+          break;
+      }
+    }
+  }
 }

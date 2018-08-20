@@ -24,19 +24,17 @@
 declare(strict_types=1);
 namespace Implactor\entities;
 
-use pocketmine\entity\{
-	Creature as Soccer, Living
-};
+use pocketmine\entity\Creature as Soccer;
 
 class SoccerMagma extends Soccer {
-	
-	const NETWORK_ID = 42;
-	
-	public $width = 1.04;
-	public $height = 1.04;
-	
-	public function getName(): string{
-		return "SoccerMagma";
-	}
+
+  const NETWORK_ID = 42;
+
+  public $width = 1.04;
+  public $height = 1.04;
+
+  public function getName(): string {
+    return "SoccerMagma";
+  }
 }
 

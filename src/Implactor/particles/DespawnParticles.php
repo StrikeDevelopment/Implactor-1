@@ -24,53 +24,41 @@
 declare(strict_types=1);
 namespace Implactor\particles;
 
-use pocketmine\level\{
-	Level, Position
-};
-use pocketmine\level\particle\{
-	HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion
-};
+use Implactor\entities\DeathHuman;
+use pocketmine\level\particle\{HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion};
 use pocketmine\scheduler\Task;
 use pocketmine\math\Vector3;
 use pocketmine\entity\Entity;
-
 use Implactor\Implade;
-use Implactor\npc\DeathHuman;
 
 class DespawnParticles extends Task {
-	
-	private $entity;
-	
-	public function __construct(Implade $plugin, Entity $entity){
-                $this->plugin = $plugin;
-		$this->entity = $entity;
-	}
-  
-	public function onRun(int $currentTick): void{  
-        $entity = $this->entity;
-		if($entity instanceof DeathHuman){
-             $despawn = $entity->getLevel();
-		     $r = rand(1,300);
-		     $g = rand(1,300);
-		     $b = rand(1,300);
-		     $x = $entity->getX();
-		     $y = $entity->getY();
-		     $z = $entity->getZ();
-		     $center = new Vector3($x, $y, $z);
-		     $radius = 1;
-		     $count = 12;
-		     $despawnExplosion = new BigExplosion($center, $r, $g, $b, 1);
-		     $despawnLava = new LavaExplosion($center, $r, $g, $b, 1);
-		     
-	          // Similar from DeathParticles.php file \\
-		     for($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20){
-			     $x = -sin($yaw) + $center->x;
-			     $z = cos($yaw) + $center->z;
-			     $despawnExplosion->setComponents($x, $y, $z);
-                 $despawnLava->setComponents($x, $y, $z);
-			     $despawn->addParticle($despawnExplosion);
-			     $despawn->addParticle($despawnLava);
-               }
-          }
-     }
+
+  private $plugin;
+  private $entity;
+
+  public function __construct(Implade $plugin, Entity $entity) {
+    $this->plugin = $plugin;
+    $this->entity = $entity;
+  }
+
+  public function onRun(int $currentTick): void {
+    $entity = $this->entity;
+    if ($entity instanceof DeathHuman) {
+      $despawn = $entity->getLevel();
+      $x = $entity->getX();
+      $y = $entity->getY();
+      $z = $entity->getZ();
+      $center = new Vector3($x, $y, $z);
+      $despawnExplosion = new BigExplosion($center);
+      $despawnLava = new LavaExplosion($center);
+      for ($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20) {
+        $x = -sin($yaw) + $center->x;
+        $z = cos($yaw) + $center->z;
+        $despawnExplosion->setComponents($x, $y, $z);
+        $despawnLava->setComponents($x, $y, $z);
+        $despawn->addParticle($despawnExplosion);
+        $despawn->addParticle($despawnLava);
+      }
+    }
+  }
 }

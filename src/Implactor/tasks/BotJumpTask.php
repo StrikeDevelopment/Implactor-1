@@ -24,7 +24,6 @@
 declare(strict_types=1);
 namespace Implactor\tasks;
 
-use pocketmine\math\Vector2;
 use pocketmine\entity\Entity;
 use pocketmine\scheduler\Task;
 
@@ -33,17 +32,17 @@ use Implactor\entities\BotHuman;
 
 class BotJumpTask extends Task {
 
-	private $plugin, $entity;
+  private $plugin, $entity;
 
-	public function __construct(Implade $plugin, Entity $entity){
-		$this->plugin = $plugin;
-		$this->entity = $entity;
-	}
+  public function __construct(Implade $plugin, Entity $entity) {
+    $this->plugin = $plugin;
+    $this->entity = $entity;
+  }
 
-	public function onRun(int $tick): void{
-		$entity = $this->entity;
-		if($entity instanceof BotHuman){
-			$entity->jump();
-		}
-	}
+  public function onRun(int $tick): void {
+    $entity = $this->entity;
+    if ($entity instanceof BotHuman) {
+      $entity->jump();
+    }
+  }
 }

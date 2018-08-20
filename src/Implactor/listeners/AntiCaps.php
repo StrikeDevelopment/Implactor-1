@@ -26,33 +26,30 @@ namespace Implactor\listeners;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\Player;
 
 use Implactor\Implade;
 
 class AntiCaps implements Listener {
 
-    private $plugin;
-    private $caps;
+  private $plugin;
+  private $caps;
 
-    public function __construct(Implade $plugin){
-        $this->plugin = $plugin;
-        $this->caps = ["MOTHER", "FATHER", "HEY","HATE", "YOU", "IDIOT", "WHY", "STUPID", "WHAT", "WORST", "WOW", "AMAZING", "COOL", "WEIRDO", "FUN", "PUSSY", "PUSS", "GROSS", "SOLO", "TEAM", "PVP", "FRIEND", "ALLY", "FACTION", "GAMES", "SERVER", "DAMN", "DARN", "BUU", "TRASH", "ARE", "PRO", "NOOB", "REAL", "FAKE", "HI", "HEYO", "HELLO", "HOLA", "NO", "YES", "STOP", "BAN", "KICK"];
-    }
+  public function __construct(Implade $plugin) {
+    $this->plugin = $plugin;
+    $this->caps = ["MOTHER", "МАТЬ", "FATHER", "ОТЕЦ", "HEY", "ПРИВЕТ", "HATE", "YOU", "IDIOT", "WHY", "STUPID", "WHAT", "WORST", "WOW", "AMAZING", "COOL", "WEIRDO", "FUN", "PUSSY", "PUSS", "GROSS", "SOLO", "TEAM", "PVP", "FRIEND", "ALLY", "FACTION", "GAMES", "SERVER", "DAMN", "DARN", "BUU", "TRASH", "ARE", "PRO", "NOOB", "REAL", "FAKE", "HI", "HEYO", "HELLO", "HOLA", "NO", "YES", "STOP", "BAN", "KICK"];
+  }
 
-    public function onChat(PlayerChatEvent $ev): void{
-        $msg = $ev->getMessage();
-        $player = $ev->getPlayer();
-        if(!$player instanceof Player) return;
-        if($player->hasPermission("implactor.anti")){
-        }else{
-            foreach($this->caps as $caps){
-                if(strpos($msg, $caps) !== false){
-                    $player->sendMessage($this->plugin->getLang("anti-caps-message"));
-                    $ev->setCancelled();
-                    return;
-                }
-            }
+  public function onChat(PlayerChatEvent $ev): void {
+    $msg = $ev->getMessage();
+    $player = $ev->getPlayer();
+    if (!$player->hasPermission("implactor.anti")) {
+      foreach ($this->caps as $caps) {
+        if (strpos($msg, $caps) !== false) {
+          $player->sendMessage($this->plugin->getLang("anti-caps-message"));
+          $ev->setCancelled();
+          return;
         }
+      }
     }
+  }
 }

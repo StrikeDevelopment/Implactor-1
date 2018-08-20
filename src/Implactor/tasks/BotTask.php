@@ -30,25 +30,24 @@ use pocketmine\scheduler\Task;
 use Implactor\Implade;
 use Implactor\particles\BotParticles;
 use Implactor\entities\BotHuman;
-use Implactor\listeners\BotListener;
 
 class BotTask extends Task {
-	
-	private $plugin, $entity;
-	
-	public function __construct(Implade $plugin, Entity $entity){
-		$this->plugin = $plugin;
-		$this->entity = $entity;
-	}
-	
-	public function onRun(int $tick): void{
-		$entity = $this->entity;
-		if($entity instanceof BotHuman){
-			$this->plugin->getScheduler()->scheduleRepeatingTask(new BotSneakTask($this->plugin, $entity), 40);
-			$this->plugin->getScheduler()->scheduleRepeatingTask(new BotUnsneakTask($this->plugin, $entity), 40);
-                        $this->plugin->getScheduler()->scheduleRepeatingTask(new BotJumpTask($this->plugin, $entity), 95);
-			$this->plugin->getScheduler()->scheduleRepeatingTask(new BotWalkingTask($this->plugin, $entity), 90);
-			$this->plugin->getScheduler()->scheduleRepeatingTask(new BotParticles($this->plugin, $entity), 25);
-            }
-	    }
+
+  private $plugin, $entity;
+
+  public function __construct(Implade $plugin, Entity $entity) {
+    $this->plugin = $plugin;
+    $this->entity = $entity;
+  }
+
+  public function onRun(int $tick): void {
+    $entity = $this->entity;
+    if ($entity instanceof BotHuman) {
+      $this->plugin->getScheduler()->scheduleRepeatingTask(new BotSneakTask($this->plugin, $entity), 40);
+      $this->plugin->getScheduler()->scheduleRepeatingTask(new BotUnsneakTask($this->plugin, $entity), 40);
+      $this->plugin->getScheduler()->scheduleRepeatingTask(new BotJumpTask($this->plugin, $entity), 95);
+      $this->plugin->getScheduler()->scheduleRepeatingTask(new BotWalkingTask($this->plugin, $entity), 90);
+      $this->plugin->getScheduler()->scheduleRepeatingTask(new BotParticles($this->plugin, $entity), 25);
     }
+  }
+}

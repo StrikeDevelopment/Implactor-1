@@ -24,13 +24,9 @@
 declare(strict_types=1);
 namespace Implactor\particles;
 
-use pocketmine\level\{
-	Level, Position
-};
 use pocketmine\level\particle\{
 	HappyVillagerParticle as Experience, PortalParticle as Portal, WaterParticle as Water
 };
-use pocketmine\Player;
 use pocketmine\math\Vector3;
 use pocketmine\scheduler\Task;
 
@@ -47,18 +43,13 @@ class SpawnParticles extends Task {
 	public function onRun(int $currentTick): void{
 		$alive = $this->plugin->getServer()->getDefaultLevel();
 		$spawn = $this->plugin->getServer()->getDefaultLevel()->getSafeSpawn();
-		$r = rand(1,300);
-		$g = rand(1,300);
-		$b = rand(1,300);
 		$x = $spawn->getX();
 		$y = $spawn->getY();
 		$z = $spawn->getZ();
 		$center = new Vector3($x, $y, $z);
-		$radius = 0.5;
-		$count = 55;
-		$spawnExperience = new Experience($center, $r, $g, $b, 1);
-		$spawnPortal = new Portal($center, $r, $g, $b, 1);
-		$spawnWater = new Water($center, $r, $g, $b, 1);
+		$spawnExperience = new Experience($center);
+		$spawnPortal = new Portal($center);
+		$spawnWater = new Water($center);
 		
 		for($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20){
 			$x = -sin($yaw) + $center->x;
