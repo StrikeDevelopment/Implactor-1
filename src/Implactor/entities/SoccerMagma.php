@@ -28,15 +28,15 @@ use pocketmine\entity\{
 	Creature as Soccer, Living
 };
 
-class SoccerSlime extends Soccer {
+class SoccerMagma extends Soccer {
 	
-	const NETWORK_ID = 37;
+	const NETWORK_ID = 42;
 	
 	public $width = 1.04;
 	public $height = 1.04;
 	
 	public function getName(): string{
-		return "SoccerSlime";
+		return "SoccerMagma";
 	}
 }
 
