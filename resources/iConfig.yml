@@ -1,22 +1,39 @@
 # ××××× = ××××× = ×××××
 # Implactor Configuration
 # Made by Zadezter
+# > -----
+# Discord: Zadezter#0207
+# Twitter: @Zadezter
 # ××××× = ××××× = ×××××
 ---
 
+# This is config version on Implactor plugin.
+# Do not change the version or it will make a config broken.
+Version: 1
+
 # Select a language you'd like to choose for plugin.
-#
 # ××××× ----- ××××× ----- ×××××
 # Available Languages:
-# 1. English
-# 2. Malay
-# 3. Espanish
-# COMING SOON!
-# 1. Tagalog
-# 2. Indonesian
-# 3. Greek
+# - English
+# Coming soon because language system has updated.
 # ××××× ----- ××××× ----- ×××××
-#
+# Useful and good for this plugin.
 language: "English"
+
+# Enable/Disable the update checker for Implactor.
+update-checker: true
+
+# Set a timer to clear lagg automatically.
+# Default = 480 seconds.
+clear-timer: 480
+
+# Set amount of how much killer get money after slained one player.
+# "220" in-game money is recommend.
+killer-money: 220
+
+# Enable/Disable some particles on every features.
+bot-particles: true
+spawn-particles: true
+death-and-despawn-particles: true
 
 ...
