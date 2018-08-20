@@ -10,15 +10,43 @@
 # - Use symbol "&" to make color text.
 # - Use "/n" to create a new line.
 
+# System Messages
+outdated-config-message: "A configuration was outdated or the version is invaild or incorrect."
+economy-error-message: "There was a error problem with EconomyAPI! It failed to add money to the players!"
+clearlagg-error-message: "Something is wrong to ClearLagg feature. Please make sure the number of seconds it's correctly!"
+
+enable-plugin-message: "Implactor is currently now online! Thanks for using this plugin!"
+disable-plugin-message: "Implactor is unfortanantly, disabled due to server stops or error occured!"
+license-plugin-message: "Implactor is licensed under GNU General Public License v3.0"
+check-depends-message: "Checking all depends..."
+check-entities-message: "Checking all entities..."
+check-tridents-message: "Checking some trident files..."
+
+# Check Depends Messages
+# Including a EconomyAPI and FormAPI.
+forms-found-message: "Detected FormAPI  plugin found. Enabling all form menu available..."
+economy-failed-message: "There is no EconomyAPI plugin detected on your file browser! Disabling the economy features..."
+economy-found-message: "Detected EconomyAPI plugin found. Enabling the economy features..."
+form-failed-message: "There is no FormAPI plugin detected on your file browser! Disabling all form menu available..."
+
+# Update Messages
+# Tips:
+# $version - Show a version from plugin.yml on Github.
+update-checking-message: "Checking the update..."
+update-detected-message: "New version $version is now available! Update it on Github or Poggit!"
+update-already-message: "Implactor is already updated to the latest version!"
+updated-unable-message: "Unable to checking the update!"
+
 # Event Messages
 server-whitelisted-message: "&eSorry, this server is currently on whitelist mode!"
 join-notice-message: "&bThis server is running the Implactor!"
 clear-lagg-message: "&8&l(&a!&8)&r &aAll entities has cleared!"
 # The player name goes after all these. - FreeGamingHere
-join-message-operators: "&7(&6STAFF&7) &l&8[&a+&8]&r &a"
-join-message-players: "&l&8[&a+&8]&r &a"
-quit-message-operators: "&7(&6STAFF&7) &l&8[&c-&8]&r &c"
-quit-message-players: "&l&8[&c-&8]&r &c"
+# Rename the "STAFF" name, but do not change other else.
+join-operator-message: "&7(&6STAFF&7) &l&8[&a+&8]&r &a"
+join-player-message: "&l&8[&a+&8]&r &a"
+quit-operator-message: "&7(&6STAFF&7) &l&8[&c-&8]&r &c"
+quit-player-message: "&l&8[&c-&8]&r &c"
 death-message: "&cMove like pain, be steady like a death!"
 
 # Tips:
@@ -42,10 +70,94 @@ fly-disable-damage-message: "&cYour fly mode have been disabled because you suff
 respawn-title: "&l&cYOU ARE DEAD"
 respawn-subtitle: "&fOuch, what just happend?"
 
-# Commands
+# Command and Form Messages
 no-permission-message: "&cYou have no permission allowed to use the command!"
 only-command-ingame-message: "Please use Implactor command in-game server!"
-# It takes to long to put everything.
-# Coming Soon.
+no-player-found-message: "&cPlayer not found in-game server!"
 
+# About Implactor Messages
+author-message: "&7- &cAuthor:"
+created-message: "&7- &bCreated:"
+
+# Sent a message when form menu and other commands has executed.
+bot-spawned-message: "&f has spawned a &bbot &fwith named &d" .$result[1]. "&f!"
+soccer-spawned-message: "&fYou have spawned a soccer ball at your coordinates! Wait a minute, that's a &ababy slime&f!"
+ping-status-message: "&a's ping status: &7[&d". $sender->getPing() ."&ems&7]"
+
+# Tips:
+# "wild-title" = Title screen message
+# "wild-subtitle" = Subtitle screen message
+wild-title: "&e&lTELEPORTING"
+wild-subtitle: "&bNo fall damage will affected to you!"
+
+#Tips:
+# $player->getName() = In-game player name.
+# [Gamemodes] Message sent to yourself after you executed the commands.
+survival-set-yourself-message: "&aYou have changed the gamemode to &c&lSURVIVAL"
+survival-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &c&lSURVIVAL"
+creative-set-yourself-message: "&aYou have changed the gamemode to &e&lCREATIVE"
+creative-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &e&lCREATIVE"
+adventure-set-yourself-message: "&aYou have changed the gamemode to &b&lADVENTURE"
+adventure-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &b&lADVENTURE"
+spectator-set-yourself-message: "&aYou have changed the gamemode to &7&lSPECTATOR"
+spectator-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &7&lSPECTATOR"
+
+# [Gamemodes] Message sent to player when get noticed.
+survival-noticed-player-message: " &achanged your gamemode to &c&lSURVIVAL"
+creative-noticed-player-message: " &achanged your gamemode to &e&lCREATIVE"
+adventure-noticed-player-message: " &achanged your gamemode to &b&lADVENTURE"
+spectator-noticed-player-messsage: " &achanged your gamemode to &7&lSPECTATOR"
+
+# [Clear] Message sent to yourself after you executed the commands.
+clear-inventory-set-yourself-message: "You have cleared all of your items from inventory."
+clear-inventory-set-player-message: "&aYou have successfully cleared all of &f". $player->getName() . "&a's items from inventory!"
+clear-armor-set-yourself-message: "&fYou have cleared your armor gear from own character!"
+clear-armor-set-player-message: "&fYou have successfully cleared &f". $player->getName() . "&f's armor gear from their character!"
+
+# [Clear] Message sent to player when get noticed.
+clear-inventory-noticed-player-message: " &ahas cleared all of your items from inventory!"
+clear-armor-noticed-player-message: " &fhas cleared your armor gear from own character!"
+
+# Form Title Messages
+form-menu-title: "Implactor UI Menu"
+form-procced-title: "Are you sure?"
+
+# [Buttons] Message on Button.
+yes-message: "&aYES"
+no-message: "&4NO"
+enable-message: "&aENABLE"
+disable-message: "&4DISABLE"
+show-message: "&aSHOW"
+hide-message: "&4HIDE"
+close-message: "&0CLOSE"
+bot-spawn-button-message: "&aSPAWN BOT HUMAN"
+bot-clear-button-message: "&4CLEAR ALL BOT HUMAN"
+
+# Messages on every form menu.
+# Form Category: 'createSimpleForm'
+vision-content-message: "&f> &l&0Vision Mode\n&r&eIf you feel so dark out there, you can use vision mode here!"
+visible-content-message: "&f> &0&lPlayer Visible\n&r&eWant to be alone? Don't worry, use player visible to make all players get hide or show!"
+bot-content-message: "&f> &0&lBot Human\n&r&eSelect the button, what should you do for?"
+bot-clear-content-message: "&6Do you really want to clear all bot humans in this world?\nThis will reduce lagg in-game server and some operators who have just spawned will gone and disappeared!"
+bot-success-cleared-message: "&aYou have successfully cleared &b" .$clearBots. " &abot humans!"
+rainbow-enabled-message: "&aYou have enabled the rainbow armor!"
+rainbow-disabled-message: "&bYou have disabled the rainbow armor!"
+rainbow-disable-content-message: "&6This may have a bug. Do you really want to do that?"
+rainbow-content-message: "&f> &l&0Rainbow Armor\n&r&eOnly for operators! Get a rainbow from your armor with using this mode!"
+
+visible-on-message: "&7&l[&aON&7]"
+visible-off-message: "&7&l[&cOFF&7]"
+visible-show-message: "&aShowed the player visibility!"
+visible-hide-message: "&eHided the player visibility!"
+
+vision-enabled-message: "&eYou have &aenabled the &bNight Vision &emode!"
+vision-disabled-message: "&eYou have &cdisabled the &bNight Vision &emode!"
+
+close-form-message: "&cYou have closed the UI menu mode!"
+
+# [Label & Input] A label messages and input on every form menu.
+# Form Category: 'createCustomForm'
+bot-label-message: "&f> &0&lSpawn Bot\n&r&eSpawn the bot human by entering a name of the entity!"
+bot-input: "Bot Name"
+bot-input-name: "Zadey"
 ...
