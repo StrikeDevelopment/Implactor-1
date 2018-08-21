@@ -102,8 +102,14 @@ close-form-message: "&cВы закрыли меню!"
 bot-label-message: "&f> &0&lПризвать бота\n&r&eПризвать бота и установить ему имя!"
 bot-input: "Имя бота"
 bot-input-name: "Zadey"
+
 bad-words:
 - сука
 - пиздец
 - блять
 - хуй
+
+caps-words:
+- МАТЬ
+- ОТЕЦ
+- ПРИВЕТ
