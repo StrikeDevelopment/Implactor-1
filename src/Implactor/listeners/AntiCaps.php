@@ -36,7 +36,7 @@ class AntiCaps implements Listener {
 
   public function __construct(Implade $plugin) {
     $this->plugin = $plugin;
-    $this->caps = ["MOTHER", "МАТЬ", "FATHER", "ОТЕЦ", "HEY", "ПРИВЕТ", "HATE", "YOU", "IDIOT", "WHY", "STUPID", "WHAT", "WORST", "WOW", "AMAZING", "COOL", "WEIRDO", "FUN", "PUSSY", "PUSS", "GROSS", "SOLO", "TEAM", "PVP", "FRIEND", "ALLY", "FACTION", "GAMES", "SERVER", "DAMN", "DARN", "BUU", "TRASH", "ARE", "PRO", "NOOB", "REAL", "FAKE", "HI", "HEYO", "HELLO", "HOLA", "NO", "YES", "STOP", "BAN", "KICK"];
+    $this->caps = $plugin->getLang("caps-words");
   }
 
   public function onChat(PlayerChatEvent $ev): void {
