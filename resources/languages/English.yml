@@ -4,125 +4,76 @@
 # Made by Zadezter
 # Language: English
 # ××××× = ××××× = ×××××
----
 
 # Tips:
 # - Use symbol "&" to make color text.
-# - Use "/n" to create a new line.
-
-# System Messages
+# - Use "\n" to create a new line.
+---
+language-selected: "Selected English language by @Zadezter!"
 outdated-config-message: "A configuration was outdated or the version is invaild or incorrect."
 economy-error-message: "There was a error problem with EconomyAPI! It failed to add money to the players!"
 clearlagg-error-message: "Something is wrong to ClearLagg feature. Please make sure the number of seconds it's correctly!"
-
 enable-plugin-message: "Implactor is currently now online! Thanks for using this plugin!"
 disable-plugin-message: "Implactor is unfortanantly, disabled due to server stops or error occured!"
 license-plugin-message: "Implactor is licensed under GNU General Public License v3.0"
 check-depends-message: "Checking all depends..."
 check-entities-message: "Checking all entities..."
 check-tridents-message: "Checking some trident files..."
-
-# Check Depends Messages
-# Including a EconomyAPI and FormAPI.
 forms-found-message: "Detected FormAPI  plugin found. Enabling all form menu available..."
 economy-failed-message: "There is no EconomyAPI plugin detected on your file browser! Disabling the economy features..."
 economy-found-message: "Detected EconomyAPI plugin found. Enabling the economy features..."
-form-failed-message: "There is no FormAPI plugin detected on your file browser! Disabling all form menu available..."
-
-# Update Messages
-# Tips:
-# $version - Show a version from plugin.yml on Github.
+forms-failed-message: "There is no FormAPI plugin detected on your file browser! Disabling all form menu available..."
 update-checking-message: "Checking the update..."
-update-detected-message: "New version $version is now available! Update it on Github or Poggit!"
+update-detected-message: "New version %version is now available! Update it on Github or Poggit!"
 update-already-message: "Implactor is already updated to the latest version!"
-updated-unable-message: "Unable to checking the update!"
-
-# Event Messages
+update-unable-message: "Unable to checking the update!"
 server-whitelisted-message: "&eSorry, this server is currently on whitelist mode!"
 join-notice-message: "&bThis server is running the Implactor!"
-clear-lagg-message: "&8&l(&a!&8)&r &aAll entities has cleared!"
-# The player name goes after all these. - FreeGamingHere
-# Rename the "STAFF" name, but do not change other else.
-join-operator-message: "&7(&6STAFF&7) &l&8[&a+&8]&r &a"
-join-player-message: "&l&8[&a+&8]&r &a"
-quit-operator-message: "&7(&6STAFF&7) &l&8[&c-&8]&r &c"
-quit-player-message: "&l&8[&c-&8]&r &c"
+clear-lagg-message: "&8&l(&a!&8)&r &aWas removed &e%items&a items and killed &e%mobs&a mobs!"
+join-operator-message: "&7(&6STAFF&7) &l&8[&a+&8]&r &a%player&f join to server!"
+join-player-message: "&l&8[&a+&8]&r &a%player&f join to server."
+quit-operator-message: "&7(&6STAFF&7) &l&8[&c-&8]&r &c%player&f quit the server!"
+quit-player-message: "&l&8[&c-&8]&r &c%player&f quit the server."
 death-message: "&cMove like pain, be steady like a death!"
-
-# Tips:
-# "death-money-message"
-# - ×INNOCENT× = A player who gets innocent.
-# - ×KILLER× = A player who being a killer and get money.
-# - ×WEAPON× = Shows a player's weapon name on message.
-# - ×MONEY× = Shows a player got $200 in-game money.
-death-money-message: "&6×KILLER× &fhas slained &c×INNOCENT× &fwith using &b×WEAPON× &fand got &a$×MONEY× &fin-game money!"
-
+death-money-message: "&6%killer &fhas slained &c%innocent &fwith using &b%weapon &fand got &a$%money &fin-game money!"
 fast-chatting-message: "&l&8(&6!&8)&r &6Please wait before you chat again in few seconds!"
 anti-swearing-message: "&l&8(&6!&8)&r &6Do not swearing a bad words on this server!"
-anti-advertising-message: "&l&8(&6!&8)&r &6Do not advertisting a links on this server!"
+anti-advertising-message: "&l&8(&6!&8)&r &6Do not advertising a links on this server!"
 anti-caps-message: "&l&8(&6!&8)&r &6Do not using a '&cCAPS&6' on this server!"
 bot-no-hit-damage-message: "&eYou cannot hit me. I'm invincible!"
 fly-disable-damage-message: "&cYour fly mode have been disabled because you suffered damaged!"
-
-# Tips:
-# "respawn-title" = Title screen message
-# "respawn-subtitle" = Subtitle screen message
 respawn-title: "&l&cYOU ARE DEAD"
 respawn-subtitle: "&fOuch, what just happend?"
-
-# Command and Form Messages
 no-permission-message: "&cYou have no permission allowed to use the command!"
 only-command-ingame-message: "Please use Implactor command in-game server!"
 no-player-found-message: "&cPlayer not found in-game server!"
-
-# About Implactor Messages
 author-message: "&7- &cAuthor:"
 created-message: "&7- &bCreated:"
-
-# Sent a message when form menu and other commands has executed.
-bot-spawned-message: "&f has spawned a &bbot &fwith named &d" .$result[1]. "&f!"
+bot-spawned-message: "&e%player&f has spawned a &bbot &fwith named &d%bot&f!"
 soccer-spawned-message: "&fYou have spawned a soccer ball at your coordinates! Wait a minute, that's a &ababy slime&f!"
-ping-status-message: "&a's ping status: &7[&d". $sender->getPing() ."&ems&7]"
-
-# Tips:
-# "wild-title" = Title screen message
-# "wild-subtitle" = Subtitle screen message
+ping-status-message: "&a's ping status: &7[&d%ping&ems&7]"
 wild-title: "&e&lTELEPORTING"
 wild-subtitle: "&bNo fall damage will affected to you!"
-
-#Tips:
-# $player->getName() = In-game player name.
-# [Gamemodes] Message sent to yourself after you executed the commands.
 survival-set-yourself-message: "&aYou have changed the gamemode to &c&lSURVIVAL"
-survival-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &c&lSURVIVAL"
+survival-set-player-message: "&aYou have successfully changed &f%player&a's gamemode to &c&lSURVIVAL"
 creative-set-yourself-message: "&aYou have changed the gamemode to &e&lCREATIVE"
-creative-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &e&lCREATIVE"
+creative-set-player-message: "&aYou have successfully changed &f%player&a's gamemode to &e&lCREATIVE"
 adventure-set-yourself-message: "&aYou have changed the gamemode to &b&lADVENTURE"
-adventure-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &b&lADVENTURE"
+adventure-set-player-message: "&aYou have successfully changed &f%player&a's gamemode to &b&lADVENTURE"
 spectator-set-yourself-message: "&aYou have changed the gamemode to &7&lSPECTATOR"
-spectator-set-player-message: "&aYou have successfully changed &f". $player->getName() . "&a's gamemode to &7&lSPECTATOR"
-
-# [Gamemodes] Message sent to player when get noticed.
-survival-noticed-player-message: " &achanged your gamemode to &c&lSURVIVAL"
-creative-noticed-player-message: " &achanged your gamemode to &e&lCREATIVE"
-adventure-noticed-player-message: " &achanged your gamemode to &b&lADVENTURE"
-spectator-noticed-player-messsage: " &achanged your gamemode to &7&lSPECTATOR"
-
-# [Clear] Message sent to yourself after you executed the commands.
+spectator-set-player-message: "&aYou have successfully changed &f%player&a's gamemode to &7&lSPECTATOR"
+survival-noticed-player-message: "&e%player &achanged your gamemode to &c&lSURVIVAL"
+creative-noticed-player-message: "&e%player &achanged your gamemode to &e&lCREATIVE"
+adventure-noticed-player-message: "&e%player &achanged your gamemode to &b&lADVENTURE"
+spectator-noticed-player-messsage: "&e%player &achanged your gamemode to &7&lSPECTATOR"
 clear-inventory-set-yourself-message: "You have cleared all of your items from inventory."
-clear-inventory-set-player-message: "&aYou have successfully cleared all of &f". $player->getName() . "&a's items from inventory!"
+clear-inventory-set-player-message: "&aYou have successfully cleared all of &f%player&a's items from inventory!"
 clear-armor-set-yourself-message: "&fYou have cleared your armor gear from own character!"
-clear-armor-set-player-message: "&fYou have successfully cleared &f". $player->getName() . "&f's armor gear from their character!"
-
-# [Clear] Message sent to player when get noticed.
-clear-inventory-noticed-player-message: " &ahas cleared all of your items from inventory!"
-clear-armor-noticed-player-message: " &fhas cleared your armor gear from own character!"
-
-# Form Title Messages
+clear-armor-set-player-message: "&fYou have successfully cleared &f%player&f's armor gear from their character!"
+clear-inventory-noticed-player-message: "&e%player &ahas cleared all of your items from inventory!"
+clear-armor-noticed-player-message: "&e%player &fhas cleared your armor gear from own character!"
 form-menu-title: "Implactor UI Menu"
 form-procced-title: "Are you sure?"
-
-# [Buttons] Message on Button.
 yes-message: "&aYES"
 no-message: "&4NO"
 enable-message: "&aENABLE"
@@ -132,32 +83,79 @@ hide-message: "&4HIDE"
 close-message: "&0CLOSE"
 bot-spawn-button-message: "&aSPAWN BOT HUMAN"
 bot-clear-button-message: "&4CLEAR ALL BOT HUMAN"
-
-# Messages on every form menu.
-# Form Category: 'createSimpleForm'
 vision-content-message: "&f> &l&0Vision Mode\n&r&eIf you feel so dark out there, you can use vision mode here!"
 visible-content-message: "&f> &0&lPlayer Visible\n&r&eWant to be alone? Don't worry, use player visible to make all players get hide or show!"
 bot-content-message: "&f> &0&lBot Human\n&r&eSelect the button, what should you do for?"
 bot-clear-content-message: "&6Do you really want to clear all bot humans in this world?\nThis will reduce lagg in-game server and some operators who have just spawned will gone and disappeared!"
-bot-success-cleared-message: "&aYou have successfully cleared &b" .$clearBots. " &abot humans!"
+bot-success-cleared-message: "&aYou have successfully cleared &b%bots &abot humans!"
 rainbow-enabled-message: "&aYou have enabled the rainbow armor!"
 rainbow-disabled-message: "&bYou have disabled the rainbow armor!"
 rainbow-disable-content-message: "&6This may have a bug. Do you really want to do that?"
 rainbow-content-message: "&f> &l&0Rainbow Armor\n&r&eOnly for operators! Get a rainbow from your armor with using this mode!"
-
 visible-on-message: "&7&l[&aON&7]"
 visible-off-message: "&7&l[&cOFF&7]"
 visible-show-message: "&aShowed the player visibility!"
 visible-hide-message: "&eHided the player visibility!"
-
 vision-enabled-message: "&eYou have &aenabled the &bNight Vision &emode!"
 vision-disabled-message: "&eYou have &cdisabled the &bNight Vision &emode!"
-
 close-form-message: "&cYou have closed the UI menu mode!"
-
-# [Label & Input] A label messages and input on every form menu.
-# Form Category: 'createCustomForm'
 bot-label-message: "&f> &0&lSpawn Bot\n&r&eSpawn the bot human by entering a name of the entity!"
 bot-input: "Bot Name"
 bot-input-name: "Zadey"
+bad-words:
+- anal
+- asshole
+- anus
+- ass
+- bastard
+- bitch
+- boob
+- cock
+- cum
+- cunt
+- dick
+- dildo
+- dyke
+- fag
+- faggot
+- fuck 
+- fuk
+- fk
+- hoe
+- tits
+- whore 
+- handjob
+- homo
+- jizz
+- cunt 
+- kike 
+- kunt
+- muff 
+- nigger 
+- penis 
+- piss 
+- poop 
+- pussy 
+- queer 
+- rape 
+- semen 
+- sex 
+- shit 
+- slut 
+- titties 
+- twat 
+- vagina 
+- vulva 
+- wank 
+- FUCK 
+- BITCH 
+- FAGGOT
+- DICK
+- CUNT
+- ASS
+- nigger
+- nigga
+- pus
+- puss
+- pusy
 ...

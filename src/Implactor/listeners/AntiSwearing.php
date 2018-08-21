@@ -26,7 +26,6 @@ namespace Implactor\listeners;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\Player;
 
 use Implactor\Implade;
 
@@ -35,17 +34,15 @@ class AntiSwearing implements Listener {
     private $plugin;
     private $badwords;
 
-    public function __construct(Implade $plugin){
-        $this->plugin = $plugin;
-        $this->badwords = ["anal", "asshole", "anus", "ass", "bastard", "bitch", "boob", "cock", "cum", "cunt", "dick", "dildo", "dyke", "fag", "faggot", "fuck", "fuk", "fk", "hoe", "tits", "whore", "handjob", "homo", "jizz", "cunt", "kike", "kunt", "muff", "nigger", "penis", "piss", "poop", "pussy", "queer", "rape", "semen", "sex", "shit", "slut", "titties", "twat", "vagina", "vulva", "wank", "FUCK", "BITCH", "FAGGOT", "DICK", "CUNT", "ASS", "nigger", "nigga", "pus", "puss", "pusy"];
+    public function __construct(Implade $plugin) {
+      $this->plugin = $plugin;
+      $this->badwords = $plugin->getLang("bad-words");
     }
 
     public function onChat(PlayerChatEvent $ev) : void{
         $msg = $ev->getMessage();
         $player = $ev->getPlayer();
-        if(!$player instanceof Player) return;
-        if($player->hasPermission("implactor.anti")){
-        }else{
+        if(!$player->hasPermission("implactor.anti")){
             foreach($this->badwords as $badwords){
                 if(strpos($msg, $badwords) !== false){
                     $player->sendMessage($this->plugin->getLang("anti-swearing-message"));

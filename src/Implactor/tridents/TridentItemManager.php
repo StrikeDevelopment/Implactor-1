@@ -28,13 +28,10 @@ use pocketmine\item\{
 	Item as LegendaryItem, ItemFactory as TridentItem
 };
 
-use Implactor\Implade;
-use Implactor\tridents\Trident;
-
 class TridentItemManager {
-	
-	public static function init(): void{
-        TridentItem::registerItem(new Trident(), true);
-        LegendaryItem::initCreativeItems();
-	}
+
+  public static function init(): void {
+    TridentItem::registerItem(new Trident(), true);
+    LegendaryItem::initCreativeItems();
+  }
 }

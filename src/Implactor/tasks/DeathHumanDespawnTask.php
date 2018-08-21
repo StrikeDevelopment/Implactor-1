@@ -33,24 +33,24 @@ use Implactor\particles\DespawnParticles;
 use Implactor\entities\DeathHuman;
 
 class DeathHumanDespawnTask extends Task {
-	
-        private $plugin;
-	private $entity;
-	private $player;
-	
-	public function __construct(Implade $plugin, Entity $entity, Player $player){
-                $this->plugin = $plugin;
-		$this->entity = $entity;
-		$this->player = $player;
-	}
-	
-	public function onRun(int $currentTick): void{
-		$player = $this->player;
-		$entity = $this->entity;
-                $plugin = $this->plugin;
-		if($entity instanceof DeathHuman){
-			if($entity->getNameTag() === "§7[§cDeath§7]§r\n§f" .$player->getName()) $entity->close();
-                        if($entity->getNameTag() === "§7[§cDeath§7]§r\n§f" .$player->getName()) $plugin->getScheduler()->scheduleDelayedTask(new DespawnParticles($plugin, $entity), 1);
-		 }
-	 }
+
+  private $plugin;
+  private $entity;
+  private $player;
+
+  public function __construct(Implade $plugin, Entity $entity, Player $player) {
+    $this->plugin = $plugin;
+    $this->entity = $entity;
+    $this->player = $player;
+  }
+
+  public function onRun(int $currentTick): void {
+    $player = $this->player;
+    $entity = $this->entity;
+    $plugin = $this->plugin;
+    if ($entity instanceof DeathHuman) {
+      if ($entity->getNameTag() === "§7[§cDeath§7]§r\n§f" . $player->getName()) $entity->close();
+      if ($entity->getNameTag() === "§7[§cDeath§7]§r\n§f" . $player->getName()) $plugin->getScheduler()->scheduleDelayedTask(new DespawnParticles($plugin, $entity), 1);
+    }
+  }
 }

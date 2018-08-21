@@ -32,17 +32,17 @@ use Implactor\entities\BotHuman;
 
 class BotUnsneakTask extends Task {
 
-	private $plugin, $entity;
+  private $plugin, $entity;
 
-	public function __construct(Implade $plugin, Entity $entity){
-		$this->plugin = $plugin;
-		$this->entity = $entity;
-	}
+  public function __construct(Implade $plugin, Entity $entity) {
+    $this->plugin = $plugin;
+    $this->entity = $entity;
+  }
 
-	public function onRun(int $tick): void{
-		$entity = $this->entity;
-		if($entity instanceof BotHuman){
-			$entity->setSneaking(false);
-		}
-	}
+  public function onRun(int $tick): void {
+    $entity = $this->entity;
+    if ($entity instanceof BotHuman) {
+      $entity->setSneaking(false);
+    }
+  }
 }

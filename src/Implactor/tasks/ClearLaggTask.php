@@ -24,22 +24,21 @@
 declare(strict_types=1);
 namespace Implactor\tasks;
 
-use pocketmine\Server;
 use pocketmine\scheduler\Task;
 
 use Implactor\Implade;
 
 class ClearLaggTask extends Task {
-	
-    private $plugin;	
-	
-    public function __construct(Implade $plugin){
-        $this->plugin = $plugin;
-    }
-    
-    public function onRun(int $currentTick) : void{
-            $this->plugin->clearItems();
-            $this->plugin->clearMobs();
-            $this->plugin->getServer()->broadcastMessage($this->plugin->getLang("clear-lagg-message")); 
-	    }
-    }
+
+  private $plugin;
+
+  public function __construct(Implade $plugin) {
+    $this->plugin = $plugin;
+  }
+
+  public function onRun(int $currentTick): void {
+    $items = $this->plugin->clearItems();
+    $mobs = $this->plugin->clearMobs();
+    $this->plugin->getServer()->broadcastMessage($this->plugin->getLang("clear-lagg-message", array("%items" => $items, "%mobs" => $mobs)));
+  }
+}

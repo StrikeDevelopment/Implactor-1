@@ -26,33 +26,30 @@ namespace Implactor\listeners;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\Player;
 
 use Implactor\Implade;
 
 class AntiAdvertising implements Listener {
 
-    private $plugin;
-    private $links;
+  private $plugin;
+  private $links;
 
-    public function __construct(Implade $plugin){
-        $this->plugin = $plugin;
-        $this->links = [".leet.cc", ".playmc.pe", ".net", ".com", ".us", ".co", ".co.uk", ".ddns", ".ddns.net", ".cf", ".pe", ".me", ".cc", ".ru", ".eu", ".tk", ".gq", ".ga", ".ml", ".org", ".1", ".2", ".3", ".4", ".5", ".6", ".7", ".8", ".9", "my server", "my sever", "ma server", "mah server", "ma sever", "mah sever"];
-    }
+  public function __construct(Implade $plugin) {
+    $this->plugin = $plugin;
+    $this->links = [".leet.cc", ".playmc.pe", ".net", ".com", ".us", ".co", ".co.uk", ".ddns", ".ddns.net", ".cf", ".pe", ".me", ".cc", ".ru", ".eu", ".tk", ".gq", ".ga", ".ml", ".org", ".1", ".2", ".3", ".4", ".5", ".6", ".7", ".8", ".9", "my server", "my sever", "ma server", "mah server", "ma sever", "mah sever"];
+  }
 
-    public function onChat(PlayerChatEvent $ev): void{
-        $msg = $ev->getMessage();
-        $player = $ev->getPlayer();
-        if(!$player instanceof Player) return;
-        if($player->hasPermission("implactor.anti")){
-         }else{
-            foreach($this->links as $links){
-                if(strpos($msg, $links) !== false){
-                    $player->sendMessage($this->plugin->getLang("anti-advertising-message"));
-                    $ev->setCancelled();
-                    return;
-                }
-            }
+  public function onChat(PlayerChatEvent $ev): void {
+    $msg = $ev->getMessage();
+    $player = $ev->getPlayer();
+    if (!$player->hasPermission("implactor.anti")) {
+      foreach ($this->links as $links) {
+        if (strpos($msg, $links) !== false) {
+          $player->sendMessage($this->plugin->getLang("anti-advertising-message"));
+          $ev->setCancelled();
+          return;
         }
+      }
     }
+  }
 }
