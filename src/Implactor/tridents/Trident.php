@@ -30,10 +30,10 @@ use pocketmine\item\Tool as Weapon;
 
 class Trident extends Weapon {
 
-  public const TRIDENT_SEA_WEAPON = "§bMysterious Legendary Trident§f";
+  public const TRIDENT_SEA_WEAPON = "§b§lTrident§f§r";
 
   public function __construct($meta = 0, $count = 1) {
-    parent::__construct(self::TRIDENT, $meta, "§bMysterious Legendary Trident§f");
+    parent::__construct(self::TRIDENT, $meta, "§b§lTrident§f§r");
   }
 
   public function getMaxDurability(): int {
