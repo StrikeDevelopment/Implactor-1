@@ -1,7 +1,7 @@
 # ××××× = ××××× = ×××××
 # Implactor Language
 # ^^ == ^^ == ^^ == ^^
-# Made by Zadezter
+# Made & Translated by Zadezter
 # Language: English
 # ××××× = ××××× = ×××××
 
@@ -102,6 +102,7 @@ close-form-message: "&cYou have closed the UI menu mode!"
 bot-label-message: "&f> &0&lSpawn Bot\n&r&eSpawn the bot human by entering a name of the entity!"
 bot-input: "Bot Name"
 bot-input-name: "Zadey"
+
 bad-words:
 - anal
 - asshole
@@ -147,15 +148,29 @@ bad-words:
 - vagina 
 - vulva 
 - wank 
+- nigger
+- nigga
+- pus
+- puss
+- pusy
+
+caps-words:
 - FUCK 
 - BITCH 
 - FAGGOT
 - DICK
 - CUNT
 - ASS
-- nigger
-- nigga
-- pus
-- puss
-- pusy
+- HEY
+- YOU
+- MOTHER
+- FATHER
+- SUCKER
+- MOM
+- DAD
+- ABUSER
+- ABUSE
+- SECOND
+- EVERYONE
+- HERE
 ...
