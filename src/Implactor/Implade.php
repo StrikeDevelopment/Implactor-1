@@ -112,6 +112,7 @@ class Implade extends PluginBase implements Listener {
     $this->checkDepends();
     $this->checkEntities();
     $this->checkTridents();
+    $this->getServer()->getPluginManager()->registerEvents($this, $this);
     $this->getServer()->getPluginManager()->registerEvents(new AntiAdvertising($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new AntiCaps($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new AntiSwearing($this), $this);
@@ -259,7 +260,7 @@ class Implade extends PluginBase implements Listener {
     $death = new DeathHuman($level, $deathNBT);
     $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
     $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
-    $death->setNameTag("§7[§cDeath§7]§r\n§f" . $player->getName());
+    $death->setNameTag("§7[". $this->getLang("death-nametag"). "§7]§r\n§f" . $player->getName());
     $death->setNameTagAlwaysVisible(true);
     $death->spawnToAll();
     $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1300);
