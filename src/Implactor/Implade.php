@@ -354,7 +354,7 @@ class Implade extends PluginBase implements Listener {
         }
       }
     }
-    $entity->getLevel()->addParticle(new DestroyBlockParticle($entity, Block::get(169)));
+    $entity->getLevel()->addParticle(new DestroyBlockParticle($entity, Block::get(251, 3)));
     if ($entity instanceof SoccerMagma) $ev->setCancelled(true);
     if ($entity instanceof DeathHuman) $ev->setCancelled(true);
     if ($entity instanceof BotHuman) $ev->setCancelled(true);
@@ -539,7 +539,7 @@ class Implade extends PluginBase implements Listener {
     $language = $this->lang;
     $key = $language->get($configKey);
     if (!is_string($key))
-      return "§4§lError:§r §c[{$configKey}]";
+      return "§4§lError message key:§r §c[{$configKey}]";
     $key = strtr($key, $keys);
     return str_replace("&", "§", $key);
   }
