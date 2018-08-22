@@ -106,6 +106,8 @@ bot-input-name: "Zadey"
 command-usage-message: "Использование команды:"
 broadcast-usage-arguement-message: "&dсообщение"
 
+death-nametag: "&cсмерть"
+
 bad-words:
 - сука
 - пиздец
