@@ -103,8 +103,8 @@ bot-label-message: "&f> &0&lПризвать бота\n&r&eПризвать бо
 bot-input: "Имя бота"
 bot-input-name: "Zadey"
 
-command-usage-message: "Использование команды:"
-broadcast-usage-arguement-message: "&dсообщение"
+command-usage-message: "Использование команды: "
+broadcast-usage-argument-message: "&dсообщение"
 
 death-nametag: "&cсмерть"
 bot-nametag: "&bробот"
