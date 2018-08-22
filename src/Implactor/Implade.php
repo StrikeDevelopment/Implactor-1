@@ -452,12 +452,13 @@ class Implade extends PluginBase implements Listener {
     } else if (strtolower($command->getName()) === "icast") {
       if ($sender->hasPermission("implactor.broadcast")) {
         if (count($args) < 1) {
+          $sender->sendMessage($this->getLang("command-usage-message"). "§e/icast <" .$this->getLang("broadcast-usage-argument-message"). "§e>");
+          return false;
+		}   
           $sender->getServer()->broadcastMessage("§7[§bImplacast§7] §e" . implode(" ", $args));
         } else {
           $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
           return false;
-        }
-        return true;
       }
     } else if (strtolower($command->getName()) === "gms" || strtolower($command->getName()) === "gmc" || strtolower($command->getName()) === "gma" || strtolower($command->getName()) === "gmsc") {
       if (!$sender->hasPermission("implactor.gamemode")) {
