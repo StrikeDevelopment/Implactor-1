@@ -159,7 +159,7 @@ class Implade extends PluginBase implements Listener {
     $language = $this->getConfig()->get('language');
     if (!is_file($this->getDataFolder() . "languages/{$language}.yml")) {
       if ($this->saveResource("languages/{$language}.yml")) {
-        $this->getLogger()->warning("{$language} not found, using English");
+        $this->getLogger()->warning("{$language} is not found in our Implactor languages database, switch to default English language!");
         $language = 'English';
         $this->saveResource("languages/English.yml");
       }
