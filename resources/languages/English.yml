@@ -107,6 +107,7 @@ command-usage-message: "Command Usage:"
 broadcast-usage-arguement-message: "&message"
 
 death-nametag: "&cDeath"
+bot-nametag: "&bBot"
 
 bad-words:
 - anal
