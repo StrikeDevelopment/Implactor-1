@@ -9,7 +9,7 @@
 # - Use symbol "&" to make color text.
 # - Use "\n" to create a new line.
 ---
-language-selected: "Selected English language by @Zadezter!"
+language-selected: "Selected English language by Zadezter!"
 outdated-config-message: "A configuration was outdated or the version is invaild or incorrect."
 economy-error-message: "There was a error problem with EconomyAPI! It failed to add money to the players!"
 clearlagg-error-message: "Something is wrong to ClearLagg feature. Please make sure the number of seconds it's correctly!"
