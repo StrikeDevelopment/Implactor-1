@@ -106,6 +106,8 @@ bot-input-name: "Zadey"
 command-usage-message: "Command Usage:"
 broadcast-usage-arguement-message: "&message"
 
+death-nametag: "&cDeath"
+
 bad-words:
 - anal
 - asshole
