@@ -41,7 +41,7 @@ use pocketmine\plugin\{Plugin, PluginBase, PluginDescription};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent};
 use pocketmine\level\particle\{DestroyBlockParticle, FlameParticle, HugeExplodeParticle};
 use pocketmine\nbt\tag\{CompoundTag, ListTag, DoubleTag, FloatTag, NamedTag, StringTag};
-use pocketmine\level\sound\{EndermanTeleportSound, BlazeShootSound, AnvilBreakSound, DoorBumpSound};
+use pocketmine\level\sound\{EndermanTeleportSound, GhastSound, BlazeShootSound, AnvilBreakSound, DoorBumpSound};
 use pocketmine\event\player\{PlayerPreLoginEvent, PlayerLoginEvent, PlayerJoinEvent, PlayerQuitEvent, PlayerDeathEvent, PlayerRespawnEvent, PlayerChatEvent, PlayerMoveEvent};
 use pocketmine\item\Item;
 use pocketmine\nbt\NBT;
@@ -198,10 +198,11 @@ class Implade extends PluginBase implements Listener {
     $player->setGamemode(Player::SURVIVAL);
     if ($player->isOP()) {
       $ev->setJoinMessage($this->getLang("join-operator-message", array("%player" => $player->getName())));
+      $level->addSound(new EndermanTeleportSound($player));
     } else {
       $ev->setJoinMessage($this->getLang("join-player-message", array("%player" => $player->getName())));
+      $level->addSound(new EndermanTeleportSound($player));
     }
-    $level->addSound(new EndermanTeleportSound($player));
     $joinScreen = new GuardianJoinTask($this, $player);
     $this->getScheduler()->scheduleDelayedTask($joinScreen, 25);
     $player->sendMessage($this->impladePrefix . $this->getLang("join-notice-message"));
@@ -235,10 +236,11 @@ class Implade extends PluginBase implements Listener {
     }
     $player->sendMessage($this->impladePrefix . $this->getLang("death-message"));
     $deathSound = new AnvilBreakSound($player);
+    $deathSound = new GhastSound($player);
     $level->addSound($deathSound);
     if ($this->getConfig()->get("death-and-despawn-particles") == true) {
       $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
-      $this->getScheduler()->scheduleDelayedTask(new DespawnParticles($this, $player), 1300);
+      $this->getScheduler()->scheduleDelayedTask(new DespawnParticles($this, $death, $player), 1100);
     }
     $deathNBT = new CompoundTag("", [
         new ListTag("Pos", [
@@ -263,7 +265,7 @@ class Implade extends PluginBase implements Listener {
     $death->setNameTag("§7[". $this->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
     $death->setNameTagAlwaysVisible(true);
     $death->spawnToAll();
-    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1300);
+    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1100);
   }
 
   public function onRespawn(PlayerRespawnEvent $ev): void {
@@ -328,12 +330,10 @@ class Implade extends PluginBase implements Listener {
     $player->setGamemode(Player::SURVIVAL);
     if ($player->isOP()) {
       $ev->setQuitMessage($this->getLang("quit-operator-message", array("%player" => $player->getName())));
-      $quitSound = new BlazeShootSound($player);
-      $level->addSound($quitSound);
+      $level->addSound(new BlazeShootSound($player));
     } else {
       $ev->setQuitMessage($this->getLang("quit-player-message", array("%player" => $player->getName())));
-      $quitSound = new BlazeShootSound($player);
-      $level->addSound($quitSound);
+      $level->addSound(new BlazeShootSound($player));
     }
   }
 
