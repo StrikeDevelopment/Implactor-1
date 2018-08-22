@@ -49,8 +49,7 @@ class DeathHumanDespawnTask extends Task {
     $entity = $this->entity;
     $plugin = $this->plugin;
     if ($entity instanceof DeathHuman) {
-      if ($entity->getNameTag() === "§7[§cDeath§7]§r\n§f" . $player->getName()) $entity->close();
-      if ($entity->getNameTag() === "§7[§cDeath§7]§r\n§f" . $player->getName()) $plugin->getScheduler()->scheduleDelayedTask(new DespawnParticles($plugin, $entity), 1);
+      if ($entity->getNameTag() === "§7[§c". $plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName()) $entity->close();
     }
   }
 }
