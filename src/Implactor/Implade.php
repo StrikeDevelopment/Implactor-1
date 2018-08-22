@@ -354,7 +354,7 @@ class Implade extends PluginBase implements Listener {
         }
       }
     }
-    $entity->getLevel()->addParticle(new DestroyBlockParticle($entity, Block::get(169)));
+    $entity->getLevel()->addParticle(new DestroyBlockParticle($entity, Block::get(251:3)));
     if ($entity instanceof SoccerMagma) $ev->setCancelled(true);
     if ($entity instanceof DeathHuman) $ev->setCancelled(true);
     if ($entity instanceof BotHuman) $ev->setCancelled(true);
