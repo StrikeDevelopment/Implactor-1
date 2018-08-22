@@ -104,7 +104,7 @@ bot-input: "Bot Name"
 bot-input-name: "Zadey"
 
 command-usage-message: "Command Usage:"
-broadcast-usage-arguement-message: "&message"
+broadcast-usage-arguement-message: "&dmessage"
 
 death-nametag: "&cDeath"
 bot-nametag: "&bBot"
