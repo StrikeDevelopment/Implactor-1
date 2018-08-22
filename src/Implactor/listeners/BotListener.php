@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Implactor\listeners;
 
 use pocketmine\math\Vector2;
-use pocketmine\network\mcpe\protocol\{AnimatePacket as SwingPacket, MoveEntityPacket as MovementPacket};
+use pocketmine\network\mcpe\protocol\{AnimatePacket as SwingPacket, MoveEntityAbsolutePacket as MovementPacket};
 use pocketmine\event\entity\{EntitySpawnEvent, EntityDamageEvent, EntityDamageByEntityEvent};
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\Listener;
@@ -79,7 +79,7 @@ class BotListener implements Listener {
         $packetMovement->entityRuntimeId = $entity->getId();
         $packetMovement->position = $entity->asVector3()->add(0, 1.5, 0);
         $packetMovement->yaw = $xRot;
-        $packetMovement->yaw = $xRot;
+        $packetMovement->headYaw = $yRot;
         $packetMovement->pitch = $zRot;
         $player->sendDataPacket($packetMovement);
         $entity->setRotation($xRot, $zRot);
