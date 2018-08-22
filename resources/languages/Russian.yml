@@ -107,6 +107,7 @@ command-usage-message: "Использование команды:"
 broadcast-usage-arguement-message: "&dсообщение"
 
 death-nametag: "&cсмерть"
+bot-nametag: "&bробот"
 
 bad-words:
 - сука
