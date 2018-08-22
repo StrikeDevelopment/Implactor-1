@@ -103,6 +103,9 @@ bot-label-message: "&f> &0&lПризвать бота\n&r&eПризвать бо
 bot-input: "Имя бота"
 bot-input-name: "Zadey"
 
+command-usage-message: "Использование команды:"
+broadcast-usage-arguement-message: "&dсообщение"
+
 bad-words:
 - сука
 - пиздец
