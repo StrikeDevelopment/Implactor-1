@@ -539,7 +539,7 @@ class Implade extends PluginBase implements Listener {
     $language = $this->lang;
     $key = $language->get($configKey);
     if (!is_string($key))
-      return "§4§lError:§r §c[{$configKey}]";
+      return "§4§lError message key:§r §c[{$configKey}]";
     $key = strtr($key, $keys);
     return str_replace("&", "§", $key);
   }
