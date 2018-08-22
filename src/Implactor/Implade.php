@@ -164,7 +164,7 @@ class Implade extends PluginBase implements Listener {
     $language = $this->getConfig()->get('language');
     if (!is_file($this->getDataFolder() . "languages/{$language}.yml")) {
       if ($this->saveResource("languages/{$language}.yml")) {
-        $this->getLogger()->warning("{$language} is not found in our Implactor languages database, switch to default English language!");
+        $this->getLogger()->warning("{$language} is not found in our Implactor languages database, switched to default English language!");
         $language = 'English';
         $this->saveResource("languages/English.yml");
       }
@@ -220,7 +220,7 @@ class Implade extends PluginBase implements Listener {
     if ($cause instanceof EntityDamageByEntityEvent) {
       $killer = $cause->getDamager();
       if ($killer instanceof Player) {
-        $weaponKiller = $killer->getInventory()->getItemInHand()->getName();
+        $weapon = $killer->getInventory()->getItemInHand()->getName();
         if (!$this->economy->addMoney($killer, $this->getConfig()->get("killer-money", 220))) {
           $this->getLogger()->error($this->getLang("economy-error-message"));
           return;
@@ -229,7 +229,7 @@ class Implade extends PluginBase implements Listener {
                 "%money" => $this->getConfig()->get("killer-money", 220),
                 "%innocent" => $player->getName(),
                 "%killer" => $killer->getName(),
-                "%weapon" => $weaponKiller
+                "%weapon" => $weapon
             )));
       }
     }
@@ -260,7 +260,7 @@ class Implade extends PluginBase implements Listener {
     $death = new DeathHuman($level, $deathNBT);
     $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
     $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
-    $death->setNameTag("§7[". $this->getLang("death-nametag"). "§7]§r\n§f" . $player->getName());
+    $death->setNameTag("§7[". $this->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
     $death->setNameTagAlwaysVisible(true);
     $death->spawnToAll();
     $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1300);
@@ -373,7 +373,7 @@ class Implade extends PluginBase implements Listener {
     $botNBT = Entity::createBaseNBT($player, null, 2, 2);
     $botNBT->setTag($player->namedtag->getTag("Skin"));
     $bot = new BotHuman($level, $botNBT);
-    $bot->setNameTag("§7[§bBot§7]§r\n§f" . $botName);
+    $bot->setNameTag("§7[". $this->getLang("bot-nametag") ."§7]§r\n§f" . $botName);
     $bot->setNameTagAlwaysVisible(true);
     $bot->spawnToAll();
   }
