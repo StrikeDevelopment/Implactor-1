@@ -457,7 +457,7 @@ class Implade extends PluginBase implements Listener {
     } else if (strtolower($command->getName()) === "icast") {
       if ($sender->hasPermission("implactor.broadcast")) {
         if (count($args) < 1) {
-          $sender->sendMessage($this->getLang("command-usage-message"). "§e/icast <" .$this->getLang("broadcast-usage-argument-message"). "§e>");
+          $sender->sendMessage($this->getLang("command-usage-message") ."§e/icast <". $this->getLang("broadcast-usage-argument-message") ."§e>");
           return false;     
         }   
           $sender->getServer()->broadcastMessage("§7[§bImplacast§7] §e" . implode(" ", $args));
@@ -539,7 +539,7 @@ class Implade extends PluginBase implements Listener {
     $language = $this->lang;
     $key = $language->get($configKey);
     if (!is_string($key))
-      return "There is an error with message key, ({$configKey}). Please contact with the author or collabrators!!";
+      return "§4§lError:§r §c[{$configKey}]";
     $key = strtr($key, $keys);
     return str_replace("&", "§", $key);
   }
