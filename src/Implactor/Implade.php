@@ -32,26 +32,30 @@ use pocketmine\entity\Human;
 use pocketmine\item\Armor;
 use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\utils\Color;
 use pocketmine\utils\Config;
+use pocketmine\utils\Utils;
 use pocketmine\command\{Command, CommandSender};
-use pocketmine\plugin\{PluginBase, PluginDescription};
+use pocketmine\plugin\{Plugin, PluginBase, PluginDescription};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent};
-use pocketmine\level\particle\{
-    DestroyBlockParticle, FlameParticle, HugeExplodeParticle
-};
-use pocketmine\nbt\tag\{CompoundTag, ListTag, DoubleTag, FloatTag};
+use pocketmine\level\particle\{DestroyBlockParticle, FlameParticle, HugeExplodeParticle};
+use pocketmine\nbt\tag\{CompoundTag, ListTag, DoubleTag, FloatTag, NamedTag, StringTag};
 use pocketmine\level\sound\{EndermanTeleportSound, BlazeShootSound, AnvilBreakSound, DoorBumpSound};
 use pocketmine\event\player\{PlayerPreLoginEvent, PlayerLoginEvent, PlayerJoinEvent, PlayerQuitEvent, PlayerDeathEvent, PlayerRespawnEvent, PlayerChatEvent, PlayerMoveEvent};
 use pocketmine\item\Item;
+use pocketmine\nbt\NBT;
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use pocketmine\event\Listener;
+use pocketmine\inventory\PlayerInventory;
 use Implactor\entities\{BotHuman, DeathHuman, SoccerMagma};
 use Implactor\listeners\{AntiAdvertising, AntiCaps, AntiSwearing, BotListener};
 use Implactor\tasks\{ChatCooldownTask, ClearLaggTask, DeathHumanDespawnTask, GuardianJoinTask, TotemRespawnTask, RainbowArmorTask};
 use Implactor\particles\{DeathParticles, DespawnParticles, SpawnParticles};
 use Implactor\tridents\{TridentEntityManager, TridentItemManager};
+use onebone\economyapi\EconomyAPI;
+use jojoe77777\FormAPI\FormAPI;
 
 class Implade extends PluginBase implements Listener {
 
@@ -183,8 +187,8 @@ class Implade extends PluginBase implements Listener {
 
   public function onLogin(PlayerLoginEvent $ev): void {
     $player = $ev->getPlayer();
-    $autoTeleport = $this->getServer()->getDefaultLevel()->getSafeSpawn();
-    $player->teleport($autoTeleport);
+    $spawn = $this->getServer()->getDefaultLevel()->getSafeSpawn();
+    $player->teleport($spawn);
   }
 
   public function onJoin(PlayerJoinEvent $ev): void {
