@@ -1,14 +1,15 @@
 # ××××× = ××××× = ×××××
 # Implactor Language
 # ^^ == ^^ == ^^ == ^^
-# Made & Translated by SteinSquad
+# Made & Translated by SteinSquad Team
 # Language: Russian
 # ××××× = ××××× = ×××××
----
+
 # Советы:
 # - Используйте символ "&" для окраски текста.
 # - Используйте "\n" для переноса строки.
-language-selected: "Выбран русский язык. Перевод от @SteinsSquad"
+---
+language-selected: "Выбран русский язык. Перевод от SteinsSquad Team!"
 outdated-config-message: "Конфигурация плагина устарела, либо версия не правильная."
 economy-error-message: "Пролема с EconomyAPI!"
 clearlagg-error-message: "Что-то не так с ClearLagg. Пожалуйста, убедитесь, что время корректное!"
