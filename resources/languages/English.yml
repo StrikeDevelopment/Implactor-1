@@ -103,8 +103,8 @@ bot-label-message: "&f> &0&lSpawn Bot\n&r&eSpawn the bot human by entering a nam
 bot-input: "Bot Name"
 bot-input-name: "Zadey"
 
-command-usage-message: "Command Usage:"
-broadcast-usage-arguement-message: "&dmessage"
+command-usage-message: "Command Usage: "
+broadcast-usage-argument-message: "&dmessage"
 
 death-nametag: "&cDeath"
 bot-nametag: "&bBot"
