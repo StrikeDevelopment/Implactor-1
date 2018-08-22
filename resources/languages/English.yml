@@ -103,6 +103,9 @@ bot-label-message: "&f> &0&lSpawn Bot\n&r&eSpawn the bot human by entering a nam
 bot-input: "Bot Name"
 bot-input-name: "Zadey"
 
+command-usage-message: "Command Usage:"
+broadcast-usage-arguement-message: "&message"
+
 bad-words:
 - anal
 - asshole
