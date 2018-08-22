@@ -19,7 +19,7 @@ Version: 1
 # Coming soon because language system has updated.
 # ××××× ----- ××××× ----- ×××××
 # Useful and good for this plugin.
-language: "English"
+language: 'English'
 
 # Enable/Disable the update checker for Implactor.
 update-checker: true
