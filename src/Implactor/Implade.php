@@ -453,8 +453,8 @@ class Implade extends PluginBase implements Listener {
       if ($sender->hasPermission("implactor.broadcast")) {
         if (count($args) < 1) {
           $sender->sendMessage($this->getLang("command-usage-message"). "§e/icast <" .$this->getLang("broadcast-usage-argument-message"). "§e>");
-          return false;
-		}   
+          return false;     
+        }   
           $sender->getServer()->broadcastMessage("§7[§bImplacast§7] §e" . implode(" ", $args));
         } else {
           $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
