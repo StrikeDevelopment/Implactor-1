@@ -19,7 +19,7 @@ license-plugin-message: "Implactor is licensed under GNU General Public License 
 check-depends-message: "Checking all depends..."
 check-entities-message: "Checking all entities..."
 check-tridents-message: "Checking some trident files..."
-forms-found-message: "Detected FormAPI  plugin found. Enabling all form menu available..."
+forms-found-message: "Detected FormAPI plugin found. Enabling all form menu available..."
 economy-failed-message: "There is no EconomyAPI plugin detected on your file browser! Disabling the economy features..."
 economy-found-message: "Detected EconomyAPI plugin found. Enabling the economy features..."
 forms-failed-message: "There is no FormAPI plugin detected on your file browser! Disabling all form menu available..."
