@@ -43,8 +43,8 @@ class AntiCaps implements Listener {
     $msg = $ev->getMessage();
     $player = $ev->getPlayer();
     if (!$player->hasPermission("implactor.anti")) {
-      foreach ($this->caps as $caps) {
-        if (strpos($msg, $caps) !== false) {
+      foreach ($this->caps as $capsMsg) {
+        if (strpos($msg, $capsMsg) !== false) {
           $player->sendMessage($this->plugin->getLang("anti-caps-message"));
           $ev->setCancelled();
           return;
