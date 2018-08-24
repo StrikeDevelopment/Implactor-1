@@ -40,11 +40,11 @@ class AntiSwearing implements Listener {
     }
 
     public function onChat(PlayerChatEvent $ev) : void{
-        $msg = $ev->getMessage();
+        $message = $ev->getMessage();
         $player = $ev->getPlayer();
-        if(!$player->hasPermission("implactor.anti")){
-            foreach($this->badwords as $badwords){
-                if(strpos($msg, $badwords) !== false){
+        if (!$player->hasPermission("implactor.anti")) {
+            foreach ((array) $this->badwords as $badwords) {
+                if (strpos($message, $badwords) !== false) {
                     $player->sendMessage($this->plugin->getLang("anti-swearing-message"));
                     $ev->setCancelled();
                     return;

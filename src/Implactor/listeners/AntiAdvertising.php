@@ -40,11 +40,11 @@ class AntiAdvertising implements Listener {
   }
 
   public function onChat(PlayerChatEvent $ev): void {
-    $msg = $ev->getMessage();
+    $message = $ev->getMessage();
     $player = $ev->getPlayer();
     if (!$player->hasPermission("implactor.anti")) {
       foreach ($this->links as $links) {
-        if (strpos($msg, $links) !== false) {
+        if (strpos($message, $links) !== false) {
           $player->sendMessage($this->plugin->getLang("anti-advertising-message"));
           $ev->setCancelled();
           return;

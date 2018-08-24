@@ -40,11 +40,11 @@ class AntiCaps implements Listener {
   }
 
   public function onChat(PlayerChatEvent $ev): void {
-    $msg = $ev->getMessage();
+    $message = $ev->getMessage();
     $player = $ev->getPlayer();
     if (!$player->hasPermission("implactor.anti")) {
-      foreach ($this->caps as $caps) {
-        if (strpos($msg, $caps) !== false) {
+      foreach ((array) $this->caps as $caps) {
+        if (strpos($message, $caps) !== false) {
           $player->sendMessage($this->plugin->getLang("anti-caps-message"));
           $ev->setCancelled();
           return;
