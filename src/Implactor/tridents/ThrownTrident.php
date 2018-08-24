@@ -55,13 +55,6 @@ class ThrownTrident extends TridentProjectile {
     $tridentItem = TridentItem::nbtDeserialize($this->namedtag->getCompoundTag(Trident::TRIDENT_SEA_WEAPON));
     $tridentInventory = $player->getInventory();
 
-    /** $tridentEnchantment = Enchantment::getEnchantment(31);
-     * $tridentInstance = new EnchantmentInstance($tridentEnchantment, 1);
-     * $tridentItem->addEnchantment($tridentInstance); */
-
-    // TODO: DATA_FLAG_SHOW_TRIDENT_ROPE , I don't know how to do that. (Loyalty Enchantment only)
-    // TODO: Make it work and added Loyalty enchantment to Trident after did "/give <player> trident"
-
     if ($player->isSurvival() and !$tridentInventory->canAddItem($tridentItem)) {
       return;
     }
@@ -71,6 +64,7 @@ class ThrownTrident extends TridentProjectile {
     $this->server->broadcastPacket($this->getViewers(), $packetTaken);
     if (!$player->isCreative()) {
       $tridentInventory->addItem($tridentItem);
+      $tridentItem->setCustomName("§b§lTrident§7");
     }
     $this->flagForDespawn();
   }
