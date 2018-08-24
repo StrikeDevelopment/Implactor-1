@@ -41,7 +41,7 @@ use pocketmine\plugin\{Plugin, PluginBase, PluginDescription};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent};
 use pocketmine\level\particle\{DestroyBlockParticle, FlameParticle, HugeExplodeParticle};
 use pocketmine\nbt\tag\{CompoundTag, ListTag, DoubleTag, FloatTag, NamedTag, StringTag};
-use pocketmine\level\sound\{EndermanTeleportSound, BlazeShootSound, AnvilBreakSound, DoorBumpSound};
+use pocketmine\level\sound\{EndermanTeleportSound, GhastSound, BlazeShootSound, AnvilBreakSound, DoorBumpSound};
 use pocketmine\event\player\{PlayerPreLoginEvent, PlayerLoginEvent, PlayerJoinEvent, PlayerQuitEvent, PlayerDeathEvent, PlayerRespawnEvent, PlayerChatEvent, PlayerMoveEvent};
 use pocketmine\item\Item;
 use pocketmine\nbt\NBT;
@@ -51,7 +51,7 @@ use pocketmine\event\Listener;
 use pocketmine\inventory\PlayerInventory;
 use Implactor\entities\{BotHuman, DeathHuman, SoccerMagma};
 use Implactor\listeners\{AntiAdvertising, AntiCaps, AntiSwearing, BotListener};
-use Implactor\tasks\{ChatCooldownTask, ClearLaggTask, DeathHumanDespawnTask, GuardianJoinTask, TotemRespawnTask, RainbowArmorTask};
+use Implactor\tasks\{ClearLaggTask, DeathHumanDespawnTask, GuardianJoinTask, TotemRespawnTask, RainbowArmorTask};
 use Implactor\particles\{DeathParticles, DespawnParticles, SpawnParticles};
 use Implactor\tridents\{TridentEntityManager, TridentItemManager};
 use onebone\economyapi\EconomyAPI;
@@ -68,7 +68,7 @@ class Implade extends PluginBase implements Listener {
   public $impladePrefix = "§7[§aI§6R§7]§r ";
   public $rainbows = array();
   public $timers = array();
-  public $ichat = [];
+  public $iChat = [];
   public $config;
 
   private $wild = [];
@@ -198,10 +198,11 @@ class Implade extends PluginBase implements Listener {
     $player->setGamemode(Player::SURVIVAL);
     if ($player->isOP()) {
       $ev->setJoinMessage($this->getLang("join-operator-message", array("%player" => $player->getName())));
+      $level->addSound(new EndermanTeleportSound($player));
     } else {
       $ev->setJoinMessage($this->getLang("join-player-message", array("%player" => $player->getName())));
+      $level->addSound(new EndermanTeleportSound($player));
     }
-    $level->addSound(new EndermanTeleportSound($player));
     $joinScreen = new GuardianJoinTask($this, $player);
     $this->getScheduler()->scheduleDelayedTask($joinScreen, 25);
     $player->sendMessage($this->impladePrefix . $this->getLang("join-notice-message"));
@@ -235,10 +236,11 @@ class Implade extends PluginBase implements Listener {
     }
     $player->sendMessage($this->impladePrefix . $this->getLang("death-message"));
     $deathSound = new AnvilBreakSound($player);
+    $deathSound = new GhastSound($player);
     $level->addSound($deathSound);
     if ($this->getConfig()->get("death-and-despawn-particles") == true) {
       $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
-      $this->getScheduler()->scheduleDelayedTask(new DespawnParticles($this, $player), 1300);
+      $this->getScheduler()->scheduleDelayedTask(new DespawnParticles($this, $death, $player), 1100);
     }
     $deathNBT = new CompoundTag("", [
         new ListTag("Pos", [
@@ -263,7 +265,7 @@ class Implade extends PluginBase implements Listener {
     $death->setNameTag("§7[". $this->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
     $death->setNameTagAlwaysVisible(true);
     $death->spawnToAll();
-    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1300);
+    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1100);
   }
 
   public function onRespawn(PlayerRespawnEvent $ev): void {
@@ -312,14 +314,19 @@ class Implade extends PluginBase implements Listener {
 
   public function onChat(PlayerChatEvent $ev): void {
     $player = $ev->getPlayer();
-    if (isset($this->ichat[$player->getName()])) {
-      $ev->setCancelled(true);
-      $player->sendMessage($this->getLang("fast-chatting-message"));
-    }
-    if (!$player->hasPermission("implactor.chatcooldown")) {
-      $this->ichat[$player->getName()] = true;
-      $this->getScheduler()->scheduleDelayedTask(new ChatCooldownTask($this, $player), 200);
-    }
+    $iChat = $this->iChat;
+    if (!$player->isOP()) {
+    	if (isset($iChat[strtolower($player->getName())])) {
+    	    if ((time() - $iChat[strtolower($player->getName())]) < 4) {
+    	        $ev->setCancelled();
+                $player->sendMessage($this->getLang("fast-chatting-message"));
+            } else {
+            	$iChat[strtolower($player->getName())] = time();
+            }
+       } else {
+       	$iChat[strtolower($player->getName())] = time();
+       }
+     }
   }
 
   public function onQuit(PlayerQuitEvent $ev): void {
@@ -328,12 +335,10 @@ class Implade extends PluginBase implements Listener {
     $player->setGamemode(Player::SURVIVAL);
     if ($player->isOP()) {
       $ev->setQuitMessage($this->getLang("quit-operator-message", array("%player" => $player->getName())));
-      $quitSound = new BlazeShootSound($player);
-      $level->addSound($quitSound);
+      $level->addSound(new BlazeShootSound($player));
     } else {
       $ev->setQuitMessage($this->getLang("quit-player-message", array("%player" => $player->getName())));
-      $quitSound = new BlazeShootSound($player);
-      $level->addSound($quitSound);
+      $level->addSound(new BlazeShootSound($player));
     }
   }
 
@@ -341,9 +346,7 @@ class Implade extends PluginBase implements Listener {
     $entity = $ev->getEntity();
     $cause = $ev->getCause();
     if ($entity instanceof Player) {
-      if ($cause !== $ev::CAUSE_FALL) {
-        if ($entity->isCreative()) return;
-        if ($entity->getAllowFlight() == true) {
+        if (!$entity->isCreative() && $entity->getAllowFlight()) {
           $entity->setFlying(false);
           $entity->setAllowFlight(false);
           $entity->sendMessage($this->impladePrefix . $this->getLang("fly-disabled-damage-message"));
@@ -354,7 +357,7 @@ class Implade extends PluginBase implements Listener {
         }
       }
     }
-    $entity->getLevel()->addParticle(new DestroyBlockParticle($entity, Block::get(251, 3)));
+    $entity->getLevel()->addParticle(new DestroyBlockParticle($entity, Block::get(152)));
     if ($entity instanceof SoccerMagma) $ev->setCancelled(true);
     if ($entity instanceof DeathHuman) $ev->setCancelled(true);
     if ($entity instanceof BotHuman) $ev->setCancelled(true);
@@ -539,7 +542,7 @@ class Implade extends PluginBase implements Listener {
     $language = $this->lang;
     $key = $language->get($configKey);
     if (!is_string($key))
-      return "§4§lError message key:§r §c[{$configKey}]";
+      return "§4§lError message key:§r §c{$configKey}";
     $key = strtr($key, $keys);
     return str_replace("&", "§", $key);
   }
