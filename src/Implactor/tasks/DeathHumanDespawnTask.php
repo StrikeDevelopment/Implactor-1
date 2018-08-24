@@ -29,7 +29,6 @@ use pocketmine\entity\Entity;
 use pocketmine\scheduler\Task;
 
 use Implactor\Implade;
-use Implactor\particles\DespawnParticles;
 use Implactor\entities\DeathHuman;
 
 class DeathHumanDespawnTask extends Task {
