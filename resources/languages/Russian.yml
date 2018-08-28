@@ -109,6 +109,10 @@ broadcast-usage-argument-message: "&dсообщение"
 death-nametag: "&cсмерть"
 bot-nametag: "&bробот"
 
+item-head-name: "&l&e%player игрока"
+item-head-obtained-message: "&aВы получили &e%player игрока!"
+item-head-sold-message: "&aВы успешно продали &e%target's игрока&a и получил &c$%money в игре деньги!"
+
 bad-words:
 - сука
 - пиздец

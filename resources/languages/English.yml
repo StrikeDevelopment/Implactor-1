@@ -109,6 +109,10 @@ broadcast-usage-argument-message: "&dmessage"
 death-nametag: "&cDeath"
 bot-nametag: "&bBot"
 
+item-head-name: "&l&e%player's Head"
+item-head-obtained-message: "&aYou have obtained &e%player's Head!"
+item-head-sold-message: "&aYou have successfully sold &e%target's Head&a and got &c$%money in-game money!"
+
 bad-words:
 - anal
 - asshole
