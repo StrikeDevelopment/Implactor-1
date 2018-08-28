@@ -221,6 +221,14 @@ class Implade extends PluginBase implements Listener {
     if ($cause instanceof EntityDamageByEntityEvent) {
       $killer = $cause->getDamager();
       if ($killer instanceof Player) {
+        $headItem = Item::get(Item::SKULL, mt_rand(50, 100), 1);
+    	$headItem->setCustomName($this->getLang("item-head-name", array("%player" => $player->getName())));
+    	$headNBT = $head->getNamedTag();
+    	$headNBT->setString("Head", strtolower($player->getName()));
+    	$headItem->setNamedTag($headNBT);
+    	$killer->getInventory()->addItem($headItem);
+        $killer->sendMessage($this->getLang("item-head-obtained-message"));
+		
         $weapon = $killer->getInventory()->getItemInHand()->getName();
         if (!$this->economy->addMoney($killer, $this->getConfig()->get("killer-money", 220))) {
           $this->getLogger()->error($this->getLang("economy-error-message"));
@@ -440,6 +448,24 @@ class Implade extends PluginBase implements Listener {
         $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
         return false;
       }
+    } else if (strtolower($command->getName()) === "head") {
+      if ($sender->hasPermission("implactor.head")) {
+        $headItem = $sender->getInventory()->getItemInHand();
+        if ($headItem->getNamedTag()->hasTag("Head", StringTag::class)) {
+          $killer = $headItem->getNamedTag()->getString("Head");
+          $seller = EconomyAPI::getInstance()->myMoney($killer) * $this->getConfig()->get("item-head-sell-money", 100);
+          EconomyAPI::getInstance()->reduceMoney($killer, $seller, true);
+          EconomyAPI::getInstance()->addMoney($sender, $seller, true);
+          $headItem->setCount(1);
+          $sender->sendMessage($this->impladePrefix . $this->getLang("item-head-sold-message", array(
+                  "%money" => $this->getConfig()->get("item-head-sell-money", 100),
+                  "%seller" => $target
+              )));
+          $sender->getInventory()->removeItem($headItem);
+        } else {
+          $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
+          return false;
+      }  
     } else if (strtolower($command->getName()) === "wild") {
       if ($sender->hasPermission("implactor.wild")) {
         $x = rand(1, 999);
