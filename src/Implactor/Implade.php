@@ -460,7 +460,7 @@ class Implade extends PluginBase implements Listener {
           $headItem->setCount(1);
           $sender->sendMessage($this->impladePrefix . $this->getLang("item-head-sold-message", array(
                   "%money" => $this->getConfig()->get("item-head-sell-money", 100),
-                  "%seller" => $target
+                  "%target" => $target
               )));
           $sender->getInventory()->removeItem($headItem);
         }
