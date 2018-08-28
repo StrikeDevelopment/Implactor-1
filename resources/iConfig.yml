@@ -9,7 +9,7 @@
 
 # This is config version on Implactor plugin.
 # Do not change the version or it will make a config broken.
-Version: 1
+Version: 2
 
 # Select a language you'd like to choose for plugin.
 # ××××× ----- ××××× ----- ×××××
@@ -30,6 +30,11 @@ clear-timer: 480
 # Set amount of how much killer get money after slained one player.
 # "220" in-game money is recommend.
 killer-money: 220
+
+# Set amount of player head money to sell.
+# "100" in-game money is recommend.
+# NOTE: Don't set to higher, it makes some players will be rich!
+item-head-sell-money: 100
 
 # Enable/Disable some particles on every features.
 bot-particles: true
