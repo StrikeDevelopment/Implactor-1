@@ -59,7 +59,7 @@ use jojoe77777\FormAPI\FormAPI;
 
 class Implade extends PluginBase implements Listener {
 
-  const VERSION = 1;
+  const VERSION = 2;
 
   protected $lang;
   protected $forms;
@@ -222,11 +222,11 @@ class Implade extends PluginBase implements Listener {
       $killer = $cause->getDamager();
       if ($killer instanceof Player) {
         $headItem = Item::get(Item::SKULL, mt_rand(50, 100), 1);
-    	$headItem->setCustomName($this->getLang("item-head-name", array("%player" => $player->getName())));
-    	$headNBT = $head->getNamedTag();
-    	$headNBT->setString("Head", strtolower($player->getName()));
-    	$headItem->setNamedTag($headNBT);
-    	$killer->getInventory()->addItem($headItem);
+        $headItem->setCustomName($this->getLang("item-head-name", array("%player" => $player->getName())));
+        $headNBT = $head->getNamedTag();
+        $headNBT->setString("Head", strtolower($player->getName()));
+        $headItem->setNamedTag($headNBT);
+        $killer->getInventory()->addItem($headItem);
         $killer->sendMessage($this->getLang("item-head-obtained-message"));
 		
         $weapon = $killer->getInventory()->getItemInHand()->getName();
