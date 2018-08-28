@@ -462,6 +462,7 @@ class Implade extends PluginBase implements Listener {
                   "%seller" => $target
               )));
           $sender->getInventory()->removeItem($headItem);
+        }
         } else {
           $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
           return false;
