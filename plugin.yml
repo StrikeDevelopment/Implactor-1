@@ -54,6 +54,9 @@ commands:
     rainbow:
        description: Open the rainbow armor menu UI! (FormAPI required)
        permission: implactor.rainbow
+    head:
+       description: Sell player's heads with command!
+       permission: implactor.head
          
 permissions:
     implactor.*:
@@ -61,6 +64,9 @@ permissions:
      default: op
     implactor.wild:
      description: "Allow players to random teleporting to wilderness"
+     default: true
+    implactor.head:
+     description: "Allow players to sell heads"
      default: true
     implactor.ping:
      description: "Allow players to ping their connection in-game server"
