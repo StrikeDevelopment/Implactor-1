@@ -227,7 +227,7 @@ class Implade extends PluginBase implements Listener {
         $headNBT->setString("Head", strtolower($player->getName()));
         $headItem->setNamedTag($headNBT);
         $killer->getInventory()->addItem($headItem);
-        $killer->sendMessage($this->getLang("item-head-obtained-message"));
+        $killer->sendMessage($this->getLang("item-head-obtained-message", array("%player" => $player->getName())));
 		
         $weapon = $killer->getInventory()->getItemInHand()->getName();
         if (!$this->economy->addMoney($killer, $this->getConfig()->get("killer-money", 220))) {
