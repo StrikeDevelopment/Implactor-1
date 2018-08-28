@@ -223,6 +223,7 @@ class Implade extends PluginBase implements Listener {
       if ($killer instanceof Player) {
         $headItem = Item::get(Item::SKULL, mt_rand(50, 100), 1);
         $headItem->setCustomName($this->getLang("item-head-name", array("%player" => $player->getName())));
+	$headItem->setLore($this->getLang("item-head-lore"));
         $headNBT = $head->getNamedTag();
         $headNBT->setString("Head", strtolower($player->getName()));
         $headItem->setNamedTag($headNBT);
