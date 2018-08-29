@@ -247,10 +247,6 @@ class Implade extends PluginBase implements Listener {
     $deathSound = new AnvilBreakSound($player);
     $deathSound = new GhastSound($player);
     $level->addSound($deathSound);
-    if ($this->getConfig()->get("death-and-despawn-particles") == true) {
-      $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
-      $this->getScheduler()->scheduleDelayedTask(new DespawnParticles($this, $death, $player), 1100);
-    }
     $deathNBT = new CompoundTag("", [
         new ListTag("Pos", [
             new DoubleTag("", $player->getX()),
@@ -275,6 +271,10 @@ class Implade extends PluginBase implements Listener {
     $death->setNameTagAlwaysVisible(true);
     $death->spawnToAll();
     $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1100);
+    if ($this->getConfig()->get("death-and-despawn-particles") == true) {
+      $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
+      $this->getScheduler()->scheduleDelayedTask(new DespawnParticles($this, $death, $player), 1100);
+    }
   }
 
   public function onRespawn(PlayerRespawnEvent $ev): void {
@@ -463,7 +463,10 @@ class Implade extends PluginBase implements Listener {
                   "%target" => $target
               )));
           $sender->getInventory()->removeItem($headItem);
-        }
+/**     } else {
+          $sender->sendMessage($this->impladePrefix . $this->getLang("item-head-missing-message")); 
+	  return false;      **/ // TO-DO: After PMMP released .phar for v1.6.x
+	}
         } else {
           $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
           return false;
