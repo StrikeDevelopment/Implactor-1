@@ -5,7 +5,9 @@ api:
 - 4.0.0
 main: Implactor\Implade
 description: A classic plugin, more added authorized features to here!
-author: Zadezter
+author:
+- Zadezter
+- FreeGamingHere
 website: https://github.com/ImpladeDeveloped
 
 commands:
