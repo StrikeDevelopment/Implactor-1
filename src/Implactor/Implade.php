@@ -224,7 +224,7 @@ class Implade extends PluginBase implements Listener {
         $headItem = Item::get(Item::SKULL, mt_rand(50, 100), 1);
         $headItem->setCustomName($this->getLang("item-head-name", array("%player" => $player->getName())));
         $headItem->setLore($this->getLang("item-head-lore"));
-        $headNBT = $head->getNamedTag();
+        $headNBT = $headItem->getNamedTag();
         $headNBT->setString("Head", strtolower($player->getName()));
         $headItem->setNamedTag($headNBT);
         $killer->getInventory()->addItem($headItem);
@@ -267,7 +267,7 @@ class Implade extends PluginBase implements Listener {
             new FloatTag("", 2)
         ])
     ]);
-    $deathNBT->setTag($player->namedtag->getTag("Skin"));
+    $deathNBT->setTag($player->nbt->getTag("Skin"));
     $death = new DeathHuman($level, $deathNBT);
     $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
     $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
@@ -382,7 +382,7 @@ class Implade extends PluginBase implements Listener {
   public function spawnBot(Player $player, string $botName): void {
     $level = $player->getLevel();
     $botNBT = Entity::createBaseNBT($player, null, 2, 2);
-    $botNBT->setTag($player->namedtag->getTag("Skin"));
+    $botNBT->setTag($player->nbt->getTag("Skin"));
     $bot = new BotHuman($level, $botNBT);
     $bot->setNameTag("§7[". $this->getLang("bot-nametag") ."§7]§r\n§f" . $botName);
     $bot->setNameTagAlwaysVisible(true);
