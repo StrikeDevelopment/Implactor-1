@@ -43,7 +43,7 @@ class AntiSwearing implements Listener {
         $message = $ev->getMessage();
         $player = $ev->getPlayer();
         if (!$player->hasPermission("implactor.anti")) {
-            foreach ((array) $this->badwords as $badwords) {
+            foreach ($this->badwords as $badwords) {
                 if (strpos($message, $badwords) !== false) {
                     $player->sendMessage($this->plugin->getLang("anti-swearing-message"));
                     $ev->setCancelled();
