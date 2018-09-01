@@ -85,6 +85,16 @@ server software like [Altay](http://github.com/TuranicTeam/Altay)!**__
 | implactor.about | `/iabout` | ❌ | ❌ |
 | implactor.head | `/head` | ❌ | ❌ |
 
+## 🌐 Add your language to Implactor: 
+
+Heyo, do you want to help us on our project? Add your native language!<br>
+If yes, please follow the instructions.
+
+1) Open the [Language Folder](http://github.com/ImpladeDeveloped/Implactor/tree/Implade/resources/languages) file.
+2) Click "**Create New File**" button to create file.
+3) Copy from  [English](http://github.com/ImpladeDeveloped/Implactor/blob/resources/languages/English.yml) and paste to your new file for translating language.
+4) Click "**Propose new file**" button to make new Pull Request!
+
 ## 📱 Check [Zadezter](http://github.com/Zadeter) latest video from YouTube!
 
 [![Implactor](http://img.youtube.com/vi/A7jcrM26Clk/0.jpg)](http://www.youtube.com/watch?v=A7jcrM26Clk "")
