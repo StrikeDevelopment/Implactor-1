@@ -59,7 +59,7 @@ use jojoe77777\FormAPI\FormAPI;
 
 class Implade extends PluginBase implements Listener {
 
-  const VERSION = 2;
+  const VERSION = 3;
 
   protected $lang;
   protected $forms;
@@ -75,7 +75,7 @@ class Implade extends PluginBase implements Listener {
   private $visible = [];
   public $exemptedEntities = [];
 
-  public function getConfig(): Config {
+  public function getImplade(): Config {
     return $this->config;
   }
 
@@ -88,7 +88,7 @@ class Implade extends PluginBase implements Listener {
     }
     $this->config = new Config($this->getDataFolder() . "iConfig.yml");
     $this->configLanguages();
-    if ($this->getConfig()->get("update-checker", true)) {
+    if ($this->getImplade()->get("update-checker", true)) {
       $this->getLogger()->notice($this->getLang("update-checking-message"));
       try {
         if (($version = (new PluginDescription(file_get_contents("https://raw.githubusercontent.com/ImpladeDeveloped/Implactor/Implade/plugin.yml")))->getVersion()) != $this->getDescription()->getVersion()) {
@@ -100,9 +100,9 @@ class Implade extends PluginBase implements Listener {
         $this->getLogger()->warning($this->getLang("update-unable-message"));
       }
     }
-    if ($this->getConfig()->get('Version') < self::VERSION) {
+    if ($this->getImplade()->get('Version') < self::VERSION) {
       rename($this->getDataFolder() . "iConfig.yml", $this->getDataFolder() . "[Outdated] iConfig.yml");
-      $this->getConfig()->reload();
+      $this->getImplade()->reload();
       $this->getLogger()->notice($this->getLang("outdated-config-message"));
     }
   }
@@ -118,12 +118,12 @@ class Implade extends PluginBase implements Listener {
     $this->getServer()->getPluginManager()->registerEvents(new AntiSwearing($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new BotListener($this), $this);
     $this->getLogger()->info($this->getLang("license-plugin-message"));
-    if (is_numeric($this->getConfig()->get("clear-timer"))) {
-      $this->getScheduler()->scheduleRepeatingTask(new ClearLaggTask($this), $this->getConfig()->get("clear-timer") * 20);
+    if (is_numeric($this->getImplade()->get("clear-timer"))) {
+      $this->getScheduler()->scheduleRepeatingTask(new ClearLaggTask($this), $this->getImplade()->get("clear-timer") * 20);
     } else {
       $this->getLogger()->error($this->getLang("clearlagg-error-message"));
     }
-    if ($this->getConfig()->get("spawn-particles") == true) {
+    if ($this->getImplade()->get("spawn-particles") == true) {
       $this->getScheduler()->scheduleRepeatingTask(new SpawnParticles($this), 15);
     }
     $this->getLogger()->info($this->getLang("enable-plugin-message"));
@@ -161,7 +161,7 @@ class Implade extends PluginBase implements Listener {
     if (!file_exists($this->getDataFolder() . "languages/")) {
       @mkdir($this->getDataFolder() . "languages/");
     }
-    $language = $this->getConfig()->get('language');
+    $language = $this->getImplade()->get('language');
     if (!is_file($this->getDataFolder() . "languages/{$language}.yml")) {
       if ($this->saveResource("languages/{$language}.yml")) {
         $this->getLogger()->warning("{$language} is not found in our Implactor languages database, switched to default English language!");
@@ -182,6 +182,10 @@ class Implade extends PluginBase implements Listener {
     $player = $ev->getPlayer();
     if (!$this->getServer()->isWhitelisted($player->getName())) {
       $ev->setKickMessage($this->getLang("server-whitelisted-message"));
+      $ev->setCancelled(true);
+    }
+    if (!$this->getServer()->getNameBans()->isBanned($player->getName())) {
+      $ev->setKickMessage($this->getLang("player-banned-message"));
       $ev->setCancelled(true);
     }
   }
@@ -224,19 +228,19 @@ class Implade extends PluginBase implements Listener {
         $headItem = Item::get(Item::SKULL, mt_rand(50, 100), 1);
         $headItem->setCustomName($this->getLang("item-head-name", array("%player" => $player->getName())));
         $headItem->setLore($this->getLang("item-head-lore"));
-        $headNBT = $head->getNamedTag();
+        $headNBT = $headItem->getNamedTag();
         $headNBT->setString("Head", strtolower($player->getName()));
         $headItem->setNamedTag($headNBT);
         $killer->getInventory()->addItem($headItem);
         $killer->sendMessage($this->getLang("item-head-obtained-message", array("%player" => $player->getName())));
 		
         $weapon = $killer->getInventory()->getItemInHand()->getName();
-        if (!$this->economy->addMoney($killer, $this->getConfig()->get("killer-money", 220))) {
+        if (!$this->economy->addMoney($killer, $this->getImplade()->get("killer-money", 220))) {
           $this->getLogger()->error($this->getLang("economy-error-message"));
           return;
         }
         $player->getServer()->broadcastMessage($this->impladePrefix . $this->getLang("death-money-message", array(
-                "%money" => $this->getConfig()->get("killer-money", 220),
+                "%money" => $this->getImplade()->get("killer-money", 220),
                 "%innocent" => $player->getName(),
                 "%killer" => $killer->getName(),
                 "%weapon" => $weapon
@@ -244,13 +248,12 @@ class Implade extends PluginBase implements Listener {
       }
     }
     $player->sendMessage($this->impladePrefix . $this->getLang("death-message"));
+    if ($this->getImplade()->get("death-particles") == true) {
+      $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
+    }
     $deathSound = new AnvilBreakSound($player);
     $deathSound = new GhastSound($player);
     $level->addSound($deathSound);
-    if ($this->getConfig()->get("death-and-despawn-particles") == true) {
-      $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
-      $this->getScheduler()->scheduleDelayedTask(new DespawnParticles($this, $death, $player), 1100);
-    }
     $deathNBT = new CompoundTag("", [
         new ListTag("Pos", [
             new DoubleTag("", $player->getX()),
@@ -267,14 +270,14 @@ class Implade extends PluginBase implements Listener {
             new FloatTag("", 2)
         ])
     ]);
-    $deathNBT->setTag($player->namedtag->getTag("Skin"));
+    $deathNBT->setTag($player->getTag("Skin"));
     $death = new DeathHuman($level, $deathNBT);
     $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
     $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
     $death->setNameTag("§7[". $this->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
     $death->setNameTagAlwaysVisible(true);
     $death->spawnToAll();
-    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1100);
+    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask && new DespawnParticles($this, $death, $player), 1100);
   }
 
   public function onRespawn(PlayerRespawnEvent $ev): void {
@@ -382,7 +385,7 @@ class Implade extends PluginBase implements Listener {
   public function spawnBot(Player $player, string $botName): void {
     $level = $player->getLevel();
     $botNBT = Entity::createBaseNBT($player, null, 2, 2);
-    $botNBT->setTag($player->namedtag->getTag("Skin"));
+    $botNBT->setTag($player->getTag("Skin"));
     $bot = new BotHuman($level, $botNBT);
     $bot->setNameTag("§7[". $this->getLang("bot-nametag") ."§7]§r\n§f" . $botName);
     $bot->setNameTagAlwaysVisible(true);
@@ -454,15 +457,18 @@ class Implade extends PluginBase implements Listener {
         $headItem = $sender->getInventory()->getItemInHand();
         if ($headItem->getNamedTag()->hasTag("Head", StringTag::class)) {
           $killer = $headItem->getNamedTag()->getString("Head");
-          $seller = EconomyAPI::getInstance()->myMoney($killer) * $this->getConfig()->get("item-head-sell-money", 100);
+          $seller = EconomyAPI::getInstance()->myMoney($killer) * $this->getImplade()->get("item-head-sell-money", 100);
           EconomyAPI::getInstance()->reduceMoney($killer, $seller, true);
           EconomyAPI::getInstance()->addMoney($sender, $seller, true);
           $headItem->setCount(1);
           $sender->sendMessage($this->impladePrefix . $this->getLang("item-head-sold-message", array(
-                  "%money" => $this->getConfig()->get("item-head-sell-money", 100),
+                  "%money" => $this->getImplade()->get("item-head-sell-money", 100),
                   "%target" => $target
               )));
           $sender->getInventory()->removeItem($headItem);
+        } else {
+          $sender->sendMessage($this->impladePrefix . $this->getLang("item-no-head-message")); 
+	      return false;    
         }
         } else {
           $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
