@@ -36,7 +36,7 @@ class AntiSwearing implements Listener {
 
     public function __construct(Implade $plugin) {
       $this->plugin = $plugin;
-      $this->badwords = $plugin->getLang("bad-words");
+      $this->badwords = [$this->plugin->getLang("bad-words")];
     }
 
     public function onChat(PlayerChatEvent $ev) : void{
