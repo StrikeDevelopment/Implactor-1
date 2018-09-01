@@ -28,6 +28,7 @@ update-detected-message: "New version %version is now available! Update it on Gi
 update-already-message: "Implactor is already updated to the latest version!"
 update-unable-message: "Unable to checking the update!"
 server-whitelisted-message: "&eSorry, this server is currently on whitelist mode!"
+player-banned-message: "&dSorry, you have been banned from this server!"
 join-notice-message: "&bThis server is running the Implactor!"
 clear-lagg-message: "&8&l(&a!&8)&r &aCleared all &e%items&a items, &e%mobs&a mobs!"
 join-operator-message: "&7(&6STAFF&7) &l&8[&a+&8]&r &a%player"
@@ -113,6 +114,7 @@ item-head-name: "&l&e%player's Head"
 item-head-obtained-message: "&aYou have obtained &e%player's Head!"
 item-head-sold-message: "&aYou have successfully sold &e%target's Head&a and got &c$%money in-game money!"
 item-head-lore: "&aThe player's head you obtained after slained someone!\n\n&eDo /head to sell heads from your hand to get money!"
+item-no-head-message: "&cWhere is the head you holding? You cannot sell without it!"
 
 bad-words:
 - anal

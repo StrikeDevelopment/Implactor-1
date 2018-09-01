@@ -28,6 +28,7 @@ update-detected-message: "Новая версия %version - уже доступ
 update-already-message: "Implactor не требует обновлений!"
 update-unable-message: "Проверка обновлений не доступна! Проверьте вручную."
 server-whitelisted-message: "&eИзвините, на данном сервере включен whitelist!"
+player-banned-message: "&dИзвините, вы были заблокированы с этого сервера!"
 join-notice-message: "&bСервер использует Implactor!"
 clear-lagg-message: "&8&l(&a!&8)&r &aПроизошла очистка вещей: собранно %items предметов и удаленно %mobs мобов!"
 join-operator-message: "&7(&6Доверенный&7) &l&8[&a+&8]&r &a%player&f зашел на сервер!"
@@ -113,6 +114,7 @@ item-head-name: "&l&e%player игрока"
 item-head-obtained-message: "&aВы получили &e%player игрока!"
 item-head-sold-message: "&aВы успешно продали &e%target's игрока&a и получил &c$%money в игре деньги!"
 item-head-lore: "&aВ голову игрока, которую вы получили после того, как кого-то убили!\n\n&eДелать /head чтобы продать головы из рук, чтобы получить деньги!"
+item-no-head-message: "&cГде голова, которую вы держите? Вы не можете продавать без него!"
 
 bad-words:
 - сука
