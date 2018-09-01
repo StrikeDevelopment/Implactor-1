@@ -9,7 +9,7 @@
 
 # This is config version on Implactor plugin.
 # Do not change the version or it will make a config broken.
-Version: 2
+Version: 3
 
 # Select a language you'd like to choose for plugin.
 # ××××× ----- ××××× ----- ×××××
@@ -39,6 +39,6 @@ item-head-sell-money: 100
 # Enable/Disable some particles on every features.
 bot-particles: true
 spawn-particles: true
-death-and-despawn-particles: true
+death-particles: true
 
 ...
