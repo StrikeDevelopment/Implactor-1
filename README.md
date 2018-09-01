@@ -1,6 +1,8 @@
-![start2](https://cdn.discordapp.com/attachments/410392131866329090/485556734790991872/1535012705171.png)
-
 <p align="center">
+       <a href="">
+	         <img src="https://cdn.discordapp.com/attachments/410392131866329090/485556734790991872/1535012705171.png">
+       </a>
+       <br>
        <a href="https://poggit.pmmp.io/ci/ImpladeDeveloped/Implactor">
 		        <img src="https://poggit.pmmp.io/ci.badge/ImpladeDeveloped/Implactor/Implactor/Implade"><br>
        </a>
