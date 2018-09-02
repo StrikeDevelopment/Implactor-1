@@ -209,7 +209,9 @@ class Implade extends PluginBase implements Listener {
     }
     $joinScreen = new GuardianJoinTask($this, $player);
     $this->getScheduler()->scheduleDelayedTask($joinScreen, 25);
-    $this->isSummonLightning($player);
+    if ($this->getImplade()->get("lightning-events") == true) {
+      $this->isSummonLightning($player);
+    }
     $player->sendMessage($this->impladePrefix . $this->getLang("join-notice-message"));
     $this->rainbows[$player->getName()] = 0;
     if (!in_array($player->getName(), $this->timers)) {
@@ -346,7 +348,9 @@ class Implade extends PluginBase implements Listener {
     $player = $ev->getPlayer();
     $level = $player->getLevel();
     $player->setGamemode(Player::SURVIVAL);
-    $this->isSummonLightning($player);
+    if ($this->getImplade()->get("lightning-events") == true) {
+      $this->isSummonLightning($player);
+    }
     if ($player->isOP()) {
       $ev->setQuitMessage($this->getLang("quit-operator-message", array("%player" => $player->getName())));
       $level->addSound(new BlazeShootSound($player));
