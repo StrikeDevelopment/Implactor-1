@@ -41,4 +41,7 @@ bot-particles: true
 spawn-particles: true
 death-particles: true
 
+# Enable/Disable the lightning for Join & Quit events.
+lightning-events: true
+
 ...
