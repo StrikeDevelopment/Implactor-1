@@ -44,7 +44,7 @@ class BotParticles extends Task {
   }
 
   public function onRun(int $tick): void {
-    if ($this->plugin->getConfig()->get("bot-particles") == true) {
+    if ($this->plugin->getImplade()->get("bot-particles") == true) {
       $entity = $this->entity;
       if ($entity instanceof BotHuman) {
         $botparticle = $entity->getLevel();
