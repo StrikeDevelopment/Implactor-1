@@ -346,6 +346,7 @@ class Implade extends PluginBase implements Listener {
     $player = $ev->getPlayer();
     $level = $player->getLevel();
     $player->setGamemode(Player::SURVIVAL);
+    $this->isSummonLightning($player);
     if ($player->isOP()) {
       $ev->setQuitMessage($this->getLang("quit-operator-message", array("%player" => $player->getName())));
       $level->addSound(new BlazeShootSound($player));
