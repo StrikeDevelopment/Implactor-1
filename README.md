@@ -78,7 +78,7 @@ server software like [Altay](http://github.com/TuranicTeam/Altay)!**__
 | implactor.gamemode | `/gms ° /gmc ° /gma ° /gmsc <player>` | ✔️ | ❌ |
 | implactor.inventory | `/clearinv ° /cleararmor <player>` | ✔️ | ❌ |
 | implactor.soccer | `/soccer` | ✔️ | ❌ |
-| implactor.vision | `/vision` | ✔️ | ✔ |
+| implactor.vision | `/vision` | ✔️ | ✔️ |
 | implactor.visible | `/visible` | ❌ | ✔️ |This is good.
 | implactor.rainbow | `/rainbow` | ✔️ | ✔️ |
 | implactor.broadcast | `/icast <message>` | ✔️ | ❌ |
