@@ -30,12 +30,12 @@ use pocketmine\entity\EffectInstance;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
 use pocketmine\item\Armor;
-use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\Color;
 use pocketmine\utils\Config;
 use pocketmine\utils\Utils;
+use pocketmine\network\mcpe\protocol\{AddEntityPacket, LevelSoundEventPacket};
 use pocketmine\command\{Command, CommandSender};
 use pocketmine\plugin\{Plugin, PluginBase, PluginDescription};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent};
@@ -209,6 +209,7 @@ class Implade extends PluginBase implements Listener {
     }
     $joinScreen = new GuardianJoinTask($this, $player);
     $this->getScheduler()->scheduleDelayedTask($joinScreen, 25);
+    $this->isSummonLightning($player);
     $player->sendMessage($this->impladePrefix . $this->getLang("join-notice-message"));
     $this->rainbows[$player->getName()] = 0;
     if (!in_array($player->getName(), $this->timers)) {
@@ -578,6 +579,20 @@ class Implade extends PluginBase implements Listener {
       return "§4§lError message key:§r §c{$configKey}";
     $key = strtr($key, $keys);
     return str_replace("&", "§", $key);
+  }
+	
+  public function isSummonLightning(Player $player, $bolt): void {
+      if ($bolt == true) {
+	$level = $player->getLevel();
+        $thunder = new AddEntityPacket();
+        $thunder->type = 93;
+        $thunder->entityRuntimeId = Entity::$entityCount++;
+        $thunder->metadata = array();
+        $thunder->position = $player->asVector3()->add(0, $height = 0);
+        $thunder->yaw = $player->getYaw();
+        $thunder->pitch = $player->getPitch();
+        $player->getServer()->broadcastPacket($level->getPlayers(), $thunder); 
+      }
   }
 
   public function visionMenu($sender): void {
