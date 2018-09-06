@@ -597,7 +597,7 @@ class Implade extends PluginBase implements Listener {
 
   public function visionMenu($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = $api->createSimpleForm(function (Player $sender, $result) {
+    $form = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $sender->addEffect(new EffectInstance(Effect::getEffect(Effect::NIGHT_VISION), 1000000, 254, true));
@@ -617,12 +617,12 @@ class Implade extends PluginBase implements Listener {
     $form->addButton($this->getLang("enable-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542804/On.png");
     $form->addButton($this->getLang("disable-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542806/Off.png");
     $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendToPlayer($sender);
+    $form->sendForm($sender);
   }
 
   public function visibleMenu($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = $api->createSimpleForm(function (Player $sender, $result) {
+    $form = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $sender->addTitle($this->getLang("visible-on-message"), $this->getLang("visible-show-message"));
@@ -648,12 +648,12 @@ class Implade extends PluginBase implements Listener {
     $form->addButton($this->getLang("show-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249098/Show.png");
     $form->addButton($this->getLang("hide-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249099/Hide.png");
     $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendToPlayer($sender);
+    $form->sendForm($sender);
   }
 
   public function botMenu($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = $api->createSimpleForm(function (Player $sender, $result) {
+    $form = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $this->spawnBotForm($sender);
@@ -671,12 +671,12 @@ class Implade extends PluginBase implements Listener {
     $form->addButton($this->getLang("bot-spawn-button-message"), 1, "");
     $form->addButton($this->getLang("bot-clear-button-message"), 2, "");
     $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendToPlayer($sender);
+    $form->sendForm($sender);
   }
 
   public function spawnBotForm($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = $api->createCustomForm(function (Player $sender, $result) {
+    $form = new CustomForm(function (Player $sender, $result) {
       if ($result !== null) {
         $this->spawnBot($sender, $result[1]);
         $sender->getServer()->broadcastMessage("§7[§bBot§7]§f " . $this->getLang("bot-spawned-message", array("%bot" => $result[1], "%player" => $sender->getName())));
@@ -686,12 +686,12 @@ class Implade extends PluginBase implements Listener {
     $form->setTitle($this->getLang("form-menu-title"));
     $form->addLabel($this->getLang("bot-label-message"));
     $form->addInput($this->getLang("bot-input"), $this->getLang("bot-input-name"));
-    $form->sendToPlayer($sender);
+    $form->sendForm($sender);
   }
 
   public function clearBotForm($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = $api->createSimpleForm(function (Player $sender, $result) {
+    $form = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $clearBots = 0;
@@ -714,13 +714,13 @@ class Implade extends PluginBase implements Listener {
     $form->setContent($this->getLang("bot-clear-content-message"));
     $form->addButton($this->getLang("yes-message"), 1, "");
     $form->addButton($this->getLang("no-message"), 2, "");
-    $form->sendToPlayer($sender);
+    $form->sendForm($sender);
   }
 
   public function rainbowMenu($sender): void {
     $this->rainbows[$sender->getName()] = 0;
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = $api->createSimpleForm(function (Player $sender, $result) {
+    $form = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           if ($this->rainbows[$sender->getName()] === 0) {
@@ -742,13 +742,13 @@ class Implade extends PluginBase implements Listener {
     $form->addButton($this->getLang("enable-message"), 1, "");
     $form->addButton($this->getLang("disable-message"), 2, "");
     $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendToPlayer($sender);
+    $form->sendForm($sender);
   }
 
   public function disableRainbowForm($sender): void {
     $this->rainbows[$sender->getName()] = 0;
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = $api->createSimpleForm(function (Player $sender, $result) {
+    $form = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           if ($this->rainbows[$sender->getName()] === 0) {
@@ -768,7 +768,7 @@ class Implade extends PluginBase implements Listener {
     $form->setContent($this->getLang("rainbow-disable-content-message"));
     $form->addButton($this->getLang("yes-message"), 1, "");
     $form->addButton($this->getLang("no-message"), 2, "");
-    $form->sendToPlayer($sender);
+    $form->sendForm($sender);
   }
 
   public function rainbowArmor(Player $player, int $r, int $b, int $g): void {
