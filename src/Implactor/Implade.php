@@ -585,17 +585,13 @@ class Implade extends PluginBase implements Listener {
     return str_replace("&", "§", $key);
   }
 	
-  public function isSummonLightning(Player $player, $bolt): void {
-      if ($bolt == true) {
-	$level = $player->getLevel();
+  public function isSummonLightning(Player $player){
+      foreach($this->getServer()->getOnlinePlayers() as $player){
         $thunder = new AddEntityPacket();
         $thunder->type = 93;
         $thunder->entityRuntimeId = Entity::$entityCount++;
-        $thunder->metadata = array();
-        $thunder->position = $player->asVector3()->add(0, $height = 0);
-        $thunder->yaw = $player->getYaw();
-        $thunder->pitch = $player->getPitch();
-        $player->getServer()->broadcastPacket($level->getPlayers(), $thunder); 
+        $thunder->position = $player->asVector3();
+        $this->getServer()->broadcastPacket($this->getServer()->getOnlinePlayers(), $thunder);
       }
   }
 
@@ -707,7 +703,7 @@ class Implade extends PluginBase implements Listener {
               }
             }
           }
-          $sender->sendMessage($this->impladePrefix . $this->getLang("bot-success-cleared-message", array("bots" => $clearBots)));
+          $sender->sendMessage($this->impladePrefix . $this->getLang("bot-success-cleared-message", array("%bots" => $clearBots)));
           break;
         case 1:
           $this->botMenu($sender);
@@ -722,6 +718,7 @@ class Implade extends PluginBase implements Listener {
   }
 
   public function rainbowMenu($sender): void {
+    $this->rainbows[$sender->getName()] = 0;
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
     $form = $api->createSimpleForm(function (Player $sender, $result) {
       switch ($result) {
@@ -749,6 +746,7 @@ class Implade extends PluginBase implements Listener {
   }
 
   public function disableRainbowForm($sender): void {
+    $this->rainbows[$sender->getName()] = 0;
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
     $form = $api->createSimpleForm(function (Player $sender, $result) {
       switch ($result) {
