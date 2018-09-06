@@ -54,11 +54,15 @@ __**Authorized on before end of the July month.**__
 
 ## 🔧 How to install Implactor?
 
-It's free in use. No dangerous.
+This plugin is free to use. It's original, no virus and no dangerous!
 
 1) [Download](https://poggit.pmmp.io/ci/ImpladeDeveloped/Implactor) latest dev builds on [Poggit](http://poggit.pmmp.io)!
 2) Move dowloaded plugin file to your server **/plugins/** directory folder.
 3) Restart the server, and enjoy!
+
+Just make sure that you're not using any UI plugin<br>
+(example: __ShopUI__), making all UI menu access get disabled<br>
+when clicking button on first menu.
 
 ## 📁 Supported Server Software:
 
@@ -84,6 +88,7 @@ server software like [Altay](http://github.com/TuranicTeam/Altay)!**__
 | implactor.broadcast | `/icast <message>` | ✔️ | ❌ |
 | implactor.about | `/iabout` | ❌ | ❌ |
 | implactor.head | `/head` | ❌ | ❌ |
+| implactor.nick | `/nick` | ✔️ | ✔️ |
 
 ## 🌐 Add your language to Implactor: 
 
