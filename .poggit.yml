@@ -1,10 +1,9 @@
 --- 
 # Implactor on Poggit-CI
-# Real authorized, better system!
+# Authorized w/ Fun & Moderation Commands!
 branches:
 - Implade
 projects:
   Implactor:
     path: "/"
-    icon: "iconPlugin.png"
 ...

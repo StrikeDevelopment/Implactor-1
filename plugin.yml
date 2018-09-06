@@ -1,8 +1,10 @@
+---
+
 name: Implactor
-version: IR-1.7.2
+version: IR-1.7.3
 api:
 - 3.0.0
-- 4.0.0
+- 3.2.0
 main: Implactor\Implade
 description: A classic plugin, more added authorized features to here!
 author:
@@ -68,7 +70,7 @@ permissions:
      description: "Allow players to random teleporting to wilderness"
      default: true
     implactor.head:
-     description: "Allow players to sell heads"
+     description: "Allow players to sell heads with command"
      default: true
     implactor.ping:
      description: "Allow players to ping their connection in-game server"
@@ -103,3 +105,5 @@ permissions:
     implactor.rainbow:
      description: "Allow operators to open the rainbow armor menu UI"
      default: op
+
+...

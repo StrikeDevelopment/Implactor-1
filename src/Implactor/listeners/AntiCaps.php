@@ -36,14 +36,14 @@ class AntiCaps implements Listener {
 
   public function __construct(Implade $plugin) {
     $this->plugin = $plugin;
-    $this->caps = $plugin->getLang("caps-words");
+    $this->caps = [$this->plugin->getLang("caps-words")];
   }
 
   public function onChat(PlayerChatEvent $ev): void {
     $message = $ev->getMessage();
     $player = $ev->getPlayer();
     if (!$player->hasPermission("implactor.anti")) {
-      foreach ((array) $this->caps as $caps) {
+      foreach ($this->caps as $caps) {
         if (strpos($message, $caps) !== false) {
           $player->sendMessage($this->plugin->getLang("anti-caps-message"));
           $ev->setCancelled();
