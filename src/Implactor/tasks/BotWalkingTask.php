@@ -27,6 +27,8 @@ namespace Implactor\tasks;
 use pocketmine\entity\Entity;
 use pocketmine\scheduler\Task;
 use pocketmine\math\Vector3;
+use pocketmine\level\Level;
+use pocketmine\level\sound\AngryVillagerParticle as AngerWalker;
 
 use Implactor\Implade;
 use Implactor\entities\BotHuman;
@@ -42,7 +44,11 @@ class BotWalkingTask extends Task {
 
   public function onRun(int $tick): void {
     $entity = $this->entity;
+    $level = $entity->getLevel();
     if ($entity instanceof BotHuman) {
+      if ($this->plugin->getImplade()->get("bot-particles") == true) {
+        $level->addParticle(new AngerWalker($this, $entity));
+      }
       switch ($entity->getDirection()) {
         case 0:
           $entity->setMotion(new Vector3(0.7, 0, 0));
