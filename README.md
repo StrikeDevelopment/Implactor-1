@@ -88,7 +88,6 @@ server software like [Altay](http://github.com/TuranicTeam/Altay)!**__
 | implactor.broadcast | `/icast <message>` | ✔️ | ❌ |
 | implactor.about | `/iabout` | ❌ | ❌ |
 | implactor.head | `/head` | ❌ | ❌ |
-| implactor.nick | `/nick` | ✔️ | ✔️ |
 
 ## 🌐 Add your language to Implactor: 
 
