@@ -254,8 +254,7 @@ class Implade extends PluginBase implements Listener {
     if ($this->getImplade()->get("death-particles") == true) {
       $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
     }
-    $deathSound = new AnvilBreakSound($player);
-    $deathSound = new GhastSound($player);
+    $deathSound = new AnvilBreakSound && new GhastSound($player);
     $level->addSound($deathSound);
     $deathNBT = new CompoundTag("", [
         new ListTag("Pos", [
