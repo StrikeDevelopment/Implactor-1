@@ -40,7 +40,7 @@
 
 | Version | Poggit | API | Dev Build | Status |
 | --- | --- | --- | --- | --- |
-| **vIR-1.7.3** | [Download](https://poggit.pmmp.io/r/41247/Implactor.phar) | **__3.2.0__** | #81 | Stable |
+| **vIR-1.7.3** | [Download](https://poggit.pmmp.io/r/41250/Implactor.phar) | **__3.2.0__** | #83 | Beta |
 
 
 ## ✔ Authorized Developer Permissions:
