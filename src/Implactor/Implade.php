@@ -184,7 +184,7 @@ class Implade extends PluginBase implements Listener {
       $ev->setKickMessage($this->getLang("server-whitelisted-message"));
       $ev->setCancelled(true);
     }
-    if (!$this->getServer()->getNameBans()->isBanned($player->getName())) {
+    if ($this->getServer()->getNameBans()->isBanned($player->getName())) {
       $ev->setKickMessage($this->getLang("player-banned-message"));
       $ev->setCancelled(true);
     }
