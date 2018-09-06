@@ -25,13 +25,13 @@ declare(strict_types=1);
 namespace Implactor\tridents;
 
 use pocketmine\item\{
-	Item as LegendaryItem, ItemFactory as TridentItem
+	Item as TridentItem, ItemFactory as ItemManager
 };
 
 class TridentItemManager {
 
   public static function init(): void {
-    TridentItem::registerItem(new Trident(), true);
-    LegendaryItem::initCreativeItems();
+    ItemManager::registerItem(new Trident(), true);
+    TridentItem::initCreativeItems();
   }
 }
