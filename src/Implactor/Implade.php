@@ -746,7 +746,6 @@ class Implade extends PluginBase implements Listener {
   }
 
   public function disableRainbowForm($sender): void {
-    $this->rainbows[$sender->getName()] = 0;
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
     $form = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
