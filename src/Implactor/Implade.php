@@ -176,6 +176,7 @@ class Implade extends PluginBase implements Listener {
 
   public function onDisable(): void {
     $this->getLogger()->info($this->getLang("disable-plugin-message"));
+    $this->saveResource("iConfig.yml", "languages/");
   }
 
   public function onPreLogin(PlayerPreLoginEvent $ev): void {
@@ -202,6 +203,7 @@ class Implade extends PluginBase implements Listener {
     $player->setGamemode(Player::SURVIVAL);
     if ($player->isOP()) {
       $ev->setJoinMessage($this->getLang("join-operator-message", array("%player" => $player->getName())));
+      $player->sendMessage($this->impladePrefix . $this->getLang("join-notice-message"));
       $level->addSound(new EndermanTeleportSound($player));
     } else {
       $ev->setJoinMessage($this->getLang("join-player-message", array("%player" => $player->getName())));
@@ -212,7 +214,6 @@ class Implade extends PluginBase implements Listener {
     if ($this->getImplade()->get("lightning-events") == true) {
       $this->isSummonLightning($player);
     }
-    $player->sendMessage($this->impladePrefix . $this->getLang("join-notice-message"));
     $this->rainbows[$player->getName()] = 0;
     if (!in_array($player->getName(), $this->timers)) {
       $this->timers[] = $player->getName();
@@ -580,7 +581,7 @@ class Implade extends PluginBase implements Listener {
     $language = $this->lang;
     $key = $language->get($configKey);
     if (!is_string($key))
-      return "§4§lError message key:§r §c{$configKey}";
+      return "§cError with {$configKey}";
     $key = strtr($key, $keys);
     return str_replace("&", "§", $key);
   }
@@ -597,7 +598,7 @@ class Implade extends PluginBase implements Listener {
 
   public function visionMenu($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = new SimpleForm(function (Player $sender, $result) {
+    $impladeForm = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $sender->addEffect(new EffectInstance(Effect::getEffect(Effect::NIGHT_VISION), 1000000, 254, true));
@@ -612,17 +613,17 @@ class Implade extends PluginBase implements Listener {
           break;
       }
     });
-    $form->setTitle($this->getLang("form-menu-title"));
-    $form->setContent($this->getLang("vision-content-message"));
-    $form->addButton($this->getLang("enable-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542804/On.png");
-    $form->addButton($this->getLang("disable-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542806/Off.png");
-    $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
+    $impladeForm->setTitle($this->getLang("form-menu-title"));
+    $impladeForm->setContent($this->getLang("vision-content-message"));
+    $impladeForm->addButton($this->getLang("enable-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542804/On.png");
+    $impladeForm->addButton($this->getLang("disable-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542806/Off.png");
+    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
     $form->sendForm($sender);
   }
 
   public function visibleMenu($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = new SimpleForm(function (Player $sender, $result) {
+    $impladeForm = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $sender->addTitle($this->getLang("visible-on-message"), $this->getLang("visible-show-message"));
@@ -643,17 +644,17 @@ class Implade extends PluginBase implements Listener {
           break;
       }
     });
-    $form->setTitle($this->getLang("form-menu-title"));
-    $form->setContent($this->getLang("visible-content-message"));
-    $form->addButton($this->getLang("show-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249098/Show.png");
-    $form->addButton($this->getLang("hide-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249099/Hide.png");
-    $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendForm($sender);
+    $impladeForm->setTitle($this->getLang("form-menu-title"));
+    $impladeForm->setContent($this->getLang("visible-content-message"));
+    $impladeForm->addButton($this->getLang("show-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249098/Show.png");
+    $impladeForm->addButton($this->getLang("hide-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249099/Hide.png");
+    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
+    $impladeForm->sendForm($sender);
   }
 
   public function botMenu($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = new SimpleForm(function (Player $sender, $result) {
+    $impladeForm = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $this->spawnBotForm($sender);
@@ -666,32 +667,32 @@ class Implade extends PluginBase implements Listener {
           break;
       }
     });
-    $form->setTitle($this->getLang("form-menu-title"));
-    $form->setContent($this->getLang("bot-content-message"));
-    $form->addButton($this->getLang("bot-spawn-button-message"), 1, "");
-    $form->addButton($this->getLang("bot-clear-button-message"), 2, "");
-    $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendForm($sender);
+    $impladeForm->setTitle($this->getLang("form-menu-title"));
+    $impladeForm->setContent($this->getLang("bot-content-message"));
+    $impladeForm->addButton($this->getLang("bot-spawn-button-message"), 1, "");
+    $impladeForm->addButton($this->getLang("bot-clear-button-message"), 2, "");
+    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
+    $impladeForm->sendForm($sender);
   }
 
   public function spawnBotForm($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = new CustomForm(function (Player $sender, $result) {
+    $impladeForm = new CustomForm(function (Player $sender, $result) {
       if ($result !== null) {
         $this->spawnBot($sender, $result[1]);
         $sender->getServer()->broadcastMessage("§7[§bBot§7]§f " . $this->getLang("bot-spawned-message", array("%bot" => $result[1], "%player" => $sender->getName())));
         $sender->getLevel()->addSound(new DoorBumpSound($sender));
       }
     });
-    $form->setTitle($this->getLang("form-menu-title"));
-    $form->addLabel($this->getLang("bot-label-message"));
-    $form->addInput($this->getLang("bot-input"), $this->getLang("bot-input-name"));
-    $form->sendForm($sender);
+    $impladeForm->setTitle($this->getLang("form-menu-title"));
+    $impladeForm->addLabel($this->getLang("bot-label-message"));
+    $impladeForm->addInput($this->getLang("bot-input"), $this->getLang("bot-input-name"));
+    $impladeForm->sendForm($sender);
   }
 
   public function clearBotForm($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = new SimpleForm(function (Player $sender, $result) {
+    $impladeForm = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           $clearBots = 0;
@@ -710,22 +711,21 @@ class Implade extends PluginBase implements Listener {
           break;
       }
     });
-    $form->setTitle($this->getLang("form-procced-title"));
-    $form->setContent($this->getLang("bot-clear-content-message"));
-    $form->addButton($this->getLang("yes-message"), 1, "");
-    $form->addButton($this->getLang("no-message"), 2, "");
-    $form->sendForm($sender);
+    $impladeForm->setTitle($this->getLang("form-procced-title"));
+    $impladeForm->setContent($this->getLang("bot-clear-content-message"));
+    $impladeForm->addButton($this->getLang("yes-message"), 1, "");
+    $impladeForm->addButton($this->getLang("no-message"), 2, "");
+    $impladeForm->sendForm($sender);
   }
 
   public function rainbowMenu($sender): void {
     $this->rainbows[$sender->getName()] = 0;
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = new SimpleForm(function (Player $sender, $result) {
+    $impladeForm = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           if ($this->rainbows[$sender->getName()] === 0) {
-            $rainbowStartTask = new RainbowArmorTask($this, $sender);
-            $this->getScheduler()->scheduleRepeatingTask($rainbowStartTask, 5);
+            $this->getScheduler()->scheduleRepeatingTask(new RainbowArmorTask($this, $sender), 5);
             $sender->sendMessage($this->impladePrefix . $this->getLang("rainbow-enabled-message"));
           }
           break;
@@ -737,22 +737,21 @@ class Implade extends PluginBase implements Listener {
           break;
       }
     });
-    $form->setTitle($this->getLang("form-menu-title"));
-    $form->setContent($this->getLang("rainbow-content-message"));
-    $form->addButton($this->getLang("enable-message"), 1, "");
-    $form->addButton($this->getLang("disable-message"), 2, "");
-    $form->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendForm($sender);
+    $impladeForm->setTitle($this->getLang("form-menu-title"));
+    $impladeForm->setContent($this->getLang("rainbow-content-message"));
+    $impladeForm->addButton($this->getLang("enable-message"), 1, "");
+    $impladeForm->addButton($this->getLang("disable-message"), 2, "");
+    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
+    $impladeForm->sendForm($sender);
   }
 
   public function disableRainbowForm($sender): void {
     $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $form = new SimpleForm(function (Player $sender, $result) {
+    $impladeForm = new SimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
           if ($this->rainbows[$sender->getName()] === 0) {
-            $rainbowCancelTask = $this->rainbows[$sender->getName()];
-            $this->getScheduler()->cancelTask($rainbowCancelTask);
+            $this->getScheduler()->cancelTask($this->rainbows[$sender->getName()]);
             $this->rainbows[$sender->getName()] = 0;
             $sender->getArmorInventory()->clearAll();
             $sender->sendMessage($this->impladePrefix . $this->getLang("rainbow-disabled-message"));
@@ -763,15 +762,15 @@ class Implade extends PluginBase implements Listener {
           break;
       }
     });
-    $form->setTitle($this->getLang("form-procced-title"));
-    $form->setContent($this->getLang("rainbow-disable-content-message"));
-    $form->addButton($this->getLang("yes-message"), 1, "");
-    $form->addButton($this->getLang("no-message"), 2, "");
-    $form->sendForm($sender);
+    $impladeForm->setTitle($this->getLang("form-procced-title"));
+    $impladeForm->setContent($this->getLang("rainbow-disable-content-message"));
+    $impladeForm->addButton($this->getLang("yes-message"), 1, "");
+    $impladeForm->addButton($this->getLang("no-message"), 2, "");
+    $impladeForm->sendForm($sender);
   }
 
-  public function rainbowArmor(Player $player, int $r, int $b, int $g): void {
-    $gear = new Color($r, $b, $g);
+  public function rainbowArmor(Player $player, int $r, int $g, int $b): void {
+    $gear = new Color($r, $g, $b);
     /** @var Armor $helmet */
     $helmet = Item::get(298, 0, 1);
     $helmet->setCustomColor($gear);
@@ -813,7 +812,7 @@ class Implade extends PluginBase implements Listener {
     $mobs = 0;
     foreach ($this->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
-        if (!$this->isEntityExempted($entity) && $entity instanceof Creature && !($entity instanceof Human)) {
+        if (!$this->isEntityExempted($entity) && $entity instanceof Creature && $entity instanceof DeathHuman && !($entity instanceof Human)) {
           $entity->close();
           $mobs++;
         }
