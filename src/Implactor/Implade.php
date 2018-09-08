@@ -65,7 +65,7 @@ class Implade extends PluginBase implements Listener {
   protected $forms;
   protected $economy;
 
-  public $impladePrefix = "§f§l IR ➤§r ";
+  public $impladePrefix = " §f§l IR ➤§r ";
   public $rainbows = array();
   public $timers = array();
   public $iChat = [];
@@ -255,7 +255,7 @@ class Implade extends PluginBase implements Listener {
     if ($this->getImplade()->get("death-particles") == true) {
       $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
     }
-    $deathSound = new AnvilBreakSound && new GhastSound($player);
+    $deathSound = new AnvilBreakSound($player) && new GhastSound($player);
     $level->addSound($deathSound);
     $deathNBT = new CompoundTag("", [
         new ListTag("Pos", [
@@ -280,7 +280,7 @@ class Implade extends PluginBase implements Listener {
     $death->setNameTag("§7[". $this->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
     $death->setNameTagAlwaysVisible(true);
     $death->spawnToAll();
-    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask && new DespawnParticles($this, $death, $player), 1100);
+    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player) && new DespawnParticles($this, $death, $player), 1100);
   }
 
   public function onRespawn(PlayerRespawnEvent $ev): void {
@@ -384,7 +384,7 @@ class Implade extends PluginBase implements Listener {
     $level = $player->getLevel();
     $soccerNBT = Entity::createBaseNBT($player, null, 2, 2);
     $soccer = new SoccerMagma($level, $soccerNBT);
-    $soccer->setScale(1.6);
+    $soccer->setScale(1.5);
     $soccer->spawnToAll();
   }
 
@@ -586,12 +586,15 @@ class Implade extends PluginBase implements Listener {
     return str_replace("&", "§", $key);
   }
 	
-  public function isSummonLightning(Player $player){
-      foreach($this->getServer()->getOnlinePlayers() as $player){
+  public function isSummonLightning(Player $player, $storm){
+       if ($storm === true) {
+        $level = $player->getLevel();
         $thunder = new AddEntityPacket();
         $thunder->type = 93;
         $thunder->entityRuntimeId = Entity::$entityCount++;
-        $thunder->position = $player->asVector3();
+        $thunder->position = $player->asVector3()->add(0, $height = 0);
+	$thunder->yaw = $p->getYaw();
+        $thunder->pitch = $p->getPitch();
         $this->getServer()->broadcastPacket($this->getServer()->getOnlinePlayers(), $thunder);
       }
   }
