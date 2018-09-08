@@ -65,7 +65,7 @@ class Implade extends PluginBase implements Listener {
   protected $forms;
   protected $economy;
 
-  public $impladePrefix = "§f§l IR ➤ ";
+  public $impladePrefix = "§f§l IR ➤§r ";
   public $rainbows = array();
   public $timers = array();
   public $iChat = [];
