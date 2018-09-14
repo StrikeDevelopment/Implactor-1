@@ -73,10 +73,6 @@ class Implade extends PluginBase implements Listener {
     return $this->formSystem;
   }
 	
-  public function registerFormsManager() : void{
-    $this->formSystem = new FormsManager($this);
-  }
-  
   public static function getInstance() : self{
 	return self::$instance;
   }
