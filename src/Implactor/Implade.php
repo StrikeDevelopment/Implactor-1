@@ -110,25 +110,31 @@ class Implade extends PluginBase implements Listener {
   }
 
   public function onEnable(): void {
-    $this->config = new Config($this->getDataFolder() . "iConfig.yml");
+    // Check Managers \\
     $this->checkDepends();
     $this->checkEntities();
     $this->checkTridents();
-    $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    $this->formSystem = new FormsManager();
+	  
+    // Check Listeners \\
+    $this->getServer()->getPluginManager()->registerEvents($this, $this);  
     $this->getServer()->getPluginManager()->registerEvents(new AntiAdvertising($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new AntiCaps($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new AntiSwearing($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new BotListener($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new HeadListener($this), $this);
+	  
+    self::$instance = $this;
     $this->getLogger()->info($this->getLang("license-plugin-message"));
+    $this->config = new Config($this->getDataFolder() . "iConfig.yml");
+	  
+    // Check the other features system \\
     if (is_numeric($this->getImplade()->get("clear-timer") == false)) {
       $this->getScheduler()->scheduleRepeatingTask(new ClearLaggTask($this), $this->getImplade()->get("clear-timer") * 20);
     } else {
       $this->getLogger()->error($this->getLang("clearlagg-error-message"));
     }
-    self::$instance = $this;
-    $this->registerFormsManager();
     if ($this->getImplade()->get("spawn-particles") == true) {
       $this->getScheduler()->scheduleRepeatingTask(new SpawnParticles($this), 15);
     }
