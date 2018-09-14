@@ -47,19 +47,15 @@ class SpawnParticles extends Task {
 		$y = $spawn->getY();
 		$z = $spawn->getZ();
 		$center = new Vector3($x, $y, $z);
-		$spawnExperience = new Experience($center);
-		$spawnPortal = new Portal($center);
-		$spawnWater = new Water($center);
+		$tripleSpawn = new Experience($center) &&
+		               new Portal($center) &&
+		               new Water($center);
 		
 		for($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20){
 			$x = -sin($yaw) + $center->x;
 			$z = cos($yaw) + $center->z;
-			$spawnExperience->setComponents($x, $y, $z);
-			$spawnPortal->setComponents($x, $y, $z);
-			$spawnWater->setComponents($x, $y, $z);
-			$alive->addParticle($spawnExperience);
-			$alive->addParticle($spawnPortal);
-			$alive->addParticle($spawnWater);
+			$tripleSpawn->setComponents($x, $y, $z);
+			$alive->addParticle($tripleSpawn);
 		}
 	}
 }

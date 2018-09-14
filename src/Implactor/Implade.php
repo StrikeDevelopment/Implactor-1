@@ -24,59 +24,61 @@
 declare(strict_types=1);
 namespace Implactor;
 
-use pocketmine\entity\Creature;
-use pocketmine\entity\Effect;
-use pocketmine\entity\EffectInstance;
-use pocketmine\entity\Entity;
-use pocketmine\entity\Human;
-use pocketmine\item\Armor;
-use pocketmine\Player;
-use pocketmine\Server;
-use pocketmine\utils\Color;
-use pocketmine\utils\Config;
-use pocketmine\utils\Utils;
-use pocketmine\network\mcpe\protocol\{AddEntityPacket, LevelSoundEventPacket};
+use pocketmine\entity\{Entity, Creature, Human};
+use pocketmine\item\{Item, Armor};
+use pocketmine\{Player, Server};
+use pocketmine\utils\{Config, Color};
+use pocketmine\network\mcpe\protocol\AddEntityPacket;
 use pocketmine\command\{Command, CommandSender};
 use pocketmine\plugin\{Plugin, PluginBase, PluginDescription};
-use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent};
-use pocketmine\level\particle\{DestroyBlockParticle, FlameParticle, HugeExplodeParticle};
-use pocketmine\nbt\tag\{CompoundTag, ListTag, DoubleTag, FloatTag, NamedTag, StringTag};
-use pocketmine\level\sound\{EndermanTeleportSound, GhastSound, BlazeShootSound, AnvilBreakSound, DoorBumpSound};
-use pocketmine\event\player\{PlayerPreLoginEvent, PlayerLoginEvent, PlayerJoinEvent, PlayerQuitEvent, PlayerDeathEvent, PlayerRespawnEvent, PlayerChatEvent, PlayerMoveEvent};
-use pocketmine\item\Item;
-use pocketmine\nbt\NBT;
-use pocketmine\block\Block;
+use pocketmine\nbt\{NamedTag, StringTag};
+use pocketmine\level\sound\DoorBumpSound;
 use pocketmine\math\Vector3;
 use pocketmine\event\Listener;
-use pocketmine\inventory\PlayerInventory;
+
+use Implactor\FormsManager;
 use Implactor\entities\{BotHuman, DeathHuman, SoccerMagma};
-use Implactor\listeners\{AntiAdvertising, AntiCaps, AntiSwearing, BotListener};
-use Implactor\tasks\{ClearLaggTask, DeathHumanDespawnTask, GuardianJoinTask, TotemRespawnTask, RainbowArmorTask};
-use Implactor\particles\{DeathParticles, DespawnParticles, SpawnParticles};
-use Implactor\tridents\{TridentEntityManager, TridentItemManager};
+use Implactor\listeners\{AntiAdvertising, AntiCaps, AntiSwearing, BotListener, EventListener, HeadListener};
+use Implactor\tasks\ClearLaggTask;
+use Implactor\particles\SpawnParticles;
+use Implactor\tridents\TridentManager;
 use onebone\economyapi\EconomyAPI;
 use jojoe77777\FormAPI\FormAPI;
 
 class Implade extends PluginBase implements Listener {
 
-  const VERSION = 3;
+  const VERSION = 4;
 
   protected $lang;
   protected $forms;
   protected $economy;
-
+	
+  public $exemptedEntities = [];
   public $impladePrefix = " §f§l IR ➤§r ";
   public $rainbows = array();
   public $timers = array();
   public $iChat = [];
   public $config;
 
+  private static $instance;
+
+  private $formSystem;
   private $wild = [];
-  private $visible = [];
-  public $exemptedEntities = [];
 
   public function getImplade(): Config {
     return $this->config;
+  }
+	
+  public function getForm(): FormsManager{
+    return $this->formSystem;
+  }
+	
+  public function registerFormsManager() : void{
+    $this->formSystem = new FormsManager($this);
+  }
+  
+  public static function getInstance() : self{
+	return self::$instance;
   }
 
   public function onLoad(): void {
@@ -117,12 +119,16 @@ class Implade extends PluginBase implements Listener {
     $this->getServer()->getPluginManager()->registerEvents(new AntiCaps($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new AntiSwearing($this), $this);
     $this->getServer()->getPluginManager()->registerEvents(new BotListener($this), $this);
+    $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+    $this->getServer()->getPluginManager()->registerEvents(new HeadListener($this), $this);
     $this->getLogger()->info($this->getLang("license-plugin-message"));
-    if (is_numeric($this->getImplade()->get("clear-timer"))) {
+    if (is_numeric($this->getImplade()->get("clear-timer") == false)) {
       $this->getScheduler()->scheduleRepeatingTask(new ClearLaggTask($this), $this->getImplade()->get("clear-timer") * 20);
     } else {
       $this->getLogger()->error($this->getLang("clearlagg-error-message"));
     }
+    self::$instance = $this;
+    $this->registerFormsManager();
     if ($this->getImplade()->get("spawn-particles") == true) {
       $this->getScheduler()->scheduleRepeatingTask(new SpawnParticles($this), 15);
     }
@@ -153,8 +159,7 @@ class Implade extends PluginBase implements Listener {
 
   private function checkTridents() {
     $this->getLogger()->debug($this->getLang("check-tridents-message"));
-    TridentEntityManager::init();
-    TridentItemManager::init();
+    TridentManager::init();
   }
 
   public function configLanguages(): void {
@@ -176,222 +181,20 @@ class Implade extends PluginBase implements Listener {
 
   public function onDisable(): void {
     $this->getLogger()->info($this->getLang("disable-plugin-message"));
-    $this->saveResource("iConfig.yml", "languages/");
-  }
-
-  public function onPreLogin(PlayerPreLoginEvent $ev): void {
-    $player = $ev->getPlayer();
-    if (!$this->getServer()->isWhitelisted($player->getName())) {
-      $ev->setKickMessage($this->getLang("server-whitelisted-message"));
-      $ev->setCancelled(true);
-    }
-    if ($this->getServer()->getNameBans()->isBanned($player->getName())) {
-      $ev->setKickMessage($this->getLang("player-banned-message"));
-      $ev->setCancelled(true);
-    }
-  }
-
-  public function onLogin(PlayerLoginEvent $ev): void {
-    $player = $ev->getPlayer();
-    $spawn = $this->getServer()->getDefaultLevel()->getSafeSpawn();
-    $player->teleport($spawn);
-  }
-
-  public function onJoin(PlayerJoinEvent $ev): void {
-    $player = $ev->getPlayer();
-    $level = $player->getLevel();
-    $player->setGamemode(Player::SURVIVAL);
-    if ($player->isOP()) {
-      $ev->setJoinMessage($this->getLang("join-operator-message", array("%player" => $player->getName())));
-      $player->sendMessage($this->impladePrefix . $this->getLang("join-notice-message"));
-      $level->addSound(new EndermanTeleportSound($player));
-    } else {
-      $ev->setJoinMessage($this->getLang("join-player-message", array("%player" => $player->getName())));
-      $level->addSound(new EndermanTeleportSound($player));
-    }
-    $joinScreen = new GuardianJoinTask($this, $player);
-    $this->getScheduler()->scheduleDelayedTask($joinScreen, 25);
-    if ($this->getImplade()->get("lightning-events") == true) {
-      $this->isSummonLightning($player);
-    }
-    $this->rainbows[$player->getName()] = 0;
-    if (!in_array($player->getName(), $this->timers)) {
-      $this->timers[] = $player->getName();
-    }
-    $this->timers[$player->getName()] = 0;
-    $player->getArmorInventory()->clearAll();
-  }
-
-  public function onDeath(PlayerDeathEvent $ev): void {
-    $player = $ev->getPlayer();
-    $level = $player->getLevel();
-    $cause = $player->getLastDamageCause();
-    if ($cause instanceof EntityDamageByEntityEvent) {
-      $killer = $cause->getDamager();
-      if ($killer instanceof Player) {
-        $headItem = Item::get(Item::SKULL, mt_rand(50, 100), 1);
-        $headItem->setCustomName($this->getLang("item-head-name", array("%player" => $player->getName())));
-        $headItem->setLore($this->getLang("item-head-lore"));
-        $headNBT = $headItem->getNamedTag();
-        $headNBT->setString("Head", strtolower($player->getName()));
-        $headItem->setNamedTag($headNBT);
-        $killer->getInventory()->addItem($headItem);
-        $killer->sendMessage($this->getLang("item-head-obtained-message", array("%player" => $player->getName())));
-		
-        $weapon = $killer->getInventory()->getItemInHand()->getName();
-        if (!$this->economy->addMoney($killer, $this->getImplade()->get("killer-money", 220))) {
-          $this->getLogger()->error($this->getLang("economy-error-message"));
-          return;
-        }
-        $player->getServer()->broadcastMessage($this->impladePrefix . $this->getLang("death-money-message", array(
-                "%money" => $this->getImplade()->get("killer-money", 220),
-                "%innocent" => $player->getName(),
-                "%killer" => $killer->getName(),
-                "%weapon" => $weapon
-            )));
-      }
-    }
-    $player->sendMessage($this->impladePrefix . $this->getLang("death-message"));
-    if ($this->getImplade()->get("death-particles") == true) {
-      $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
-    }
-    $deathSound = new AnvilBreakSound($player) && new GhastSound($player);
-    $level->addSound($deathSound);
-    $deathNBT = new CompoundTag("", [
-        new ListTag("Pos", [
-            new DoubleTag("", $player->getX()),
-            new DoubleTag("", $player->getY() - 1),
-            new DoubleTag("", $player->getZ())
-        ]),
-        new ListTag("Motion", [
-            new DoubleTag("", 0),
-            new DoubleTag("", 0),
-            new DoubleTag("", 0)
-        ]),
-        new ListTag("Rotation", [
-            new FloatTag("", 2),
-            new FloatTag("", 2)
-        ])
-    ]);
-    $deathNBT->setTag($player->getTag("Skin"));
-    $death = new DeathHuman($level, $deathNBT);
-    $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
-    $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
-    $death->setNameTag("§7[". $this->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
-    $death->setNameTagAlwaysVisible(true);
-    $death->spawnToAll();
-    $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player) && new DespawnParticles($this, $death, $player), 1100);
-  }
-
-  public function onRespawn(PlayerRespawnEvent $ev): void {
-    $player = $ev->getPlayer();
-    $title = $this->getLang("respawn-title");
-    $subtitle = $this->getLang("respawn-subtitle");
-    $player->addTitle($title, $subtitle);
-    $player->setGamemode(Player::SURVIVAL);
-    $this->getScheduler()->scheduleDelayedTask(new TotemRespawnTask($this, $player), 1);
-  }
-
-  public function onMove(PlayerMoveEvent $ev): void {
-    $player = $ev->getPlayer();
-    $speed = $ev->getFrom()->distanceSquared($ev->getTo()) * 5;
-    foreach ($player->getLevel()->getNearByEntities($player->getBoundingBox()->expandedCopy(0.6, 0.6, 0.6), $player) as $entity) {
-      if ($entity instanceof SoccerMagma) {
-        $entity->getLevel()->addParticle(new FlameParticle($entity));
-        switch ($player->getDirection()) {
-          case 0:
-            $entity->setMotion(new Vector3($speed, $speed / 4, 0));
-            $entity->level->broadcastLevelSoundEvent($entity, LevelSoundEventPacket::SOUND_POP);
-            $entity->getLevel()->addParticle(new HugeExplodeParticle($entity));
-            break;
-
-          case 1:
-            $entity->setMotion(new Vector3(0, $speed / 4, $speed));
-            $entity->level->broadcastLevelSoundEvent($entity, LevelSoundEventPacket::SOUND_POP);
-            $entity->getLevel()->addParticle(new HugeExplodeParticle($entity));
-            break;
-
-          case 2:
-            $entity->setMotion(new Vector3(-$speed, $speed / 4, 0));
-            $entity->level->broadcastLevelSoundEvent($entity, LevelSoundEventPacket::SOUND_POP);
-            $entity->getLevel()->addParticle(new HugeExplodeParticle($entity));
-            break;
-
-          case 3:
-            $entity->setMotion(new Vector3(0, $speed / 4, -$speed));
-            $entity->level->broadcastLevelSoundEvent($entity, LevelSoundEventPacket::SOUND_POP);
-            $entity->getLevel()->addParticle(new HugeExplodeParticle($entity));
-            break;
-        }
-      }
-    }
-  }
-
-  public function onChat(PlayerChatEvent $ev): void {
-    $player = $ev->getPlayer();
-    $iChat = $this->iChat;
-    if (!$player->isOP()) {
-    	if (isset($iChat[strtolower($player->getName())])) {
-    	    if ((time() - $iChat[strtolower($player->getName())]) < 4) {
-    	        $ev->setCancelled();
-                $player->sendMessage($this->getLang("fast-chatting-message"));
-            } else {
-            	$iChat[strtolower($player->getName())] = time();
-            }
-       } else {
-       	$iChat[strtolower($player->getName())] = time();
-       }
-     }
-  }
-
-  public function onQuit(PlayerQuitEvent $ev): void {
-    $player = $ev->getPlayer();
-    $level = $player->getLevel();
-    $player->setGamemode(Player::SURVIVAL);
-    if ($this->getImplade()->get("lightning-events") == true) {
-      $this->isSummonLightning($player);
-    }
-    if ($player->isOP()) {
-      $ev->setQuitMessage($this->getLang("quit-operator-message", array("%player" => $player->getName())));
-      $level->addSound(new BlazeShootSound($player));
-    } else {
-      $ev->setQuitMessage($this->getLang("quit-player-message", array("%player" => $player->getName())));
-      $level->addSound(new BlazeShootSound($player));
-    }
-  }
-
-  public function onDamage(EntityDamageEvent $ev): void {
-    $entity = $ev->getEntity();
-    $cause = $ev->getCause();
-    if ($entity instanceof Player) {
-        if (!$entity->isCreative() && $entity->getAllowFlight()) {
-          $entity->setFlying(false);
-          $entity->setAllowFlight(false);
-          $entity->sendMessage($this->impladePrefix . $this->getLang("fly-disabled-damage-message"));
-        }
-        if (isset($this->wild[$entity->getName()])) {
-          unset($this->wild[$entity->getName()]);
-          $ev->setCancelled(true);
-        }
-    }
-    $entity->getLevel()->addParticle(new DestroyBlockParticle($entity, Block::get(152)));
-    if ($entity instanceof SoccerMagma) $ev->setCancelled(true);
-    if ($entity instanceof DeathHuman) $ev->setCancelled(true);
-    if ($entity instanceof BotHuman) $ev->setCancelled(true);
   }
 
   public function spawnSoccer(Player $player): void {
     $level = $player->getLevel();
     $soccerNBT = Entity::createBaseNBT($player, null, 2, 2);
     $soccer = new SoccerMagma($level, $soccerNBT);
-    $soccer->setScale(1.5);
+    $soccer->setScale(1.4);
     $soccer->spawnToAll();
   }
 
   public function spawnBot(Player $player, string $botName): void {
     $level = $player->getLevel();
     $botNBT = Entity::createBaseNBT($player, null, 2, 2);
-    $botNBT->setTag($player->getTag("Skin"));
+    $botNBT->setTag($player->namedTag->getTag("Skin"));
     $bot = new BotHuman($level, $botNBT);
     $bot->setNameTag("§7[". $this->getLang("bot-nametag") ."§7]§r\n§f" . $botName);
     $bot->setNameTagAlwaysVisible(true);
@@ -405,7 +208,7 @@ class Implade extends PluginBase implements Listener {
     }
     if (strtolower($command->getName()) === "bot") {
       if ($sender->hasPermission("implactor.bot")) {
-        $this->botMenu($sender);
+        FormsManager::getForm()->botMenu($sender);
       } else {
         $sender->sendMessage($this->getLang("no-permission-message"));
         return false;
@@ -432,21 +235,21 @@ class Implade extends PluginBase implements Listener {
       }
     } else if (strtolower($command->getName()) === "rainbow") {
       if ($sender->hasPermission("implactor.rainbow")) {
-        $this->rainbowMenu($sender);
+        FormsManager::getForm()->rainbowMenu($sender);
       } else {
         $sender->sendMessage($this->getLang("no-permission-message"));
         return false;
       }
     } else if (strtolower($command->getName()) === "visible") {
       if ($sender->hasPermission("implactor.visible")) {
-        $this->visibleMenu($sender);
+        FormsManager::getForm()->visibleMenu($sender);
       } else {
         $sender->sendMessage($this->getLang("no-permission-message"));
         return false;
       }
     } else if (strtolower($command->getName()) === "vision") {
       if ($sender->hasPermission("implactor.vision")) {
-        $this->visionMenu($sender);
+        FormsManager::getForm()->visionMenu($sender);
       } else {
         $sender->sendMessage($this->getLang("no-permission-message"));
         return false;
@@ -461,8 +264,9 @@ class Implade extends PluginBase implements Listener {
     } else if (strtolower($command->getName()) === "head") {
       if ($sender->hasPermission("implactor.head")) {
         $headItem = $sender->getInventory()->getItemInHand();
-        if ($headItem->getNamedTag()->hasTag("Head", StringTag::class)) {
-          $killer = $headItem->getNamedTag()->getString("Head");
+        $headLore = $headItem->getlore();
+        if ($headItem->getNamedTag()->hasTag("head", StringTag::class)) {
+          $killer = $headItem->getNamedTag()->getString("head");
           $seller = EconomyAPI::getInstance()->myMoney($killer) * $this->getImplade()->get("item-head-sell-money", 100);
           EconomyAPI::getInstance()->reduceMoney($killer, $seller, true);
           EconomyAPI::getInstance()->addMoney($sender, $seller, true);
@@ -501,8 +305,9 @@ class Implade extends PluginBase implements Listener {
         if (count($args) < 1) {
           $sender->sendMessage($this->getLang("command-usage-message") ."§e/icast <". $this->getLang("broadcast-usage-argument-message") ."§e>");
           return false;     
-        }   
-          $sender->getServer()->broadcastMessage("§7[§bImplacast§7] §e" . implode(" ", $args));
+        }
+          $broadcastMsg = implode(" ", $args);
+          $sender->getServer()->broadcastMessage(" §b§lImplacast ➤§r§e " . $broadcastMsg);
         } else {
           $sender->sendMessage($this->impladePrefix . $this->getLang("no-permission-message"));
           return false;
@@ -586,190 +391,21 @@ class Implade extends PluginBase implements Listener {
     return str_replace("&", "§", $key);
   }
 	
-  public function isSummonLightning(Player $player, $storm){
-       if ($storm === true) {
-        $level = $player->getLevel();
-        $thunder = new AddEntityPacket();
-        $thunder->type = 93;
-        $thunder->entityRuntimeId = Entity::$entityCount++;
-        $thunder->position = $player->asVector3()->add(0, $height = 0);
-	$thunder->yaw = $p->getYaw();
-        $thunder->pitch = $p->getPitch();
-        $this->getServer()->broadcastPacket($this->getServer()->getOnlinePlayers(), $thunder);
-      }
-  }
-
-  public function visionMenu($sender): void {
-    $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $impladeForm = new SimpleForm(function (Player $sender, $result) {
-      switch ($result) {
-        case 0:
-          $sender->addEffect(new EffectInstance(Effect::getEffect(Effect::NIGHT_VISION), 1000000, 254, true));
-          $sender->sendMessage($this->impladePrefix . $this->getLang("vision-enabled-message"));
-          break;
-        case 1:
-          $sender->removeEffect(Effect::NIGHT_VISION);
-          $sender->sendMessage($this->impladePrefix . $this->getLang("vision-disabled-message"));
-          break;
-        case 2:
-          $sender->sendMessage($this->impladePrefix . $this->getLang("close-form-message"));
-          break;
-      }
-    });
-    $impladeForm->setTitle($this->getLang("form-menu-title"));
-    $impladeForm->setContent($this->getLang("vision-content-message"));
-    $impladeForm->addButton($this->getLang("enable-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542804/On.png");
-    $impladeForm->addButton($this->getLang("disable-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542806/Off.png");
-    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendForm($sender);
-  }
-
-  public function visibleMenu($sender): void {
-    $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $impladeForm = new SimpleForm(function (Player $sender, $result) {
-      switch ($result) {
-        case 0:
-          $sender->addTitle($this->getLang("visible-on-message"), $this->getLang("visible-show-message"));
-          unset($this->visible[array_search($sender->getName(), $this->visible)]);
-          foreach ($this->getServer()->getOnlinePlayers() as $visibler) {
-            $sender->showplayer($visibler);
-          }
-          break;
-        case 1:
-          $sender->addTitle($this->getLang("visible-off-message"), $this->getLang("visible-hide-message"));
-          $this->visible[] = $sender->getName();
-          foreach ($this->getServer()->getOnlinePlayers() as $visibler) {
-            $sender->hideplayer($visibler);
-          }
-          break;
-        case 2:
-          $sender->sendMessage($this->impladePrefix . $this->getLang("close-form-message"));
-          break;
-      }
-    });
-    $impladeForm->setTitle($this->getLang("form-menu-title"));
-    $impladeForm->setContent($this->getLang("visible-content-message"));
-    $impladeForm->addButton($this->getLang("show-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249098/Show.png");
-    $impladeForm->addButton($this->getLang("hide-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249099/Hide.png");
-    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $impladeForm->sendForm($sender);
-  }
-
-  public function botMenu($sender): void {
-    $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $impladeForm = new SimpleForm(function (Player $sender, $result) {
-      switch ($result) {
-        case 0:
-          $this->spawnBotForm($sender);
-          break;
-        case 1:
-          $this->clearBotForm($sender);
-          break;
-        case 2:
-          $sender->sendMessage($this->impladePrefix . $this->getLang("close-form-message"));
-          break;
-      }
-    });
-    $impladeForm->setTitle($this->getLang("form-menu-title"));
-    $impladeForm->setContent($this->getLang("bot-content-message"));
-    $impladeForm->addButton($this->getLang("bot-spawn-button-message"), 1, "");
-    $impladeForm->addButton($this->getLang("bot-clear-button-message"), 2, "");
-    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $impladeForm->sendForm($sender);
-  }
-
-  public function spawnBotForm($sender): void {
-    $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $impladeForm = new CustomForm(function (Player $sender, $result) {
-      if ($result !== null) {
-        $this->spawnBot($sender, $result[1]);
-        $sender->getServer()->broadcastMessage("§7[§bBot§7]§f " . $this->getLang("bot-spawned-message", array("%bot" => $result[1], "%player" => $sender->getName())));
-        $sender->getLevel()->addSound(new DoorBumpSound($sender));
-      }
-    });
-    $impladeForm->setTitle($this->getLang("form-menu-title"));
-    $impladeForm->addLabel($this->getLang("bot-label-message"));
-    $impladeForm->addInput($this->getLang("bot-input"), $this->getLang("bot-input-name"));
-    $impladeForm->sendForm($sender);
-  }
-
-  public function clearBotForm($sender): void {
-    $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $impladeForm = new SimpleForm(function (Player $sender, $result) {
-      switch ($result) {
-        case 0:
-          $clearBots = 0;
-          foreach ($this->getServer()->getLevels() as $level) {
-            foreach ($level->getEntities() as $entity) {
-              if ($entity instanceof BotHuman) {
-                $entity->close();
-                $clearBots++;
-              }
-            }
-          }
-          $sender->sendMessage($this->impladePrefix . $this->getLang("bot-success-cleared-message", array("%bots" => $clearBots)));
-          break;
-        case 1:
-          $this->botMenu($sender);
-          break;
-      }
-    });
-    $impladeForm->setTitle($this->getLang("form-procced-title"));
-    $impladeForm->setContent($this->getLang("bot-clear-content-message"));
-    $impladeForm->addButton($this->getLang("yes-message"), 1, "");
-    $impladeForm->addButton($this->getLang("no-message"), 2, "");
-    $impladeForm->sendForm($sender);
-  }
-
-  public function rainbowMenu($sender): void {
-    $this->rainbows[$sender->getName()] = 0;
-    $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $impladeForm = new SimpleForm(function (Player $sender, $result) {
-      switch ($result) {
-        case 0:
-          if ($this->rainbows[$sender->getName()] === 0) {
-            $this->getScheduler()->scheduleRepeatingTask(new RainbowArmorTask($this, $sender), 5);
-            $sender->sendMessage($this->impladePrefix . $this->getLang("rainbow-enabled-message"));
-          }
-          break;
-        case 1:
-          $this->disableRainbowForm($sender);
-          break;
-        case 2:
-          $sender->sendMessage($this->impladePrefix . $this->getLang("close-form-message"));
-          break;
-      }
-    });
-    $impladeForm->setTitle($this->getLang("form-menu-title"));
-    $impladeForm->setContent($this->getLang("rainbow-content-message"));
-    $impladeForm->addButton($this->getLang("enable-message"), 1, "");
-    $impladeForm->addButton($this->getLang("disable-message"), 2, "");
-    $impladeForm->addButton($this->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $impladeForm->sendForm($sender);
-  }
-
-  public function disableRainbowForm($sender): void {
-    $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-    $impladeForm = new SimpleForm(function (Player $sender, $result) {
-      switch ($result) {
-        case 0:
-          if ($this->rainbows[$sender->getName()] === 0) {
-            $this->getScheduler()->cancelTask($this->rainbows[$sender->getName()]);
-            $this->rainbows[$sender->getName()] = 0;
-            $sender->getArmorInventory()->clearAll();
-            $sender->sendMessage($this->impladePrefix . $this->getLang("rainbow-disabled-message"));
-          }
-          break;
-        case 1:
-          $this->rainbowMenu($sender);
-          break;
-      }
-    });
-    $impladeForm->setTitle($this->getLang("form-procced-title"));
-    $impladeForm->setContent($this->getLang("rainbow-disable-content-message"));
-    $impladeForm->addButton($this->getLang("yes-message"), 1, "");
-    $impladeForm->addButton($this->getLang("no-message"), 2, "");
-    $impladeForm->sendForm($sender);
+  public function isSummonLightning(Player $player, $strike){
+    if ($strike === true) {
+      $level = $player->getLevel();
+      $entityArray = array();
+      $sky = $height = 0;
+	      
+      $thunder = new AddEntityPacket();
+      $thunder->type = 93;
+      $thunder->entityRuntimeId = Entity::$entityCount++;
+      $thunder->position = $player->asVector3()->add(0, $sky);
+      $thunder->metadata = $entityArray;
+      $thunder->yaw = $player->getYaw();
+      $thunder->pitch = $player->getPitch();
+      $player->getServer()->broadcastPacket($level->getPlayers(). $thunder);
+    }
   }
 
   public function rainbowArmor(Player $player, int $r, int $g, int $b): void {

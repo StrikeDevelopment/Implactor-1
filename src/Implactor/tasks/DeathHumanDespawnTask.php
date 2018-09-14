@@ -26,12 +26,11 @@ namespace Implactor\tasks;
 
 use pocketmine\Player;
 use pocketmine\entity\Entity;
-use pocketmine\scheduler\Task;
 
 use Implactor\Implade;
 use Implactor\entities\DeathHuman;
 
-class DeathHumanDespawnTask extends Task {
+class DeathHumanDespawnTask extends ImpladeTask {
 
   private $plugin;
   private $entity;

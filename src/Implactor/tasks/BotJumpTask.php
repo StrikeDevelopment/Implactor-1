@@ -25,12 +25,11 @@ declare(strict_types=1);
 namespace Implactor\tasks;
 
 use pocketmine\entity\Entity;
-use pocketmine\scheduler\Task;
 
 use Implactor\Implade;
 use Implactor\entities\BotHuman;
 
-class BotJumpTask extends Task {
+class BotJumpTask extends ImpladeTask {
 
   private $plugin, $entity;
 

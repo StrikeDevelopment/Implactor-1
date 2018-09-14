@@ -63,21 +63,20 @@ class BotListener implements Listener {
     }
   }
 
-  public function onPlayerMove(PlayerMoveEvent $ev): void {
+  public function onMove(PlayerMoveEvent $ev): void {
     $player = $ev->getPlayer();
+    $level = $player->getLevel();
     $from = $ev->getFrom();
     $to = $ev->getTo();
-    if ($from->distance($to) < 0.1) {
-      return;
-    }
-    foreach ($player->getLevel()->getNearbyEntities($player->getBoundingBox()->expandedCopy(9, 9, 9), $player) as $entity) {
-      if ($entity instanceof BotHuman) {
+    if ($from->distance($to) < 0.1) return;
+    foreach ($level->getNearbyEntities($player->getBoundingBox()->expandedCopy(7, 7, 7), $player) as $bots) {
+      if ($bots instanceof BotHuman) {
         $packetMovement = new MovementPacket();
-        $v = new Vector2($entity->x, $entity->z);
-        $xRot = ((atan2($player->z - $entity->z, $player->x - $entity->x) * 180) / M_PI) - 90;
-        $zRot = ((atan2($v->distance($player->x, $player->z), $player->y - $entity->y) * 180) / M_PI) - 90;
-        $packetMovement->entityRuntimeId = $entity->getId();
-        $packetMovement->position = $entity->asVector3()->add(0, 1.5, 0);
+        $vector = new Vector2($bots->x, $bots->z);
+        $xRot = ((atan2($player->z - $bots->z, $player->x - $bots->x) * 180) / M_PI) - 90;
+        $zRot = ((atan2($vector->distance($player->x, $player->z), $player->y - $bots->y) * 180) / M_PI) - 90;
+        $packetMovement->entityRuntimeId = $bots->getId();
+        $packetMovement->position = $bots->asVector3()->add(0, 1.5, 0);
         $packetMovement->yaw = $xRot;
         $packetMovement->headYaw = $yRot;
         $packetMovement->pitch = $zRot;

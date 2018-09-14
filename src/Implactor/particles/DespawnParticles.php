@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Implactor\particles;
 
 use Implactor\entities\DeathHuman;
-use pocketmine\level\particle\{HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion};
+use pocketmine\level\particle\{HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion, RedstoneParticle as RedExplosion};
 use pocketmine\scheduler\Task;
 use pocketmine\math\Vector3;
 use pocketmine\entity\Entity;
@@ -49,15 +49,14 @@ class DespawnParticles extends Task {
       $y = $entity->getY();
       $z = $entity->getZ();
       $center = new Vector3($x, $y, $z);
-      $despawnExplosion = new BigExplosion($center);
-      $despawnLava = new LavaExplosion($center);
+      $tripleExplosion = new BigExplosion($center) &&
+                         new LavaExplosion($center) &&
+                         new RedExplosion($center);
       for ($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20) {
         $x = -sin($yaw) + $center->x;
         $z = cos($yaw) + $center->z;
-        $despawnExplosion->setComponents($x, $y, $z);
-        $despawnLava->setComponents($x, $y, $z);
-        $despawn->addParticle($despawnExplosion);
-        $despawn->addParticle($despawnLava);
+        $tripleExplosion->setComponents($x, $y, $z);
+        $despawn->addParticle($tripleExplosion);
       }
     }
   }

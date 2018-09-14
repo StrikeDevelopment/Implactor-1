@@ -53,8 +53,8 @@ class BotParticles extends Task {
             $x = 0.5 * sin($yaw);
             $y = 0.5;
             $z = 0.5 * cos($yaw);
-            $botparticle->addParticle(new Flame($entity->add($x, $y, $z)));
-            $botparticle->addParticle(new Water($entity->add($x, $y, $z)));
+            $botparticle->addParticle(new Flame($entity->add($x, $y, $z)) &&
+                                      new Water($entity->add($x, $y, $z)));
           }
         }
       }

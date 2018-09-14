@@ -28,9 +28,8 @@ namespace Implactor\tasks;
 use pocketmine\Player;
 use pocketmine\network\mcpe\protocol\LevelEventPacket as JoinPacket;
 use Implactor\Implade;
-use pocketmine\scheduler\Task;
 
-class GuardianJoinTask extends Task {
+class GuardianJoinTask extends ImpladeTask {
 
   private $player;
   private $plugin;
@@ -42,10 +41,12 @@ class GuardianJoinTask extends Task {
 
   public function onRun(int $currentTick): void {
     $player = $this->player;
-    $packetJoin = new JoinPacket();
-    $packetJoin->evid = JoinPacket::EVENT_GUARDIAN_CURSE;
-    $packetJoin->data = 0;
-    $packetJoin->position = $player->asVector3();
-    $player->sendDataPacket($packetJoin);
+    if ($this->plugin->getImplade()->get("guardian-join") == true) {
+      $packetJoin = new JoinPacket();
+      $packetJoin->evid = JoinPacket::EVENT_GUARDIAN_CURSE;
+      $packetJoin->data = 0;
+      $packetJoin->position = $player->asVector3();
+      $player->sendDataPacket($packetJoin);
+    }
   }
 }

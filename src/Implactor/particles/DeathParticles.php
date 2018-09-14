@@ -47,16 +47,14 @@ class DeathParticles extends Task {
     $y = $this->player->getY();
     $z = $this->player->getZ();
     $center = new Vector3($x, $y, $z);
-    $deathExplosion = new BigExplosion($center);
-    $deathLava = new LavaExplosion($center);
+    $doubleDeath = new BigExplosion($center) &&
+                   new LavaExplosion($center);
 
     for ($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20) {
       $x = -sin($yaw) + $center->x;
       $z = cos($yaw) + $center->z;
-      $deathExplosion->setComponents($x, $y, $z);
-      $deathLava->setComponents($x, $y, $z);
-      $death->addParticle($deathExplosion);
-      $death->addParticle($deathLava);
+      $doubleDeath->setComponents($x, $y, $z);
+      $death->addParticle($doubleDeath);
     }
   }
 }

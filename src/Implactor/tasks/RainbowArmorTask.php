@@ -25,11 +25,10 @@ declare(strict_types=1);
 namespace Implactor\tasks;
 
 use pocketmine\Player;
-use pocketmine\scheduler\Task;
 
 use Implactor\Implade;
 
-class RainbowArmorTask extends Task {
+class RainbowArmorTask extends ImpladeTask {
 
   private $plugin, $player;
 

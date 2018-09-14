@@ -3,12 +3,11 @@ declare(strict_types=1);
 namespace Implactor\tasks;
 
 use pocketmine\Player;
-use pocketmine\scheduler\Task;
 use pocketmine\network\mcpe\protocol\LevelEventPacket as RespawnPacket;
 
 use Implactor\Implade;
 
-class TotemRespawnTask extends Task {
+class TotemRespawnTask extends ImpladeTask {
 
   private $player;
   private $plugin;
@@ -20,10 +19,12 @@ class TotemRespawnTask extends Task {
 
   public function onRun(int $currentTick): void {
     $player = $this->player;
-    $packetRespawn = new RespawnPacket();
-    $packetRespawn->evid = RespawnPacket::EVENT_SOUND_TOTEM;
-    $packetRespawn->data = 0;
-    $packetRespawn->position = $player->asVector3();
-    $player->sendDataPacket($packetRespawn);
+    if ($this->plugin->getImplade()->get("totem-respawn") == true) {
+      $packetRespawn = new RespawnPacket();
+      $packetRespawn->evid = RespawnPacket::EVENT_SOUND_TOTEM;
+      $packetRespawn->data = 0;
+      $packetRespawn->position = $player->asVector3();
+      $player->sendDataPacket($packetRespawn);
+    }
   }
 }

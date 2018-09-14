@@ -1,10 +1,33 @@
+##
+#
+# 
+#  _____                 _            _             
+# |_   _|               | |          | |            
+#   | |  _ __ ___  _ __ | | __ _  ___| |_ ___  _ __ 
+#   | | | '_ ` _ \| '_ \| |/ _` |/ __| __/ _ \| '__|
+#  _| |_| | | | | | |_) | | (_| | (__| || (_) | |   
+# |_____|_| |_| |_| .__/|_|\__,_|\___|\__\___/|_|   
+#                 | |                               
+#                 |_|         
+#
+#
+# Implactor (c) 2018
+# Everything needs on (plugin.yml)
+# ------===------
+# > Author: Zadezter
+# > Team: ImpladeDeveloped
+# 
+#
+##
+
 ---
 
 name: Implactor
-version: IR-1.7.3
+version: IR-2.0
 api:
 - 3.0.0
 - 3.2.0
+- 4.0.0
 main: Implactor\Implade
 description: A classic plugin, more added authorized features to here!
 author:
@@ -84,9 +107,6 @@ permissions:
     implactor.broadcast:
      description: "Allow operators to broadcast their messages to all online players"
      default: op
-    implactor.book:
-     description: "Allow players to get a book with a command"
-     default: true
     implactor.about:
      description: "Allow players to see about Implactor plugin"
      default: true

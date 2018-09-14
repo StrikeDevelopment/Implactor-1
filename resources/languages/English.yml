@@ -1,14 +1,27 @@
-# ××××× = ××××× = ×××××
-# Implactor Language
-# ^^ == ^^ == ^^ == ^^
-# Made & Translated by Zadezter
-# Language: English
-# ××××× = ××××× = ×××××
+##
+#
+# 
+#  _____                 _            _             
+# |_   _|               | |          | |            
+#   | |  _ __ ___  _ __ | | __ _  ___| |_ ___  _ __ 
+#   | | | '_ ` _ \| '_ \| |/ _` |/ __| __/ _ \| '__|
+#  _| |_| | | | | | |_) | | (_| | (__| || (_) | |   
+# |_____|_| |_| |_| .__/|_|\__,_|\___|\__\___/|_|   
+#                 | |                               
+#                 |_|         
+#
+#
+# Implactor (c) 2018
+# This is a English Language File.
+# ------===------
+# > Translator: Zadezter
+# > Team: ImpladeDeveloped
+# 
+#
+##
 
-# Tips:
-# - Use symbol "&" to make color text.
-# - Use "\n" to create a new line.
 ---
+
 language-selected: "Selected English language by Zadezter!"
 outdated-config-message: "A configuration was outdated or the version is invaild or incorrect."
 economy-error-message: "There was a error problem with EconomyAPI! It failed to add money to the players!"
@@ -30,7 +43,7 @@ update-unable-message: "Unable to checking the update!"
 server-whitelisted-message: "&eSorry, this server is currently on whitelist mode!"
 player-banned-message: "&dSorry, you have been banned from this server!"
 join-notice-message: "&bThis server is running the Implactor!"
-clear-lagg-message: "&f&l(&a!&8)&r &aCleared all &e%items&a items, &e%mobs&a mobs!"
+clear-lagg-message: "&aCleared all &e%items&a items, &e%mobs&a mobs!"
 join-operator-message: "&7(&6STAFF&7) &l&f[&a✓&f]&r &a%player"
 join-player-message: "&l&f[&a✓&f]&r &a%player"
 quit-operator-message: "&7(&6STAFF&7) &l&f[&c✘&f]&r &c%player"
@@ -186,4 +199,5 @@ caps-words:
 - SECOND
 - EVERYONE
 - HERE
+
 ...

@@ -25,7 +25,6 @@ declare(strict_types=1);
 namespace Implactor\tasks;
 
 use pocketmine\entity\Entity;
-use pocketmine\scheduler\Task;
 use pocketmine\math\Vector3;
 use pocketmine\level\Level;
 use pocketmine\level\sound\AngryVillagerParticle as AngerWalker;
@@ -33,7 +32,7 @@ use pocketmine\level\sound\AngryVillagerParticle as AngerWalker;
 use Implactor\Implade;
 use Implactor\entities\BotHuman;
 
-class BotWalkingTask extends Task {
+class BotWalkingTask extends ImpladeTask {
 
   private $plugin, $entity;
 

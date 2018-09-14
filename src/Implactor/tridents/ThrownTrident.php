@@ -54,6 +54,7 @@ class ThrownTrident extends TridentProjectile {
     }
     $tridentItem = TridentItem::nbtDeserialize($this->namedtag->getCompoundTag(Trident::TRIDENT_SEA_WEAPON));
     $tridentInventory = $player->getInventory();
+    $tridentItem->setCustomName("§b§lTrident§7");
 
     if ($player->isSurvival() and !$tridentInventory->canAddItem($tridentItem)) {
       return;

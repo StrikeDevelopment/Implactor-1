@@ -60,7 +60,6 @@ class Trident extends Weapon {
     if ($player->isSurvival()) {
       $tridentInventory = $player->getInventory();
       $tridentInventory->removeItem(clone $this);
-      $tridentInventory->setCustomName("§b§lTrident§7");
     }
     return true;
   }

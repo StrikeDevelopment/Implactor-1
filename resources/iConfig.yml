@@ -1,47 +1,81 @@
-# ××××× = ××××× = ×××××
-# Implactor Configuration
-# Made by Zadezter
-# > -----
-# Discord: Zadezter#0207
-# Twitter: @Zadezter
-# ××××× = ××××× = ×××××
+##
+#
+# 
+#  _____                 _            _             
+# |_   _|               | |          | |            
+#   | |  _ __ ___  _ __ | | __ _  ___| |_ ___  _ __ 
+#   | | | '_ ` _ \| '_ \| |/ _` |/ __| __/ _ \| '__|
+#  _| |_| | | | | | |_) | | (_| | (__| || (_) | |   
+# |_____|_| |_| |_| .__/|_|\__,_|\___|\__\___/|_|   
+#                 | |                               
+#                 |_|         
+#
+#
+# Implactor (c) 2018
+# The place for configuration file.
+# It's designed here by Zadezter.
+# ------===------
+# > Author: Zadezter
+# > Team: ImpladeDeveloped
+# 
+#
+##
+
 ---
 
-# This is config version on Implactor plugin.
-# Do not change the version or it will make a config broken.
-Version: 3
+# Select the language for Implactor plugin such a messages.
+# List Available:
+# ( English | Russian )
+language: "English"
 
-# Select a language you'd like to choose for plugin.
-# ××××× ----- ××××× ----- ×××××
-# Available Languages:
-# - English
-# - Russian
-# ××××× ----- ××××× ----- ×××××
-# Useful and good for this plugin.
-language: 'English'
+# The important of configuration version on Implactor plugin.
+# [WARNING]: Do not CHANGE the configuration version!
+Version: 4
 
-# Enable/Disable the update checker for Implactor.
+# Auto-update checker, to detect the new version of Implactor plugin.
+# You can enable or disable the feature.
 update-checker: true
 
-# Set a timer to clear lagg automatically.
-# Default = 480 seconds.
+# Set a timer of interval seconds for Automatic Clear Lagg feature.
+# Make sure the number of seconds it's correctly.
+# You can disable by set it false or put a invalid numbers, but it shows a warning message on console.
 clear-timer: 480
 
-# Set amount of how much killer get money after slained one player.
-# "220" in-game money is recommend.
-killer-money: 220
+# Shows a welcome and leave messages on chat screen.
+# You can enable or disable the feature.
+welcomer-message: true
 
-# Set amount of player head money to sell.
-# "100" in-game money is recommend.
-# NOTE: Don't set to higher, it makes some players will be rich!
-item-head-sell-money: 100
+# Shows a plugin notice message on chat screen.
+# [NOTE]: It'll show a notice message that you were using Implactor plugin.
+# You can enable or disable the feature.
+notice-message: true
 
-# Enable/Disable some particles on every features.
-bot-particles: true
+# That are some of particle features on Implactor plugin.
+# To prevent from lagg, we recommend you to disable, that's your choice.
 spawn-particles: true
 death-particles: true
+bot-particle: true
 
-# Enable/Disable the lightning for Join & Quit events.
+# Death Human / Corpse will spawned on your coordinates after you death.
+# [NOTE]: If you too far away from the corpses or teleport to another world, the corpses will standing up and no way to despawn it.
+# You can enable or disable the feature. (To clear all and prevent the corpses from standing up.)
+death-human: true
+
+# Animations & Sounds from PMMP packet will played to other players.
+# You can enable or disable the feature.
+guardian-join: true
+totem-respawn: true
+
+# Lightning strike will appear when someone join and left the server.
+# You can enable or disable the feature.
 lightning-events: true
+
+# Set amount of money to killer when slained one oppoment per player.
+# [NOTE]: Don't set to the higher amount of money, they'll be get riches!
+killer-money: 150
+
+# Set amount of money for selling one per head via using commands.
+# [NOTE]: Don't set to the higher amount of money, they'll be get riches!
+item-head-sell-money: 100
 
 ...
