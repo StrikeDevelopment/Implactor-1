@@ -27,9 +27,10 @@ namespace Implactor;
 use pocketmine\{Player, Server};
 use pocketmine\item\{Item, Armor};
 use pocketmine\entity\{Entity, Effect, EffectInstance};
-use pocketmine\utils\Config;
+use pocketmine\utils\{Config, Utils};
 use pocketmine\utils\Vector3;
 
+use Implactor\Implade;
 use jojoe77777\FormAPI\FormAPI;
 
 class FormsManager {
@@ -43,7 +44,7 @@ class FormsManager {
     self::$formSystem = $this;
   }
   
-  public static function getManager() : Implade{
+  public static function getManager(): Implade{
     return Implade::getInstance();
   }
   
