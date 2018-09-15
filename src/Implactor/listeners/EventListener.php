@@ -49,7 +49,7 @@ class EventListener implements Listener {
   private $plugin; 
   
   public function __construct(Implade $plugin) {
-      $this->plugin = $plugin; 
+    $this->plugin = $plugin; 
   }
   
   public function onPreLogin(PlayerPreLoginEvent $ev): void {
@@ -89,8 +89,7 @@ class EventListener implements Listener {
         $player->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("join-notice-message"));
       }
     }
-    $joinScreen = new GuardianJoinTask($this, $player);
-    $this->getScheduler()->scheduleDelayedTask($joinScreen, 25);
+    $this->plugin->getScheduler()->scheduleDelayedTask(new GuardianJoinTask($this->plugin, $player);
     if ($this->plugin->getImplade()->get("lightning-events") == true) {
       $this->plugin->isSummonLightning($player);
     }
@@ -122,9 +121,9 @@ class EventListener implements Listener {
             )));
       }
     }
-    $player->sendMessage($this->impladePrefix . $this->plugin->getLang("death-message"));
+    $player->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("death-message"));
     if ($this->plugin->getImplade()->get("death-particles") == true) {
-      $this->getScheduler()->scheduleDelayedTask(new DeathParticles($this, $player), 1);
+      $this->plugin->getScheduler()->scheduleDelayedTask(new DeathParticles($this->plugin, $player), 1);
     }
     $deathSound = new AnvilBreakSound($player) &&
                   new GhastSound($player);
@@ -153,8 +152,7 @@ class EventListener implements Listener {
       $death->setNameTag("§7[". $this->plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
       $death->setNameTagAlwaysVisible(true);
       $death->spawnToAll();
-      $this->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player) &&
-                                                 new DespawnParticles($this, $death, $player), 1100);
+      $this->plugin->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1000);
     }
   }
   
@@ -164,7 +162,7 @@ class EventListener implements Listener {
     $subtitle = $this->plugin->getLang("respawn-subtitle");
     $player->addTitle($title, $subtitle);
     $player->setGamemode(Player::SURVIVAL);
-    $this->getScheduler()->scheduleDelayedTask(new TotemRespawnTask($this, $player), 1);
+    $this->plugin->getScheduler()->scheduleDelayedTask(new TotemRespawnTask($this->plugin, $player), 1);
   }
   
   public function onMove(PlayerMoveEvent $ev): void {
@@ -249,9 +247,9 @@ class EventListener implements Listener {
           $entity->setAllowFlight(false);
           $entity->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("fly-disabled-damage-message"));
         }
-        $wild = $this->plugin->wild;
-        if (isset($wild[$entity->getName()])) {
-          unset($wild[$entity->getName()]);
+        $wilder = $this->plugin->wild;
+        if (isset($wilder[$entity->getName()])) {
+          unset($wilder[$entity->getName()]);
           $ev->setCancelled(true);
         }
     }
