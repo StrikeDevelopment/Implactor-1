@@ -17,15 +17,15 @@
     <br>
     ×××××××××××××××××××××××
     <br>
-    🔰 Multiple Language Systems 🔰
+    🛡 Multiple Language Systems 🛡
     <br>
-    🔰 Plugin Configuration 🔰
+    🛡 Plugin Configuration 🛡
     <br>
-    🔰 Automatic Clear Lagg 🔰
+    🛡 Automatic Clear Lagg 🛡
     <br>
-    🔰 Fun and Less Moderation Commands 🔰
+    🛡 Fun and Less Moderation Commands 🛡
     <br>
-    🔰 Compatible w/ PocketMine Software 🔰
+    🛡 Only Compatible w/ PocketMine Software 🛡
     <br>
     ×××××××××××××××××××××××
     <br><br>
@@ -35,6 +35,7 @@
 
 **Author & Owner**: [Zadezter](http://github.com/Zadezter)<br>
 **Date Created**: 23 May 2018
+**From**: 🇲🇾 - Malaysia
 
 ## ✔ Authorized Developer Permissions:
 
@@ -53,9 +54,8 @@ This plugin is free to use. It's original, no virus and no dangerous!
 2) Move dowloaded plugin file to your server **/plugins/** directory folder.
 3) Restart the server, and enjoy!
 
-Just make sure that you're not using any UI plugin<br>
-(example: __ShopUI__), making all UI menu access get disabled<br>
-when clicking button on first menu.
+Make sure you didn't using any plugins with having a __**Custom Forms**__.<br>
+That will cause other UI plugins never works with forms.
 
 ## 📁 Supported Server Software:
 
@@ -65,7 +65,7 @@ doesn't support with PocketMine-MP Forks and Spoons!**
 __**We will blocked and close your issues about code error from other<br>
 server software like [Altay](http://github.com/TuranicTeam/Altay)!**__
 
-## 🔰 All Implactor Permissions and UI:
+## 🔰 All Implactor Commands, Permissions and UI:
 
 | Permission | Command | Operator | UI |
 | --- | --- | --- | --- |
