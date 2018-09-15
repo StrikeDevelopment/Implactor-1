@@ -36,13 +36,6 @@
 **Author & Owner**: [Zadezter](http://github.com/Zadezter)<br>
 **Date Created**: 23 May 2018
 
-## 🔌 Downloads:
-
-| Version | Poggit | API | Dev Build | Status |
-| --- | --- | --- | --- | --- |
-| **vIR-1.7.3** | [Download](https://poggit.pmmp.io/r/41250/Implactor.phar) | **__3.2.0__** | #83 | Beta |
-
-
 ## ✔ Authorized Developer Permissions:
 
 **[FreeGamingHere](http://github.com/FreeGamingHere), who is a medium plugin developer and main owner of<br>
