@@ -76,6 +76,9 @@ class EventListener implements Listener {
     $player->setGamemode(Player::SURVIVAL);
     if ($this->plugin->getImplade()->get("welcomer-message") == true) {
       if ($player->isOP()) {
+        if ($this->plugin->getImplade()->get("notice-message") == true) {
+          $player->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("join-notice-message"));
+        }
         $ev->setJoinMessage($this->plugin->getLang("join-operator-message", array("%player" => $player->getName())));
         $level->addSound(new EndermanTeleportSound($player));
       } else {
@@ -84,12 +87,7 @@ class EventListener implements Listener {
       }
     }
     $ev->setJoinMessage(" ");
-    if ($this->plugin->getImplade()->get("notice-message") == true) {
-      if (!$player->isOP()) {
-        $player->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("join-notice-message"));
-      }
-    }
-    $this->plugin->getScheduler()->scheduleDelayedTask(new GuardianJoinTask($this->plugin, $player);
+    $this->plugin->getScheduler()->scheduleDelayedTask(new GuardianJoinTask($this->plugin, $player), 25);
     if ($this->plugin->getImplade()->get("lightning-events") == true) {
       $this->plugin->isSummonLightning($player);
     }
@@ -152,7 +150,7 @@ class EventListener implements Listener {
       $death->setNameTag("§7[". $this->plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
       $death->setNameTagAlwaysVisible(true);
       $death->spawnToAll();
-      $this->plugin->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this, $death, $player), 1000);
+      $this->plugin->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this->plugin, $death, $player), 1000);
     }
   }
   
