@@ -86,10 +86,9 @@ class EventListener implements Listener {
         $level->addSound(new EndermanTeleportSound($player));
       }
     }
-    $ev->setJoinMessage(" ");
     $this->plugin->getScheduler()->scheduleDelayedTask(new GuardianJoinTask($this->plugin, $player), 25);
     if ($this->plugin->getImplade()->get("lightning-events") == true) {
-      $this->plugin->isSummonLightning($this->plugin, $player);
+      $this->plugin->isSummonLightning($player, true); 
     }
     $this->plugin->rainbows[$player->getName()] = 0;
     if (!in_array($player->getName(), $this->plugin->timers)) {
@@ -229,15 +228,14 @@ class EventListener implements Listener {
         $level->addSound(new BlazeShootSound($player));
       }
     }
-    $ev->setQuitMessage(" ");
     if ($this->plugin->getImplade()->get("lightning-events") == true) {
-      $this->plugin->isSummonLightning($this->plugin, $player);
+      $this->plugin->isSummonLightning($player, true); 
     }
   }
   
   public function onDamage(EntityDamageEvent $ev): void {
     $entity = $ev->getEntity();
-    $lecek = $entity->getLevel();
+    $level = $entity->getLevel();
     $cause = $ev->getCause();
     if ($entity instanceof Player) {
         if (!$entity->isCreative() && $entity->getAllowFlight()) {
