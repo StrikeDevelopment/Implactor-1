@@ -269,7 +269,7 @@ class Implade extends PluginBase implements Listener {
         $headLore = $headItem->getlore();
         if ($headItem->getNamedTag()->hasTag("head", StringTag::class)) {
           $killer = $headItem->getNamedTag()->getString("head");
-          $seller = $this->economy->->myMoney($killer) * $this->getImplade()->get("item-head-sell-money", 100);
+          $seller = $this->economy->myMoney($killer) * $this->getImplade()->get("item-head-sell-money", 100);
           $this->economy->reduceMoney($killer, $seller, true);
           $this->economy->addMoney($sender, $seller, true);
           $headItem->setCount(1);
