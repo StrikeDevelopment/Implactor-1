@@ -126,7 +126,7 @@ class Implade extends PluginBase implements Listener {
     $this->config = new Config($this->getDataFolder() . "iConfig.yml");
 	  
     // Check the other features system \\
-    if (is_numeric($this->getImplade()->get("clear-timer")) {
+    if (is_numeric($this->getImplade()->get("clear-timer"))) {
       $this->getScheduler()->scheduleRepeatingTask(new ClearLaggTask($this), $this->getImplade()->get("clear-timer") * 20);
     } else {
       $this->getLogger()->error($this->getLang("clearlagg-error-message"));
