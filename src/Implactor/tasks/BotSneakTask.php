@@ -29,9 +29,12 @@ use pocketmine\entity\Entity;
 use Implactor\Implade;
 use Implactor\entities\BotHuman;
 
+use Implactor\tasks\ImpladeTask;
+
 class BotSneakTask extends ImpladeTask {
 
-  private $plugin, $entity;
+  protected $plugin;
+  private $entity;
 
   public function __construct(Implade $plugin, Entity $entity) {
     $this->plugin = $plugin;

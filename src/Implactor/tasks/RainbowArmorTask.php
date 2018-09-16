@@ -27,10 +27,12 @@ namespace Implactor\tasks;
 use pocketmine\Player;
 
 use Implactor\Implade;
+use Implactor\tasks\ImpladeTask;
 
 class RainbowArmorTask extends ImpladeTask {
 
-  private $plugin, $player;
+  protected $plugin;
+  private $player;
 
   public function __construct(Implade $plugin, Player $player) {
     $this->plugin = $plugin;

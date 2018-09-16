@@ -24,12 +24,12 @@
 declare(strict_types=1);
 namespace Implactor\tasks;
 
-
 use Implactor\Implade;
+use Implactor\tasks\ImpladeTask;
 
 class ClearLaggTask extends ImpladeTask {
 
-  private $plugin;
+  protected $plugin;
 
   public function __construct(Implade $plugin) {
     $this->plugin = $plugin;

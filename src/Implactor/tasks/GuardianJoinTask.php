@@ -28,11 +28,12 @@ namespace Implactor\tasks;
 use pocketmine\Player;
 use pocketmine\network\mcpe\protocol\LevelEventPacket as JoinPacket;
 use Implactor\Implade;
+use Implactor\tasks\ImpladeTask;
 
 class GuardianJoinTask extends ImpladeTask {
 
   private $player;
-  private $plugin;
+  protected $plugin;
 
   public function __construct(Implade $plugin, Player $player) {
     $this->plugin = $plugin;

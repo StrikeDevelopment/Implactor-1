@@ -31,10 +31,12 @@ use pocketmine\level\sound\AngryVillagerParticle as AngerWalker;
 
 use Implactor\Implade;
 use Implactor\entities\BotHuman;
+use Implactor\tasks\ImpladeTask;
 
 class BotWalkingTask extends ImpladeTask {
 
-  private $plugin, $entity;
+  protected $plugin;
+  private $entity;
 
   public function __construct(Implade $plugin, Entity $entity) {
     $this->plugin = $plugin;

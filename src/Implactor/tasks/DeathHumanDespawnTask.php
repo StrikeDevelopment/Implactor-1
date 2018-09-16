@@ -29,10 +29,11 @@ use pocketmine\entity\Entity;
 
 use Implactor\Implade;
 use Implactor\entities\DeathHuman;
+use Implactor\tasks\ImpladeTask;
 
 class DeathHumanDespawnTask extends ImpladeTask {
 
-  private $plugin;
+  protected $plugin;
   private $entity;
   private $player;
 
