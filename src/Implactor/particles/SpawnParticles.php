@@ -32,7 +32,7 @@ use Implactor\tasks\ImpladeTask;
 
 class SpawnParticles extends ImpladeTask {
 	
-	private $plugin;
+	protected $plugin;
 	
 	public function __construct(Implade $plugin){
 		$this->plugin = $plugin;
