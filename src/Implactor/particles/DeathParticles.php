@@ -28,12 +28,11 @@ use pocketmine\level\particle\{
 	HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion
 };
 use pocketmine\Player;
-use pocketmine\scheduler\Task;
 use pocketmine\math\Vector3;
 
 use Implactor\Implade;
 
-class DeathParticles extends Task {
+class DeathParticles extends ImpladeTask {
 
   private $player;
 
@@ -47,14 +46,16 @@ class DeathParticles extends Task {
     $y = $this->player->getY();
     $z = $this->player->getZ();
     $center = new Vector3($x, $y, $z);
-    $doubleDeath = new BigExplosion($center) &&
-                   new LavaExplosion($center);
+    $deathExplosion = new BigExplosion($center);
+    $dearhLava = new LavaExplosion($center);
 
     for ($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20) {
       $x = -sin($yaw) + $center->x;
       $z = cos($yaw) + $center->z;
-      $doubleDeath->setComponents($x, $y, $z);
-      $death->addParticle($doubleDeath);
+      $deathExplosion->setComponents($x, $y, $z);
+      $deathLava->setComponents($x, $y, $z);
+      $death->addParticle($deathExplosion);
+      $death->addParticle($deathLava);
     }
   }
 }

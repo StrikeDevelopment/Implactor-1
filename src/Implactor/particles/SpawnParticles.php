@@ -28,11 +28,10 @@ use pocketmine\level\particle\{
 	HappyVillagerParticle as Experience, PortalParticle as Portal, WaterParticle as Water
 };
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\Task;
 
 use Implactor\Implade;
 
-class SpawnParticles extends Task {
+class SpawnParticles extends ImpladeTask {
 	
 	private $plugin;
 	
@@ -47,15 +46,19 @@ class SpawnParticles extends Task {
 		$y = $spawn->getY();
 		$z = $spawn->getZ();
 		$center = new Vector3($x, $y, $z);
-		$tripleSpawn = new Experience($center) &&
-		               new Portal($center) &&
-		               new Water($center);
+		$expSpawn = new Experience($center);
+		$portalSpawn = new Portal($center);
+		$waterSpawn = new Water($center);
 		
 		for($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20){
 			$x = -sin($yaw) + $center->x;
 			$z = cos($yaw) + $center->z;
-			$tripleSpawn->setComponents($x, $y, $z);
-			$alive->addParticle($tripleSpawn);
+			$expSpawn->setComponents($x, $y, $z);
+			$portalSpawn->setComponents($x, $y, $z);
+			$waterSpawn->setComponents($x, $y, $z);
+			$alive->addParticle($expSpawn);
+			$alive->addParticle($portalSpawn);
+			$alive->addParticle($waterSpawn);
 		}
 	}
 }

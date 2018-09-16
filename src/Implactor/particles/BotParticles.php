@@ -30,11 +30,10 @@ use pocketmine\level\particle\{
 	FlameParticle as Flame, WaterParticle as Water
 };
 use pocketmine\entity\Entity;
-use pocketmine\scheduler\Task;
 
 use Implactor\Implade;
 
-class BotParticles extends Task {
+class BotParticles extends ImpladeTask {
 
   private $plugin, $entity;
 
@@ -47,14 +46,14 @@ class BotParticles extends Task {
     if ($this->plugin->getImplade()->get("bot-particles") == true) {
       $entity = $this->entity;
       if ($entity instanceof BotHuman) {
-        $botparticle = $entity->getLevel();
+        $botParticle = $entity->getLevel();
         if ($entity->isAlive()) {
           for ($yaw = 0; $yaw <= 10; $yaw += 0.5) {
             $x = 0.5 * sin($yaw);
             $y = 0.5;
             $z = 0.5 * cos($yaw);
-            $botparticle->addParticle(new Flame($entity->add($x, $y, $z)) &&
-                                      new Water($entity->add($x, $y, $z)));
+            $botParticle->addParticle(new Flame($entity->add($x, $y, $z)));
+            $botParticle->addParticle(new Water($entity->add($x, $y, $z)));
           }
         }
       }

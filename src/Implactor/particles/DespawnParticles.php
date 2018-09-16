@@ -49,14 +49,18 @@ class DespawnParticles extends Task {
       $y = $entity->getY();
       $z = $entity->getZ();
       $center = new Vector3($x, $y, $z);
-      $tripleExplosion = new BigExplosion($center) &&
-                         new LavaExplosion($center) &&
-                         new RedExplosion($center);
+      $despawnExplosion = new BigExplosion($center);
+      $despawnLava = new LavaExplosion($center);
+      $despawnRed = new RedExplosion($center);
       for ($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20) {
         $x = -sin($yaw) + $center->x;
         $z = cos($yaw) + $center->z;
-        $tripleExplosion->setComponents($x, $y, $z);
-        $despawn->addParticle($tripleExplosion);
+        $despawnExplosion->setComponents($x, $y, $z);
+        $despawnLava->setComponents($x, $y, $z);
+        $despawnRed->setComponents($x, $y, $z);
+        $despawn->addParticle($despawnExplosion);
+        $despawn->addParticle($despawnLava);
+        $despawn->addParticle($despawnRed);
       }
     }
   }
