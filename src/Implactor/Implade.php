@@ -69,11 +69,11 @@ class Implade extends PluginBase implements Listener {
     return $this->config;
   }
 	
-  public function getForm(): FormsManager{
+  public function getForm(): FormsManager {
     return $this->formSystem;
   }
 	
-  public static function getInstance() : self{
+  public static function getInstance() : self {
 	return self::$instance;
   }
 
@@ -453,7 +453,7 @@ class Implade extends PluginBase implements Listener {
     $mobs = 0;
     foreach ($this->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
-        if (!$this->isEntityExempted($entity) && $entity instanceof Creature && $entity instanceof DeathHuman && !($entity instanceof Human)) {
+        if (!$this->isEntityExempted($entity) && $entity instanceof Creature && !($entity instanceof Human)) {
           $entity->close();
           $mobs++;
         }
