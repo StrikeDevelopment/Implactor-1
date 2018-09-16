@@ -54,11 +54,11 @@ class EventListener implements Listener {
   
   public function onPreLogin(PlayerPreLoginEvent $ev): void {
     $player = $ev->getPlayer();
-    if (!$this->getServer()->isWhitelisted($player->getName())) {
+    if (!$this->plugin->getServer()->isWhitelisted($player->getName())) {
       $ev->setKickMessage($this->plugin->getLang("server-whitelisted-message"));
       $ev->setCancelled(true);
     }
-    if ($this->getServer()->getNameBans()->isBanned($player->getName())) {
+    if ($this->plugin->getServer()->getNameBans()->isBanned($player->getName())) {
       $ev->setKickMessage($this->plugin->getLang("player-banned-message"));
       $ev->setCancelled(true);
     }
@@ -66,7 +66,7 @@ class EventListener implements Listener {
   
   public function onLogin(PlayerLoginEvent $ev): void {
     $player = $ev->getPlayer();
-    $spawn = $this->getServer()->getDefaultLevel()->getSafeSpawn();
+    $spawn = $this->plugin->getServer()->getDefaultLevel()->getSafeSpawn();
     $player->teleport($spawn);
   }
   
@@ -89,7 +89,7 @@ class EventListener implements Listener {
     $ev->setJoinMessage(" ");
     $this->plugin->getScheduler()->scheduleDelayedTask(new GuardianJoinTask($this->plugin, $player), 25);
     if ($this->plugin->getImplade()->get("lightning-events") == true) {
-      $this->plugin->isSummonLightning($player);
+      $this->plugin->isSummonLightning($this->plugin, $player);
     }
     $this->plugin->rainbows[$player->getName()] = 0;
     if (!in_array($player->getName(), $this->plugin->timers)) {
@@ -107,7 +107,7 @@ class EventListener implements Listener {
       $killer = $cause->getDamager();
       if ($killer instanceof Player) {
         $weapon = $killer->getInventory()->getItemInHand()->getName();
-        if (!$this->economy->addMoney($killer, $this->plugin->getImplade()->get("killer-money", 220))) {
+        if (!$this->plugin->economy->addMoney($killer, $this->plugin->getImplade()->get("killer-money", 220))) {
           $this->getLogger()->error($this->plugin->getLang("economy-error-message"));
           return;
         }
@@ -123,8 +123,8 @@ class EventListener implements Listener {
     if ($this->plugin->getImplade()->get("death-particles") == true) {
       $this->plugin->getScheduler()->scheduleDelayedTask(new DeathParticles($this->plugin, $player), 1);
     }
-    $deathSound = new AnvilBreakSound($player) &&
-                  new GhastSound($player);
+    $deathSound = new AnvilBreakSound($player);
+    $deathSound = new GhastSound($player);
     $level->addSound($deathSound);
     if ($this->plugin->getImplade()->get("death-human") == true) {
       $deathNBT = new CompoundTag("", [
@@ -231,7 +231,7 @@ class EventListener implements Listener {
     }
     $ev->setQuitMessage(" ");
     if ($this->plugin->getImplade()->get("lightning-events") == true) {
-      $this->plugin->isSummonLightning($player);
+      $this->plugin->isSummonLightning($this->plugin, $player);
     }
   }
   
