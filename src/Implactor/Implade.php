@@ -126,7 +126,7 @@ class Implade extends PluginBase implements Listener {
     $this->config = new Config($this->getDataFolder() . "iConfig.yml");
 	  
     // Check the other features system \\
-    if (is_numeric($this->getImplade()->get("clear-timer") == false)) {
+    if (is_numeric($this->getImplade()->get("clear-timer")) {
       $this->getScheduler()->scheduleRepeatingTask(new ClearLaggTask($this), $this->getImplade()->get("clear-timer") * 20);
     } else {
       $this->getLogger()->error($this->getLang("clearlagg-error-message"));
@@ -269,9 +269,9 @@ class Implade extends PluginBase implements Listener {
         $headLore = $headItem->getlore();
         if ($headItem->getNamedTag()->hasTag("head", StringTag::class)) {
           $killer = $headItem->getNamedTag()->getString("head");
-          $seller = EconomyAPI::getInstance()->myMoney($killer) * $this->getImplade()->get("item-head-sell-money", 100);
-          EconomyAPI::getInstance()->reduceMoney($killer, $seller, true);
-          EconomyAPI::getInstance()->addMoney($sender, $seller, true);
+          $seller = $this->economy->->myMoney($killer) * $this->getImplade()->get("item-head-sell-money", 100);
+          $this->economy->reduceMoney($killer, $seller, true);
+          $this->economy->addMoney($sender, $seller, true);
           $headItem->setCount(1);
           $sender->sendMessage($this->impladePrefix . $this->getLang("item-head-sold-message", array(
                   "%money" => $this->getImplade()->get("item-head-sell-money", 100),
