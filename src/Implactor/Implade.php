@@ -50,7 +50,7 @@ class Implade extends PluginBase implements Listener {
   const VERSION = 4;
 
   protected $lang;
-  protected $forms;
+  public $forms; // Access the property to "FormsManager" file!
   protected $economy;
 	
   public $exemptedEntities = [];
