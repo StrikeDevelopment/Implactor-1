@@ -29,6 +29,7 @@ use pocketmine\level\particle\{
 };
 use pocketmine\Player;
 use pocketmine\math\Vector3;
+use Implactor\tasks\ImpladeTask;
 
 use Implactor\Implade;
 

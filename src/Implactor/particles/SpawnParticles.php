@@ -24,12 +24,11 @@
 declare(strict_types=1);
 namespace Implactor\particles;
 
-use pocketmine\level\particle\{
-	HappyVillagerParticle as Experience, PortalParticle as Portal, WaterParticle as Water
-};
+use pocketmine\level\particle\{HappyVillagerParticle as Experience, PortalParticle as Portal, WaterParticle as Water};
 use pocketmine\math\Vector3;
 
 use Implactor\Implade;
+use Implactor\tasks\ImpladeTask;
 
 class SpawnParticles extends ImpladeTask {
 	

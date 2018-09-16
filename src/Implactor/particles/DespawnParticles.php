@@ -29,6 +29,7 @@ use pocketmine\level\particle\{HugeExplodeParticle as BigExplosion, LavaParticle
 use pocketmine\math\Vector3;
 use pocketmine\entity\Entity;
 use Implactor\Implade;
+use Implactor\tasks\ImpladeTask;
 
 class DespawnParticles extends ImpladeTask {
 

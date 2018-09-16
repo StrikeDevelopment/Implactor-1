@@ -30,6 +30,7 @@ use pocketmine\level\particle\{
 	FlameParticle as Flame, WaterParticle as Water
 };
 use pocketmine\entity\Entity;
+use Implactor\tasks\ImpladeTask;
 
 use Implactor\Implade;
 
