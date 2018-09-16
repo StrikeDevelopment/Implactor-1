@@ -26,12 +26,11 @@ namespace Implactor\particles;
 
 use Implactor\entities\DeathHuman;
 use pocketmine\level\particle\{HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion, RedstoneParticle as RedExplosion};
-use pocketmine\scheduler\Task;
 use pocketmine\math\Vector3;
 use pocketmine\entity\Entity;
 use Implactor\Implade;
 
-class DespawnParticles extends Task {
+class DespawnParticles extends ImpladeTask {
 
   private $plugin;
   private $entity;
