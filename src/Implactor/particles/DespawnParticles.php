@@ -33,7 +33,6 @@ use Implactor\tasks\ImpladeTask;
 
 class DespawnParticles extends ImpladeTask {
 
-  private $plugin;
   private $entity;
 
   public function __construct(Implade $plugin, Entity $entity) {
