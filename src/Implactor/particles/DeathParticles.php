@@ -24,13 +24,11 @@
 declare(strict_types=1);
 namespace Implactor\particles;
 
-use pocketmine\level\particle\{
-	HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion
-};
+use pocketmine\level\particle\{HugeExplodeParticle as BigExplosion, LavaParticle as LavaExplosion};
 use pocketmine\Player;
 use pocketmine\math\Vector3;
-use Implactor\tasks\ImpladeTask;
 
+use Implactor\tasks\ImpladeTask;
 use Implactor\Implade;
 
 class DeathParticles extends ImpladeTask {
