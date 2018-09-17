@@ -69,7 +69,7 @@ class FormsManager {
     $impladeForm->addButton(Implade::getInstance()->getLang("enable-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542804/On.png");
     $impladeForm->addButton(Implade::getInstance()->getLang("disable-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316317351542806/Off.png");
     $impladeForm->addButton(Implade::getInstance()->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $form->sendForm($sender);
+    $form->sendToPlayer($sender);
   }
   
   public function visibleMenu($sender): void {
@@ -99,7 +99,7 @@ class FormsManager {
     $impladeForm->addButton(Implade::getInstance()->getLang("show-message"), 1, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249098/Show.png");
     $impladeForm->addButton(Implade::getInstance()->getLang("hide-message"), 2, "https://cdn.discordapp.com/attachments/442624759985864714/468316318060249099/Hide.png");
     $impladeForm->addButton(Implade::getInstance()->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $impladeForm->sendForm($sender);
+    $impladeForm->sendToPlayer($sender);
   }
   
   public function botMenu($sender): void {
@@ -121,7 +121,7 @@ class FormsManager {
     $impladeForm->addButton(Implade::getInstance()->getLang("bot-spawn-button-message"), 1, "");
     $impladeForm->addButton(Implade::getInstance()->getLang("bot-clear-button-message"), 2, "");
     $impladeForm->addButton(Implade::getInstance()->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $impladeForm->sendForm($sender);
+    $impladeForm->sendToPlayer($sender);
   }
   
   public function spawnBotForm($sender): void {
@@ -135,7 +135,7 @@ class FormsManager {
     $impladeForm->setTitle(Implade::getInstance()->getLang("form-menu-title"));
     $impladeForm->addLabel(Implade::getInstance()->getLang("bot-label-message"));
     $impladeForm->addInput(Implade::getInstance()->getLang("bot-input"), Implade::getInstance()->getLang("bot-input-name"));
-    $impladeForm->sendForm($sender);
+    $impladeForm->sendToPlayer($sender);
   }
   
   public function clearBotForm($sender): void {
@@ -162,7 +162,7 @@ class FormsManager {
     $impladeForm->setContent(Implade::getInstance()->getLang("bot-clear-content-message"));
     $impladeForm->addButton(Implade::getInstance()->getLang("yes-message"), 1, "");
     $impladeForm->addButton(Implade::getInstance()->getLang("no-message"), 2, "");
-    $impladeForm->sendForm($sender);
+    $impladeForm->sendToPlayer($sender);
   }
   
   public function rainbowMenu($sender): void {
@@ -188,7 +188,7 @@ class FormsManager {
     $impladeForm->addButton(Implade::getInstance()->getLang("enable-message"), 1, "");
     $impladeForm->addButton(Implade::getInstance()->getLang("disable-message"), 2, "");
     $impladeForm->addButton(Implade::getInstance()->getLang("close-message"), 3, "https://cdn.discordapp.com/attachments/442624759985864714/468316717169508362/Logopit_1531725791540.png");
-    $impladeForm->sendForm($sender);
+    $impladeForm->sendToPlayer($sender);
   }
   
   public function disableRainbowForm($sender): void {
@@ -211,6 +211,6 @@ class FormsManager {
     $impladeForm->setContent(Implade::getInstance()->getLang("rainbow-disable-content-message"));
     $impladeForm->addButton(Implade::getInstance()->getLang("yes-message"), 1, "");
     $impladeForm->addButton(Implade::getInstance()->getLang("no-message"), 2, "");
-    $impladeForm->sendForm($sender);
+    $impladeForm->sendToPlayer($sender);
   }
 }
