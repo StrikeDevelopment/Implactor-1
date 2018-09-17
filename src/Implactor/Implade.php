@@ -396,15 +396,16 @@ class Implade extends PluginBase implements Listener {
   public function isSummonLightning(Player $player, $strike){
     if ($strike === true) {
       $level = $player->getLevel();
-      $sky = $height = 0;
           
       $thunder = new AddEntityPacket();
       $thunder->type = 93;
       $thunder->entityRuntimeId = Entity::$entityCount++;
-      $thunder->position = $player->asVector3()->add(0, $sky);
+      $thunder->position = $player->asVector3()->add(0, 0);
       $thunder->yaw = $player->getYaw();
       $thunder->pitch = $player->getPitch();
-      $player->getServer()->broadcastPacket($level->getPlayers(). $thunder);
+      foreach($level->getPlayers() as $players){
+        $player->getServer()->broadcastPacket($players, $thunder);
+      }
     }
   }
 
