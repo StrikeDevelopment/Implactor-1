@@ -28,7 +28,8 @@ use pocketmine\entity\{Entity, Creature, Human};
 use pocketmine\item\{Item, Armor};
 use pocketmine\{Player, Server};
 use pocketmine\utils\{Config, Color};
-use pocketmine\network\mcpe\protocol\AddEntityPacket;
+use pocketmine\network\mcpe\protocol\{AddEntityPacket, LevelSoundEventPacket};
+
 use pocketmine\command\{Command, CommandSender};
 use pocketmine\plugin\{PluginBase, PluginDescription};
 use pocketmine\nbt\StringTag;

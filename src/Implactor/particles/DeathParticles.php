@@ -46,7 +46,7 @@ class DeathParticles extends ImpladeTask {
     $z = $this->player->getZ();
     $center = new Vector3($x, $y, $z);
     $deathExplosion = new BigExplosion($center);
-    $dearhLava = new LavaExplosion($center);
+    $deathLava = new LavaExplosion($center);
 
     for ($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20) {
       $x = -sin($yaw) + $center->x;
