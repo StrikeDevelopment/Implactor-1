@@ -106,10 +106,10 @@ class FormsManager {
     $impladeForm = Implade::getInstance()->forms->createSimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:
-          Implade::getInstance()->spawnBotForm($sender);
+          self::getForm()->spawnBotForm($sender);
           break;
         case 1:
-          Implade::getInstance()->clearBotForm($sender);
+          self::getForm()->clearBotForm($sender);
           break;
         case 2:
           $sender->sendMessage(Implade::getInstance()->impladePrefix . Implade::getInstance()->getLang("close-form-message"));
@@ -128,7 +128,10 @@ class FormsManager {
     $impladeForm = Implade::getInstance()->forms->createCustomForm(function (Player $sender, $result) {
       if ($result !== null) {
         Implade::getInstance()->spawnBot($sender, $result[1]);
-        $sender->getServer()->broadcastMessage("§7[§bBot§7]§f " . Implade::getInstance()->getLang("bot-spawned-message", array("%bot" => $result[1], "%player" => $sender->getName())));
+        $sender->getServer()->broadcastMessage("§7[". Implade::getInstance()->getLang("bot-nametag") ."§7]§r " . Implade::getInstance()->getLang("bot-spawned-message", array(
+                "%bot" => $result[1], 
+                "%player" => $sender->getName()
+            )));
         $sender->getLevel()->addSound(new DoorBumpSound($sender));
       }
     });
@@ -154,7 +157,7 @@ class FormsManager {
           $sender->sendMessage(Implade::getInstance()->impladePrefix . Implade::getInstance()->getLang("bot-success-cleared-message", array("%bots" => $clearBots)));
           break;
         case 1:
-          Implade::getInstance()->botMenu($sender);
+          self::getForm()->botMenu($sender);
           break;
       }
     });
@@ -171,12 +174,12 @@ class FormsManager {
       switch ($result) {
         case 0:
           if (Implade::getInstance()->rainbows[$sender->getName()] === 0) {
-            Implade::getInstance()->getScheduler()->scheduleRepeatingTask(new RainbowArmorTask($this, $sender), 5);
+            Implade::getInstance()->getScheduler()->scheduleRepeatingTask(new RainbowArmorTask(Implade::getInstance(), $sender), 5);
             $sender->sendMessage(Implade::getInstance()->impladePrefix . Implade::getInstance()->getLang("rainbow-enabled-message"));
           }
           break;
         case 1:
-          Implade::getInstance()->disableRainbowForm($sender);
+          self::getForm()->disableRainbowForm($sender);
           break;
         case 2:
           $sender->sendMessage(Implade::getInstance()->impladePrefix . Implade::getInstance()->getLang("close-form-message"));
@@ -203,7 +206,7 @@ class FormsManager {
           }
           break;
         case 1:
-          Implade::getInstance()->rainbowMenu($sender);
+          self::getForm()->rainbowMenu($sender);
           break;
       }
     });
