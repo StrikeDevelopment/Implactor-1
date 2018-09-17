@@ -62,7 +62,7 @@ class Implade extends PluginBase implements Listener {
 
   private static $instance;
 
-  public $formSystem;
+  private $formSystem;
   public $wild = [];
 
   public function getImplade(): Config {
