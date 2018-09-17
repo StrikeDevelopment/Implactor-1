@@ -87,7 +87,7 @@ class EntityManager {
       $death = new DeathHuman($level, $deathNBT);
       $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
       $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
-      $death->setNameTag("§7[". $this->plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
+      $death->setNameTag("§7[". Implade::getInstance()->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
       $death->setNameTagAlwaysVisible(true);
       $death->spawnToAll();
       Implade::getInstance()->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask(Implade::getInstance(), $death, $player), 1000);
