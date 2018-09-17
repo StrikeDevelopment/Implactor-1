@@ -62,8 +62,8 @@ class Implade extends PluginBase implements Listener {
 
   private static $instance;
 
-  private $formSystem;
-  private $wild = [];
+  public $formSystem;
+  public $wild = [];
 
   public function getImplade(): Config {
     return $this->config;
@@ -403,9 +403,7 @@ class Implade extends PluginBase implements Listener {
       $thunder->position = $player->asVector3()->add(0, 0);
       $thunder->yaw = $player->getYaw();
       $thunder->pitch = $player->getPitch();
-      foreach($level->getPlayers() as $players){
-        $player->getServer()->broadcastPacket($players, $thunder);
-      }
+      $player->getServer()->broadcastPacket($player->getServer()->getOnlinePlayers(), $thunder);
     }
   }
 
