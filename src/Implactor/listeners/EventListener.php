@@ -126,7 +126,7 @@ class EventListener implements Listener {
     $deathSound = new AnvilBreakSound($player);
     $deathSound = new GhastSound($player);
     $level->addSound($deathSound);
-    EntityManager::getCustom()->spawnDeath($this, $player);
+    EntityManager::getCustom()->spawnDeath($player);
   }
   
   public function onRespawn(PlayerRespawnEvent $ev): void {
