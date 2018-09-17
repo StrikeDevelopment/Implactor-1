@@ -31,7 +31,7 @@ use pocketmine\utils\{Config, Color};
 use pocketmine\network\mcpe\protocol\AddEntityPacket;
 use pocketmine\command\{Command, CommandSender};
 use pocketmine\plugin\{Plugin, PluginBase, PluginDescription};
-use pocketmine\nbt\{NamedTag, StringTag};
+use pocketmine\nbt\{CompoundTag, ListTag, NamedTag, StringTag};
 use pocketmine\level\sound\DoorBumpSound;
 use pocketmine\math\Vector3;
 use pocketmine\event\Listener;
