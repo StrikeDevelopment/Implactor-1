@@ -30,13 +30,13 @@ use pocketmine\{Player, Server};
 use pocketmine\utils\{Config, Color};
 use pocketmine\network\mcpe\protocol\AddEntityPacket;
 use pocketmine\command\{Command, CommandSender};
-use pocketmine\plugin\{Plugin, PluginBase, PluginDescription};
-use pocketmine\nbt\{CompoundTag, ListTag, NamedTag, StringTag};
+use pocketmine\plugin\{PluginBase, PluginDescription};
+use pocketmine\nbt\StringTag;
 use pocketmine\level\sound\DoorBumpSound;
 use pocketmine\math\Vector3;
 use pocketmine\event\Listener;
 
-use Implactor\FormsManager;
+use Implactor\{FormManagsr, EntityManager};
 use Implactor\entities\{BotHuman, DeathHuman, SoccerMagma};
 use Implactor\listeners\{AntiAdvertising, AntiCaps, AntiSwearing, BotListener, EventListener, HeadListener};
 use Implactor\tasks\ClearLaggTask;
@@ -57,13 +57,11 @@ class Implade extends PluginBase implements Listener {
   public $impladePrefix = " §f§l IR ➤§r ";
   public $rainbows = array();
   public $timers = array();
-  public $iChat = [];
   public $config;
 
   private static $instance;
-
-  private $formSystem;
-  public $wild = [];
+  private $formSystem; // "FormsManager" file.
+  private $customEntities; // "EntityManager" file.
 
   public function getImplade(): Config {
     return $this->config;
@@ -111,6 +109,7 @@ class Implade extends PluginBase implements Listener {
     $this->checkEntities();
     $this->checkTridents();
     $this->formSystem = new FormsManager();
+    $this->customEntities = new EntityManager();
 	  
     // Check Listeners \\
     $this->getServer()->getPluginManager()->registerEvents($this, $this);  
@@ -185,24 +184,6 @@ class Implade extends PluginBase implements Listener {
     $this->getLogger()->info($this->getLang("disable-plugin-message"));
   }
 
-  public function spawnSoccer(Player $player): void {
-    $level = $player->getLevel();
-    $soccerNBT = Entity::createBaseNBT($player, null, 2, 2);
-    $soccer = new SoccerMagma($level, $soccerNBT);
-    $soccer->setScale(1.4);
-    $soccer->spawnToAll();
-  }
-
-  public function spawnBot(Player $player, string $botName): void {
-    $level = $player->getLevel();
-    $botNBT = Entity::createBaseNBT($player, null, 2, 2);
-    $botNBT->setTag($player->namedTag->getTag("Skin"));
-    $bot = new BotHuman($level, $botNBT);
-    $bot->setNameTag("§7[". $this->getLang("bot-nametag") ."§7]§r\n§f" . $botName);
-    $bot->setNameTagAlwaysVisible(true);
-    $bot->spawnToAll();
-  }
-
   public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
     if (!$sender instanceof Player) {
       $sender->sendMessage($this->getLang("only-command-ingame-message"));
@@ -217,7 +198,7 @@ class Implade extends PluginBase implements Listener {
       }
     } else if (strtolower($command->getName()) === "soccer") {
       if ($sender->hasPermission("implactor.soccer")) {
-        $this->spawnSoccer($sender);
+        EntityManager::getCustom()->spawnSoccer($sender);
         $sender->level->broadcastLevelSoundEvent($sender, LevelSoundEventPacket::SOUND_POP);
         $sender->sendMessage($this->impladePrefix . $this->getLang("soccer-spawned-message"));
       } else {

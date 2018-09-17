@@ -25,28 +25,29 @@ declare(strict_types=1);
 namespace Implactor\listeners;
 
 use pocketmine\event\Listener;
-use pocketmine\math\Vector3;
 use pocketmine\item\Item;
 use pocketmine\block\Block;
-use pocketmine\nbt\NBT;
 use pocketmine\entity\Entity;
 use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
 use pocketmine\{Player, Server};
 use pocketmine\utils\{Config, Utils};
-use pocketmine\nbt\tag\{CompoundTag, ListTag, DoubleTag, FloatTag, NamedTag};
 use pocketmine\level\sound\{EndermanTeleportSound, GhastSound, BlazeShootSound, AnvilBreakSound};
 use pocketmine\event\player\{PlayerPreLoginEvent, PlayerLoginEvent, PlayerJoinEvent, PlayerQuitEvent, PlayerDeathEvent, PlayerRespawnEvent, PlayerChatEvent, PlayerMoveEvent};
 use pocketmine\event\entity\{EntityDamageEvent, EntityDamageByEntityEvent};
 use pocketmine\level\particle\{DestroyBlockParticle, FlameParticle, HugeExplodeParticle};
+use pocketmine\math\Vector3;
 
-use Implactor\Implade;
-use Implactor\tasks\{DeathHumanDespawnTask, GuardianJoinTask, TotemRespawnTask};
-use Implactor\particles\{DeathParticles, DespawnParticles};
+use Implactor\{Implade, EntityManager};
+use Implactor\tasks\{GuardianJoinTask, TotemRespawnTask};
+use Implactor\particles\DeathParticles;
 use onebone\economyapi\EconomyAPI;
 
 class EventListener implements Listener {
   
   private $plugin; 
+  
+  private $iChat = [];
+  private $wild = [];
   
   public function __construct(Implade $plugin) {
     $this->plugin = $plugin; 
@@ -125,32 +126,7 @@ class EventListener implements Listener {
     $deathSound = new AnvilBreakSound($player);
     $deathSound = new GhastSound($player);
     $level->addSound($deathSound);
-    if ($this->plugin->getImplade()->get("death-human") == true) {
-      $deathNBT = new CompoundTag("", [
-          new ListTag("Pos", [
-              new DoubleTag("", $player->getX()),
-              new DoubleTag("", $player->getY() - 1),
-              new DoubleTag("", $player->getZ())
-          ]),
-          new ListTag("Motion", [
-              new DoubleTag("", 0),
-              new DoubleTag("", 0),
-              new DoubleTag("", 0)
-          ]),
-          new ListTag("Rotation", [
-              new FloatTag("", 2),
-              new FloatTag("", 2)
-          ])
-      ]);
-      $deathNBT->setTag($player->namedTag->getTag("Skin"));
-      $death = new DeathHuman($level, $deathNBT);
-      $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
-      $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
-      $death->setNameTag("§7[". $this->plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
-      $death->setNameTagAlwaysVisible(true);
-      $death->spawnToAll();
-      $this->plugin->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask($this->plugin, $death, $player), 1000);
-    }
+    EntityManager::getCustom()->spawnDeath($this, $player);
   }
   
   public function onRespawn(PlayerRespawnEvent $ev): void {
@@ -200,7 +176,7 @@ class EventListener implements Listener {
   
   public function onChat(PlayerChatEvent $ev): void {
     $player = $ev->getPlayer();
-    $iChat = $this->plugin->iChat;
+    $iChat = $this->iChat;
     if (!$player->isOP()) {
     	if (isset($iChat[strtolower($player->getName())])) {
     	    if ((time() - $iChat[strtolower($player->getName())]) < 4) {
@@ -243,7 +219,7 @@ class EventListener implements Listener {
           $entity->setAllowFlight(false);
           $entity->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("fly-disabled-damage-message"));
         }
-        $wilder = $this->plugin->wild;
+        $wilder = $this->wild;
         if (isset($wilder[$entity->getName()])) {
           unset($wilder[$entity->getName()]);
           $ev->setCancelled(true);

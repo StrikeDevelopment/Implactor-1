@@ -30,12 +30,12 @@ use pocketmine\entity\{Entity, Effect, EffectInstance};
 use pocketmine\utils\{Config, Utils};
 use pocketmine\utils\Vector3;
 
-use Implactor\Implade;
+use Implactor\{Implade, EntityManager};
+use Implactor\tasks\RainbowArmorTask;
 use jojoe77777\FormAPI\FormAPI;
 
 class FormsManager {
   
-  private $plugin;
   private $visible = [];
   
   private static $formSystem;
@@ -127,7 +127,7 @@ class FormsManager {
   public function spawnBotForm($sender): void {
     $impladeForm = Implade::getInstance()->forms->createCustomForm(function (Player $sender, $result) {
       if ($result !== null) {
-        Implade::getInstance()->spawnBot($sender, $result[1]);
+        EntityManager::getCustom()->spawnBot($sender, $result[1]);
         $sender->getServer()->broadcastMessage("§7[". Implade::getInstance()->getLang("bot-nametag") ."§7]§r " . Implade::getInstance()->getLang("bot-spawned-message", array(
                 "%bot" => $result[1], 
                 "%player" => $sender->getName()

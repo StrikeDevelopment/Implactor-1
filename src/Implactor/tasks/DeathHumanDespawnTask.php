@@ -30,6 +30,7 @@ use pocketmine\entity\Entity;
 use Implactor\Implade;
 use Implactor\entities\DeathHuman;
 use Implactor\tasks\ImpladeTask;
+use Implactor\particles\DespawnParticles;
 
 class DeathHumanDespawnTask extends ImpladeTask {
 
@@ -49,7 +50,7 @@ class DeathHumanDespawnTask extends ImpladeTask {
     $plugin = $this->plugin;
     if ($entity instanceof DeathHuman) {
       if ($entity->getNameTag() === "§7[§c". $plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName()) $entity->close();
-      if ($entity->getNameTag() === "§7[§c". $plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName()) $this->plugin->getScheduler()->scheduleDelayedTask(new DespwnParticles($plugin, $entity), 1);
+      if ($entity->getNameTag() === "§7[§c". $plugin->getLang("death-nametag") ."§7]§r\n§f" . $player->getName()) $plugin->getScheduler()->scheduleDelayedTask(new DespwnParticles($plugin, $entity), 1);
     }
   }
 }
