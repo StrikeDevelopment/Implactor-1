@@ -55,7 +55,7 @@ class Implade extends PluginBase implements Listener {
   protected $economy;
 	
   public $exemptedEntities = [];
-  public $impladePrefix = " §f§l IR ➤§r ";
+  public $impladePrefix = "§l§6I§5R§r ";
   public $rainbows = array();
   public $timers = array();
   public $config;
@@ -66,10 +66,6 @@ class Implade extends PluginBase implements Listener {
 
   public function getImplade(): Config {
     return $this->config;
-  }
-	
-  public function getForm(): FormsManager {
-    return $this->formSystem;
   }
 	
   public static function getInstance() : self {
