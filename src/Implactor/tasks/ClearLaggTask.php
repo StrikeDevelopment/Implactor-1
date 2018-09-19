@@ -24,7 +24,7 @@
 declare(strict_types=1);
 namespace Implactor\tasks;
 
-use Implactor\Implade;
+use Implactor\{Implade, EntityManager};
 use Implactor\tasks\ImpladeTask;
 
 class ClearLaggTask extends ImpladeTask {
@@ -36,9 +36,9 @@ class ClearLaggTask extends ImpladeTask {
   }
 
   public function onRun(int $currentTick): void {
-    $items = $this->plugin->clearItems();
-    $mobs = $this->plugin->clearMobs();
-    $this->plugin->getServer()->broadcastMessage($this->plugin->impladePrefix. $this->plugin->getLang("clear-lagg-message", array(
+    $items = EntityManager::getCustom()->clearItems();
+    $mobs = EntityManager::getCustom()->clearMobs();
+    $this->plugin->getServer()->broadcastMessage(Implade::getInstance()->impladePrefix. Implade::getInstance()->getLang("clear-lagg-message", array(
                   "%items" => $items, 
                   "%mobs" => $mobs
               )));
