@@ -104,7 +104,7 @@ class EventListener implements Listener {
     $level = $player->getLevel();
     $cause = $player->getLastDamageCause();
     if ($cause instanceof EntityDamageByEntityEvent) {
-      $killer = $cause->getDamager();
+      $killer = $cause->getModifier();
       if ($killer instanceof Player) {
         $weapon = $killer->getInventory()->getItemInHand()->getName();
         if (!$this->plugin->economy->addMoney($killer, $this->plugin->getImplade()->get("killer-money", 220))) {
