@@ -54,7 +54,6 @@ class Implade extends PluginBase implements Listener {
   public $forms; // Access the property to "FormsManager" file!
   protected $economy;
 	
-  public $exemptedEntities = [];
   public $impladePrefix = "§l§6I§5R§r ";
   public $rainbows = array();
   public $timers = array();
@@ -395,39 +394,5 @@ class Implade extends PluginBase implements Listener {
     } else {
       $this->timers[$player->getName()] = 0;
     }
-  }
-
-  public function clearItems(): int {
-    $item = 0;
-    foreach ($this->getServer()->getLevels() as $level) {
-      foreach ($level->getEntities() as $entity) {
-        if (!$this->isEntityExempted($entity) && !($entity instanceof Creature)) {
-          $entity->close();
-          $item++;
-        }
-      }
-    }
-    return $item;
-  }
-
-  public function clearMobs(): int {
-    $mobs = 0;
-    foreach ($this->getServer()->getLevels() as $level) {
-      foreach ($level->getEntities() as $entity) {
-        if (!$this->isEntityExempted($entity) && $entity instanceof Creature && !($entity instanceof Human)) {
-          $entity->close();
-          $mobs++;
-        }
-      }
-    }
-    return $mobs;
-  }
-
-  public function exemptEntity(Entity $entity): void {
-    $this->exemptedEntities[$entity->getID()] = $entity;
-  }
-
-  public function isEntityExempted(Entity $entity): bool {
-    return isset($this->exemptedEntities[$entity->getID()]);
   }
 }
