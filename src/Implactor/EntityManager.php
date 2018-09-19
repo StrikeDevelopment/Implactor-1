@@ -66,6 +66,7 @@ class EntityManager {
   }
   
   public function spawnDeath(Player $player): void {
+    $level = $player->getLevel();
     if (Implade::getInstance()->getImplade()->get("death-human") == true) {
       $deathNBT = new CompoundTag("", [
           new ListTag("Pos", [
