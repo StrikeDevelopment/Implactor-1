@@ -28,7 +28,7 @@ use pocketmine\entity\{Entity, Creature, Human};
 use pocketmine\item\{Item, Armor};
 use pocketmine\{Player, Server};
 use pocketmine\utils\{Config, Color};
-use pocketmine\network\mcpe\protocol\{AddEntityPacket, LevelSoundEventPacket};
+use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
 
 use pocketmine\command\{Command, CommandSender};
 use pocketmine\plugin\{PluginBase, PluginDescription};
@@ -369,20 +369,6 @@ class Implade extends PluginBase implements Listener {
       return "§cError with {$configKey}";
     $key = strtr($key, $keys);
     return str_replace("&", "§", $key);
-  }
-	
-  public function isSummonLightning(Player $player, $strike){
-    if ($strike === true) {
-      $level = $player->getLevel();
-          
-      $thunder = new AddEntityPacket();
-      $thunder->type = 93;
-      $thunder->entityRuntimeId = Entity::$entityCount++;
-      $thunder->position = $player->asVector3()->add(0, 0);
-      $thunder->yaw = $player->getYaw();
-      $thunder->pitch = $player->getPitch();
-      $player->getServer()->broadcastPacket($player->getServer()->getOnlinePlayers(), $thunder);
-    }
   }
 
   public function rainbowArmor(Player $player, int $r, int $g, int $b): void {
