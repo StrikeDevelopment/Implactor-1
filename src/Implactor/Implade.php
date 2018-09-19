@@ -24,7 +24,6 @@
 declare(strict_types=1);
 namespace Implactor;
 
-use pocketmine\entity\{Entity, Creature, Human};
 use pocketmine\item\{Item, Armor};
 use pocketmine\{Player, Server};
 use pocketmine\utils\{Config, Color};
@@ -117,6 +116,7 @@ class Implade extends PluginBase implements Listener {
     $this->getServer()->getPluginManager()->registerEvents(new HeadListener($this), $this);
 	  
     self::$instance = $this;
+    EntityManager::getCustom()->clearCorpses($this);
     $this->getLogger()->info($this->getLang("license-plugin-message"));
     $this->config = new Config($this->getDataFolder() . "iConfig.yml");
 	  
