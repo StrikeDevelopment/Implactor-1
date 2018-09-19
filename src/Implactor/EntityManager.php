@@ -91,7 +91,7 @@ class EntityManager {
       $death->setNameTag("§7[". Implade::getInstance()->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
       $death->setNameTagAlwaysVisible(true);
       $death->spawnToAll();
-      Implade::getInstance()->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask(Implade::getInstance(), $death, $player), 1000);
+      self::getCustom()->getScheduler()->scheduleDelayedTask(new DeathHumanDespawnTask(Implade::getInstance(), $death, $player), 1000);
     }
   }
 }
