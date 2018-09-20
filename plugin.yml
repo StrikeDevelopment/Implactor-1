@@ -23,7 +23,7 @@
 ---
 
 name: Implactor
-version: IR-2.0
+version: IR-2.0.1_BETA
 api:
 - 3.0.0
 - 3.2.0
