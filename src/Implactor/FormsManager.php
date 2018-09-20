@@ -195,6 +195,7 @@ class FormsManager {
   }
   
   public function disableRainbowForm($sender): void {
+    Implade::getInstance()->rainbows[$sender->getName()] = 0;
     $impladeForm = Implade::getInstance()->forms->createSimpleForm(function (Player $sender, $result) {
       switch ($result) {
         case 0:

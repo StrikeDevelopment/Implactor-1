@@ -34,6 +34,7 @@ use pocketmine\plugin\{PluginBase, PluginDescription};
 use pocketmine\nbt\StringTag;
 use pocketmine\level\sound\DoorBumpSound;
 use pocketmine\math\Vector3;
+use pocketmine\entity\Entity;
 use pocketmine\event\Listener;
 
 use Implactor\{FormManagsr, EntityManager};

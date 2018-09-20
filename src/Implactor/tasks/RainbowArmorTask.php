@@ -43,35 +43,35 @@ class RainbowArmorTask extends ImpladeTask {
     $player = $this->player;
     $plugin = $this->plugin;
     if ($player->isOnline()) {
-      $timeColors = $plugin->timers[$player->getName()];
-      $plugin->rainbows[$player->getName()] = $this->getTaskId();
-      if ($timeColors === 23) $plugin->rainbowArmor($player, 255, 0, 64);
-      if ($timeColors === 22) $plugin->rainbowArmor($player, 255, 0, 128);
-      if ($timeColors === 21) $plugin->rainbowArmor($player, 255, 0, 191);
-      if ($timeColors === 20) $plugin->rainbowArmor($player, 255, 0, 255);
-      if ($timeColors === 19) $plugin->rainbowArmor($player, 191, 0, 255);
-      if ($timeColors === 18) $plugin->rainbowArmor($player, 128, 0, 255);
-      if ($timeColors === 17) $plugin->rainbowArmor($player, 64, 0, 255);
-      if ($timeColors === 16) $plugin->rainbowArmor($player, 0, 0, 255);
-      if ($timeColors === 15) $plugin->rainbowArmor($player, 0, 64, 255);
-      if ($timeColors === 14) $plugin->rainbowArmor($player, 0, 128, 255);
-      if ($timeColors === 13) $plugin->rainbowArmor($player, 0, 191, 255);
-      if ($timeColors === 12) $plugin->rainbowArmor($player, 0, 255, 255);
-      if ($timeColors === 11) $plugin->rainbowArmor($player, 0, 255, 191);
-      if ($timeColors === 10) $plugin->rainbowArmor($player, 0, 255, 128);
-      if ($timeColors === 9) $plugin->rainbowArmor($player, 0, 255, 64);
-      if ($timeColors === 8) $plugin->rainbowArmor($player, 0, 255, 0);
-      if ($timeColors === 7) $plugin->rainbowArmor($player, 64, 255, 0);
-      if ($timeColors === 6) $plugin->rainbowArmor($player, 128, 255, 0);
-      if ($timeColors === 5) $plugin->rainbowArmor($player, 191, 255, 0);
-      if ($timeColors === 4) $plugin->rainbowArmor($player, 255, 255, 0);
-      if ($timeColors === 3) $plugin->rainbowArmor($player, 255, 191, 0);
-      if ($timeColors === 2) $plugin->rainbowArmor($player, 255, 128, 0);
-      if ($timeColors === 1) $plugin->rainbowArmor($player, 255, 64, 0);
-      if ($timeColors === 0) $plugin->rainbowArmor($player, 255, 0, 0);
-      if ($timeColors === 24) $plugin->rainbowArmor($player, 255, 0, 0);
+      $timeColors = Implade::getInstance()->timers[$player->getName()];
+      Implade::getInstance()->rainbows[$player->getName()] = $this->getTaskId();
+      if ($timeColors === 23) Implade::getInstance()->rainbowArmor($player, 255, 0, 64);
+      if ($timeColors === 22) Implade::getInstance()->rainbowArmor($player, 255, 0, 128);
+      if ($timeColors === 21) Implade::getInstance()->rainbowArmor($player, 255, 0, 191);
+      if ($timeColors === 20) Implade::getInstance()->rainbowArmor($player, 255, 0, 255);
+      if ($timeColors === 19) Implade::getInstance()->rainbowArmor($player, 191, 0, 255);
+      if ($timeColors === 18) Implade::getInstance()->rainbowArmor($player, 128, 0, 255);
+      if ($timeColors === 17) Implade::getInstance()->rainbowArmor($player, 64, 0, 255);
+      if ($timeColors === 16) Implade::getInstance()->rainbowArmor($player, 0, 0, 255);
+      if ($timeColors === 15) Implade::getInstance()->rainbowArmor($player, 0, 64, 255);
+      if ($timeColors === 14) Implade::getInstance()->rainbowArmor($player, 0, 128, 255);
+      if ($timeColors === 13) Implade::getInstance()->rainbowArmor($player, 0, 191, 255);
+      if ($timeColors === 12) Implade::getInstance()->rainbowArmor($player, 0, 255, 255);
+      if ($timeColors === 11) Implade::getInstance()->rainbowArmor($player, 0, 255, 191);
+      if ($timeColors === 10) Implade::getInstance()->rainbowArmor($player, 0, 255, 128);
+      if ($timeColors === 9) Implade::getInstance()->rainbowArmor($player, 0, 255, 64);
+      if ($timeColors === 8) Implade::getInstance()->rainbowArmor($player, 0, 255, 0);
+      if ($timeColors === 7) Implade::getInstance()->rainbowArmor($player, 64, 255, 0);
+      if ($timeColors === 6) Implade::getInstance()->rainbowArmor($player, 128, 255, 0);
+      if ($timeColors === 5) Implade::getInstance()->rainbowArmor($player, 191, 255, 0);
+      if ($timeColors === 4) Implade::getInstance()->rainbowArmor($player, 255, 255, 0);
+      if ($timeColors === 3) Implade::getInstance()->rainbowArmor($player, 255, 191, 0);
+      if ($timeColors === 2) Implade::getInstance()->rainbowArmor($player, 255, 128, 0);
+      if ($timeColors === 1) Implade::getInstance()->rainbowArmor($player, 255, 64, 0);
+      if ($timeColors === 0) Implade::getInstance()->rainbowArmor($player, 255, 0, 0);
+      if ($timeColors === 24) Implade::getInstance()->rainbowArmor($player, 255, 0, 0);
     } else {
-      $plugin->getScheduler()->cancelTask($this->getTaskId());
+      Implade::getInstance()->getScheduler()->cancelTask($this->getTaskId());
     }
   }
 }

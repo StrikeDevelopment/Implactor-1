@@ -30,7 +30,7 @@ language: "English"
 
 # The important of configuration version on Implactor plugin.
 # [WARNING]: Do not CHANGE the configuration version!
-Version: 4
+Version: 5
 
 # Auto-update checker, to detect the new version of Implactor plugin.
 # You can enable or disable the feature.
@@ -77,5 +77,9 @@ killer-money: 150
 # Set amount of money for selling one per head via using commands.
 # [NOTE]: Don't set to the higher amount of money, they'll be get riches!
 item-head-sell-money: 100
+
+# Make you get bleeding once the player hits you.
+# You can enable or disable the feature.
+blood-hit-players: true
 
 ...

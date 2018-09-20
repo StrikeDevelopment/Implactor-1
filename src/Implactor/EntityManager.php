@@ -113,7 +113,7 @@ class EntityManager {
   
   public function clearCorpses(): int {
     $corpses = 0;
-    foreach (Implade::getInstance()->getServer()->getLevels() as $level) {
+    foreach (self::getCustom()->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
         if ($entity instanceof DeathHuman) {
           $entity->close();
@@ -126,7 +126,7 @@ class EntityManager {
   
   public function clearItems(): int {
     $item = 0;
-    foreach (Implade::getInstance()->getServer()->getLevels() as $level) {
+    foreach (self::getCustom()->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
         if (!self::getCustom()->isEntityExempted($entity) && !($entity instanceof Creature)) {
           $entity->close();
@@ -139,7 +139,7 @@ class EntityManager {
 
   public function clearMobs(): int {
     $mobs = 0;
-    foreach (Implade::getInstance()->getServer()->getLevels() as $level) {
+    foreach (self::getCustom()->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
         if (!self::getCustom()->isEntityExempted($entity) && $entity instanceof Creature && !($entity instanceof Human)) {
           $entity->close();
@@ -155,6 +155,6 @@ class EntityManager {
   }
 
   public function isEntityExempted(Entity $entity): bool {
-    return isset(self;:getCustom()->exemptedEntities[$entity->getID()]);
+    return isset(self::getCustom()->exemptedEntities[$entity->getID()]);
   }
 }

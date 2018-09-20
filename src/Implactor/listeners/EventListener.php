@@ -91,11 +91,11 @@ class EventListener implements Listener {
     if ($this->plugin->getImplade()->get("lightning-events") == true) {
       $this->plugin->isSummonLightning($player, true); 
     }
-    $this->plugin->rainbows[$player->getName()] = 0;
-    if (!in_array($player->getName(), $this->plugin->timers)) {
-      $this->plugin->timers[] = $player->getName();
+    Implade::getInstance()->rainbows[$player->getName()] = 0;
+    if (!in_array($player->getName(), Implade::getInstance()->timers)) {
+      Implade::getInstance()->timers[] = $player->getName();
     }
-    $this->plugin->timers[$player->getName()] = 0;
+    Implade::getInstance()->timers[$player->getName()] = 0;
     $player->getArmorInventory()->clearAll();
   }
   
@@ -225,7 +225,9 @@ class EventListener implements Listener {
           $ev->setCancelled(true);
         }
     }
-    $level->addParticle(new DestroyBlockParticle($entity, Block::get(152)));
+    if (Implade::getInstance()->getImplade()->get("blood-hit-players") == false) {
+      $level->addParticle(new DestroyBlockParticle($entity, Block::get(152)));
+    }
     if ($entity instanceof SoccerMagma) $ev->setCancelled(true);
     if ($entity instanceof DeathHuman) $ev->setCancelled(true);
     if ($entity instanceof BotHuman) $ev->setCancelled(true);
