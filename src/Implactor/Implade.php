@@ -47,7 +47,7 @@ use jojoe77777\FormAPI\FormAPI;
 
 class Implade extends PluginBase implements Listener {
 
-  const VERSION = 4;
+  const VERSION = 5;
 
   protected $lang;
   public $forms; // Access the property to "FormsManager" file!
