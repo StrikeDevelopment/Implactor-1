@@ -24,11 +24,12 @@
 declare(strict_types=1);
 namespace Implactor;
 
-use pocketmine\Player;
+use pocketmine\{Player, Server};
 use pocketmine\entity\{Entity, Creature, Human};
 use pocketmine\nbt\NBT;
 use pocketmine\network\mcpe\protocol\AddEntityPacket;
 use pocketmine\nbt\tag\{CompoundTag, ListTag, DoubleTag, FloatTag, NamedTag};
+use pocketmine\level\{Level, Position};
 use pocketmine\math\Vector3;
 
 use Implactor\Implade;
@@ -115,7 +116,7 @@ class EntityManager {
     $corpses = 0;
     foreach (self::getCustom()->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
-        if ($entity instanceof DeathHuman) {
+        if (!$entity instanceof DeathHuman) {
           $entity->close();
           $corpses++;
         }
