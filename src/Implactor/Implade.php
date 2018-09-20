@@ -117,7 +117,7 @@ class Implade extends PluginBase implements Listener {
     $this->getServer()->getPluginManager()->registerEvents(new HeadListener($this), $this);
 	  
     self::$instance = $this;
-    EntityManager::getCustom()->clearCorpses($this);
+    EntityManager::getCustom()->clearCorpses();
     $this->getLogger()->info($this->getLang("license-plugin-message"));
     $this->config = new Config($this->getDataFolder() . "iConfig.yml");
 	  
