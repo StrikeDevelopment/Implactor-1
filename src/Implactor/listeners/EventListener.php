@@ -55,19 +55,19 @@ class EventListener implements Listener {
   
   public function onPreLogin(PlayerPreLoginEvent $ev): void {
     $player = $ev->getPlayer();
-    if (!$this->plugin->getServer()->isWhitelisted($player->getName())) {
-      $ev->setKickMessage($this->plugin->getLang("server-whitelisted-message"));
+    if (!Implade::getInstance()->getServer()->isWhitelisted($player->getName())) {
+      $ev->setKickMessage(Implade::getInstance()->getLang("server-whitelisted-message"));
       $ev->setCancelled(true);
     }
-    if ($this->plugin->getServer()->getNameBans()->isBanned($player->getName())) {
-      $ev->setKickMessage($this->plugin->getLang("player-banned-message"));
+    if (Implade::getInstance()->getServer()->getNameBans()->isBanned($player->getName())) {
+      $ev->setKickMessage(Implade::getInstance()->getLang("player-banned-message"));
       $ev->setCancelled(true);
     }
   }
   
   public function onLogin(PlayerLoginEvent $ev): void {
     $player = $ev->getPlayer();
-    $spawn = $this->plugin->getServer()->getDefaultLevel()->getSafeSpawn();
+    $spawn = Implade::getInstance()->getServer()->getDefaultLevel()->getSafeSpawn();
     $player->teleport($spawn);
   }
   
@@ -75,21 +75,25 @@ class EventListener implements Listener {
     $player = $ev->getPlayer();
     $level = $player->getLevel();
     $player->setGamemode(Player::SURVIVAL);
-    if ($this->plugin->getImplade()->get("welcomer-message") == true) {
+    if (Implade::getInstance()->getImplade()->get("welcomer-message") == true) {
       if ($player->isOP()) {
-        if ($this->plugin->getImplade()->get("notice-message") == true) {
-          $player->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("join-notice-message"));
+        if (Implade::getInstance()->getImplade()->get("notice-message") == true) {
+          $player->sendMessage(Implade::getInstance()->impladePrefix . Implade::getInstance()->getLang("join-notice-message"));
         }
-        $ev->setJoinMessage($this->plugin->getLang("join-operator-message", array("%player" => $player->getName())));
+        $ev->setJoinMessage(Implade::getInstance()->getLang("join-operator-message", array(
+                "%player" => $player->getName()
+            )));
         $level->addSound(new EndermanTeleportSound($player));
       } else {
-        $ev->setJoinMessage($this->plugin->getLang("join-player-message", array("%player" => $player->getName())));
+        $ev->setJoinMessage(Implade::getInstance()->getLang("join-player-message", array(
+                "%player" => $player->getName()
+            )));
         $level->addSound(new EndermanTeleportSound($player));
       }
     }
-    $this->plugin->getScheduler()->scheduleDelayedTask(new GuardianJoinTask($this->plugin, $player), 25);
-    if ($this->plugin->getImplade()->get("lightning-events") == true) {
-      $this->plugin->isSummonLightning($player, true); 
+    Implade::getInstance()->getScheduler()->scheduleDelayedTask(new GuardianJoinTask(Implade::getInstance(), $player), 25);
+    if (Implade::getInstance()->getImplade()->get("lightning-events") == true) {
+      Implade::getInstance()->isSummonLightning($player, true); 
     }
     Implade::getInstance()->rainbows[$player->getName()] = 0;
     if (!in_array($player->getName(), Implade::getInstance()->timers)) {
@@ -107,21 +111,21 @@ class EventListener implements Listener {
       $killer = $cause->getModifier();
       if ($killer instanceof Player) {
         $weapon = $killer->getInventory()->getItemInHand()->getName();
-        if (!$this->plugin->economy->addMoney($killer, $this->plugin->getImplade()->get("killer-money", 220))) {
-          $this->getLogger()->error($this->plugin->getLang("economy-error-message"));
+        if (!Implade::getInstance()->economy->addMoney($killer, Implade::getInstance()->getImplade()->get("killer-money", 220))) {
+          $this->getLogger()->error(Implade::getInstance()->getLang("economy-error-message"));
           return;
         }
-        $player->getServer()->broadcastMessage($this->impladePrefix . $this->getLang("death-money-message", array(
-                "%money" => $this->plugin->getImplade()->get("killer-money", 220),
+        $player->getServer()->broadcastMessage(Implade::getInstance()->impladePrefix . Implade::getInstance()->getLang("death-money-message", array(
+                "%money" => Implade::getInstance()->getImplade()->get("killer-money", 220),
                 "%innocent" => $player->getName(),
                 "%killer" => $killer->getName(),
                 "%weapon" => $weapon
             )));
       }
     }
-    $player->sendMessage($this->plugin->impladePrefix . $this->plugin->getLang("death-message"));
-    if ($this->plugin->getImplade()->get("death-particles") == true) {
-      $this->plugin->getScheduler()->scheduleDelayedTask(new DeathParticles($this->plugin, $player), 1);
+    $player->sendMessage(Implade::getInstance()->impladePrefix . Implade::getInstance()->getLang("death-message"));
+    if (Implade::getInstance()->getImplade()->get("death-particles") == true) {
+      Implade::getInstance()->getScheduler()->scheduleDelayedTask(new DeathParticles(Implade::getInstance(), $player), 1);
     }
     $deathSound = new AnvilBreakSound($player);
     $deathSound = new GhastSound($player);
@@ -131,11 +135,11 @@ class EventListener implements Listener {
   
   public function onRespawn(PlayerRespawnEvent $ev): void {
     $player = $ev->getPlayer();
-    $title = $this->plugin->getLang("respawn-title");
-    $subtitle = $this->plugin->getLang("respawn-subtitle");
+    $title = Implade::getInstance()->getLang("respawn-title");
+    $subtitle = Implade::getInstance()->getLang("respawn-subtitle");
     $player->addTitle($title, $subtitle);
     $player->setGamemode(Player::SURVIVAL);
-    $this->plugin->getScheduler()->scheduleDelayedTask(new TotemRespawnTask($this->plugin, $player), 1);
+    Implade::getInstance()->getScheduler()->scheduleDelayedTask(new TotemRespawnTask(Implade::getInstance(), $player), 1);
   }
   
   public function onMove(PlayerMoveEvent $ev): void {
@@ -179,9 +183,9 @@ class EventListener implements Listener {
     $iChat = $this->iChat;
     if (!$player->isOP()) {
     	if (isset($iChat[strtolower($player->getName())])) {
-    	    if ((time() - $iChat[strtolower($player->getName())]) < 4) {
+    	    if ((time() - $iChat[strtolower($player->getName())]) < 5) {
     	        $ev->setCancelled();
-                $player->sendMessage($this->plugin->getLang("fast-chatting-message"));
+              $player->sendMessage(Implade::getInstance()->getLang("fast-chatting-message"));
             } else {
             	$iChat[strtolower($player->getName())] = time();
             }
@@ -195,17 +199,17 @@ class EventListener implements Listener {
     $player = $ev->getPlayer();
     $level = $player->getLevel();
     $player->setGamemode(Player::SURVIVAL);
-    if ($this->plugin->getImplade()->get("welcomer-message") == true) {
+    if (Implade::getInstance()->getImplade()->get("welcomer-message") == true) {
       if ($player->isOP()) {
-        $ev->setQuitMessage($this->plugin->getLang("quit-operator-message", array("%player" => $player->getName())));
+        $ev->setQuitMessage(Implade::getInstance()->getLang("quit-operator-message", array("%player" => $player->getName())));
         $level->addSound(new BlazeShootSound($player));
       } else {
-        $ev->setQuitMessage($this->plugin->getLang("quit-player-message", array("%player" => $player->getName())));
+        $ev->setQuitMessage(Implade::getInstance()->getLang("quit-player-message", array("%player" => $player->getName())));
         $level->addSound(new BlazeShootSound($player));
       }
     }
-    if ($this->plugin->getImplade()->get("lightning-events") == true) {
-      $this->plugin->isSummonLightning($player, true); 
+    if (Implade::getInstance()->getImplade()->get("lightning-events") == true) {
+      Implade::getInstance()->isSummonLightning($player, true); 
     }
   }
   
