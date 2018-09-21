@@ -52,13 +52,13 @@ class BotListener implements Listener {
   public function onSwing(EntityDamageEvent $ev): void {
     $entity = $ev->getEntity();
     if ($ev instanceof EntityDamageByEntityEvent) {
-      $damager = $ev->getDamager();
+      $damager = $ev->getModifier();
       if ($entity instanceof BotHuman && $damager instanceof Player) {
         $packetSwing = new SwingPacket();
         $packetSwing->entityRuntimeId = $entity->getId();
         $packetSwing->action = SwingPacket::ACTION_SWING_ARM;
         $damager->sendDataPacket($packetSwing);
-        $damager->sendMessage("§7[". $this->plugin->getLang("bot-nametag") ."§7] " . $this->plugin->getLang("bot-no-hit-damage-message"));
+        $damager->sendMessage("§7[". Implade::getInstance()->getLang("bot-nametag") ."§7] " . $this->plugin->getLang("bot-no-hit-damage-message"));
       }
     }
   }
