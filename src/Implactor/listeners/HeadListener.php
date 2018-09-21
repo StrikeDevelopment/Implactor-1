@@ -44,15 +44,19 @@ class HeadListener implements Listener {
     	$player = $ev->getPlayer();
         $cause = $player->getLastDamageCause();
         if ($cause instanceof EntityDamageByEntityEvent) {
-          $killer = $cause->getDamager();
+          $killer = $cause->getModifier();
           if ($killer instanceof Player) {
             $headItem = Item::get(Item::SKULL, mt_rand(50, 100), 1);
-            $headItem->setCustomName($this->plugin->getLang("item-head-name", array("%player" => $player->getName())));
-            $headItem->setLore($this->plugin->getLang("item-head-lore"));
+            $headItem->setCustomName(Implade::getInstance()->getLang("item-head-name", array(
+		    "%player" => $player->getName()
+	        )));
+            $headItem->setLore(Implade::getInstance()->getLang("item-head-lore"));
             $headNBT = $headItem->getNamedTag()->setString("head", strtolower($player->getName()));
             $headItem->setNamedTag($headNBT);
             $killer->getInventory()->addItem($headItem);
-            $killer->sendMessage($this->plugin->getLang("item-head-obtained-message", array("%player" => $player->getName())));
+            $killer->sendMessage(Implade::getInstance()->getLang("item-head-obtained-message", array(
+		    "%player" => $player->getName()
+	        )));
           }
         }
     }
