@@ -45,7 +45,7 @@ class BotListener implements Listener {
   public function onEntitySpawn(EntitySpawnEvent $ev): void {
     $entity = $ev->getEntity();
     if ($entity instanceof BotHuman) {
-      $this->plugin->getScheduler()->scheduleRepeatingTask(new BotTask($this->plugin, $entity), 450);
+      Implade::getInstance()->getScheduler()->scheduleRepeatingTask(new BotTask(Implade::getInstance(), $entity), 450);
     }
   }
 
