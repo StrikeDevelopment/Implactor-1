@@ -30,8 +30,8 @@ class SoccerMagma extends Soccer {
 
   const NETWORK_ID = 42;
 
-  public $width = 1.04;
-  public $height = 1.04;
+  public $width = 1.01;
+  public $height = 1.01;
 
   public function getName(): string {
     return "SoccerMagma";

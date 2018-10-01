@@ -52,15 +52,15 @@ class EntityManager {
   
   public function spawnSoccer(Player $player): void {
     $level = $player->getLevel();
-    $soccerNBT = Entity::createBaseNBT($player, null, 2, 2);
+    $soccerNBT = Entity::createNBT($player, null, 2, 2);
     $soccer = new SoccerMagma($level, $soccerNBT);
-    $soccer->setScale(1.4);
+    $soccer->setScale(1.3);
     $soccer->spawnToAll();
   }
 
   public function spawnBot(Player $player, string $botName): void {
     $level = $player->getLevel();
-    $botNBT = Entity::createBaseNBT($player, null, 2, 2);
+    $botNBT = Entity::createNBT($player, null, 2, 2);
     $botNBT->setTag($player->namedtag->getTag("Skin"));
     $bot = new BotHuman($level, $botNBT);
     $bot->setNameTag("§7[". Implade::getInstance()->getLang("bot-nametag") ."§7]§r\n§f" . $botName);
@@ -89,7 +89,11 @@ class EntityManager {
       ]);
       $deathNBT->setTag($player->namedtag->getTag("Skin"));
       $death = new DeathHuman($level, $deathNBT);
-      $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3($player->getX(), $player->getY(), $player->getZ()));
+      $death->getDataPropertyManager()->setBlockPos(DeathHuman::DATA_PLAYER_BED_POSITION, new Vector3(
+              $player->getX(), 
+              $player->getY(), 
+              $player->getZ()
+           ));
       $death->setPlayerFlag(DeathHuman::DATA_PLAYER_FLAG_SLEEP, true);
       $death->setNameTag("§7[". Implade::getInstance()->getLang("death-nametag") ."§7]§r\n§f" . $player->getName());
       $death->setNameTagAlwaysVisible(true);
@@ -114,7 +118,7 @@ class EntityManager {
   
   public function clearCorpses(): int {
     $corpses = 0;
-    foreach (self::getCustom()->getServer()->getLevels() as $level) {
+    foreach (Implade::getInstance()->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
         if (!$entity instanceof DeathHuman) {
           $entity->close();
@@ -127,7 +131,7 @@ class EntityManager {
   
   public function clearItems(): int {
     $item = 0;
-    foreach (self::getCustom()->getServer()->getLevels() as $level) {
+    foreach (Implade::getInstance()->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
         if (!self::getCustom()->isEntityExempted($entity) && !($entity instanceof Creature)) {
           $entity->close();
@@ -140,7 +144,7 @@ class EntityManager {
 
   public function clearMobs(): int {
     $mobs = 0;
-    foreach (self::getCustom()->getServer()->getLevels() as $level) {
+    foreach (Implade::getInstance()->getServer()->getLevels() as $level) {
       foreach ($level->getEntities() as $entity) {
         if (!self::getCustom()->isEntityExempted($entity) && $entity instanceof Creature && !($entity instanceof Human)) {
           $entity->close();

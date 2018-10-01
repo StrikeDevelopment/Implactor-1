@@ -54,7 +54,7 @@ fast-chatting-message: "&l&8(&6!&8)&r &6Please wait before you chat again in few
 anti-swearing-message: "&l&8(&6!&8)&r &6Do not swearing a bad words on this server!"
 anti-advertising-message: "&l&8(&6!&8)&r &6Do not advertising a links on this server!"
 anti-caps-message: "&l&8(&6!&8)&r &6Do not using a '&cCAPS&6' on this server!"
-bot-no-hit-damage-message: "&eYou cannot hit me. I'm invincible!"
+bot-no-hit-damage-message: "&eYou cannot hit me. I'm invincible! Type &l&7Bot&r or &l&7Human&r &6to chat with me!"
 fly-disable-damage-message: "&cYour fly mode have been disabled because you suffered damaged!"
 respawn-title: "&l&cYOU ARE DEAD"
 respawn-subtitle: "&fOuch, what just happend?"
@@ -129,75 +129,94 @@ item-head-sold-message: "&aYou have successfully sold &e%target's Head&a and got
 item-head-lore: "&aThe player's head you obtained after slained someone!\n\n&eDo /head to sell heads from your hand to get money!"
 item-no-head-message: "&cWhere is the head you holding? You cannot sell without it!"
 
+bot-chat:
+- "What do you want?"
+- "Tell me, I have one-punch techniques."
+- "Rem is cute, but Ram.. well I don't know."
+- "Anime is good for you."
+- "What? Don't you messing up here."
+- "You cannot hit me. I already ate immortallity apple."
+- "Don't you think I am watching The Seven Deadly Sins or Re:Zero?"
+- "Gay, you were called me for several times."
+- "How about you shoot pig human named DaPigGuy?"
+- "I see you, I will come fast."
+- "Spongebob is behind you. Just kidding, it's just my imagination."
+- "Have you meet Dylan or SOF3? They're great and special."
+- "If you want to talk about SonsaYT, please stop. He is unstoppable."
+- "%player, did you mommy told you to not speaking with stranger like me?"
+- "Look at the sky, it's a bird! It's a plane! It's uh, flying Phantoms!"
+- "Don't you make me fall, I beg you."
+- "Smoke your weed everyday!"
+
 bad-words:
-- anal
-- asshole
-- anus
-- ass
-- bastard
-- bitch
-- boob
-- cock
-- cum
-- cunt
-- dick
-- dildo
-- dyke
-- fag
-- faggot
-- fuck 
-- fuk
-- fk
-- hoe
-- tits
-- whore 
-- handjob
-- homo
-- jizz
-- cunt 
-- kike 
-- kunt
-- muff 
-- nigger 
-- penis 
-- piss 
-- poop 
-- pussy 
-- queer 
-- rape 
-- semen 
-- sex 
-- shit 
-- slut 
-- titties 
-- twat 
-- vagina 
-- vulva 
-- wank 
-- nigger
-- nigga
-- pus
-- puss
-- pusy
+- "anal"
+- "asshole"
+- "anus"
+- "ass"
+- "bastard"
+- "bitch"
+- "boob"
+- "cock"
+- "cum"
+- "cunt"
+- "dick"
+- "dildo"
+- "dyke"
+- "fag"
+- "faggot"
+- "fuck"
+- "fuk"
+- "fk"
+- "hoe"
+- "tits"
+- "whore" 
+- "handjob"
+- "homo"
+- "jizz"
+- "cunt" 
+- "kike" 
+- "kunt"
+- "muff" 
+- "nigger"
+- "penis" 
+- "piss" 
+- "poop" 
+- "pussy" 
+- "queer" 
+- "rape" 
+- "semen" 
+- "sex" 
+- "shit" 
+- "slut" 
+- "titties" 
+- "twat"
+- "vagina"
+- "vulva"
+- "wank"
+- "nigger"
+- "nigga"
+- "pus"
+- "puss"
+- "pusy"
 
 caps-words:
-- FUCK 
-- BITCH 
-- FAGGOT
-- DICK
-- CUNT
-- ASS
-- HEY
-- YOU
-- MOTHER
-- FATHER
-- SUCKER
-- MOM
-- DAD
-- ABUSER
-- ABUSE
-- SECOND
-- EVERYONE
-- HERE
+- "FUCK"
+- "BITCH"
+- "FAGGOT"
+- "DICK"
+- "CUNT"
+- "ASS"
+- "HEY"
+- "YOU"
+- "MOTHER"
+- "FATHER"
+- "SUCKER"
+- "MOM"
+- "DAD"
+- "ABUSER"
+- "ABUSE"
+- "SECOND"
+- "EVERYONE"
+- "HERE"
 
 ...

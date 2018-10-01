@@ -27,7 +27,7 @@ namespace Implactor\listeners;
 use pocketmine\math\Vector2;
 use pocketmine\network\mcpe\protocol\{AnimatePacket as SwingPacket, MoveEntityAbsolutePacket as MovementPacket};
 use pocketmine\event\entity\{EntitySpawnEvent, EntityDamageEvent, EntityDamageByEntityEvent};
-use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\player\{PlayerMoveEvent, PlayerChatEvent};
 use pocketmine\event\Listener;
 use Implactor\Implade;
 use Implactor\entities\BotHuman;
@@ -82,6 +82,18 @@ class BotListener implements Listener {
         $packetMovement->pitch = $zRot;
         $player->sendDataPacket($packetMovement);
         $entity->setRotation($xRot, $zRot);
+      }
+    }
+  }
+  
+  public function onChat(PlayerChatEvent $ev): void {
+    $player = $ev->getPlayer();
+    $message = $ev->getMessage();
+    if ($player instanceof DeathHuman) {
+      if (strtolower($message) === "Bot" || strtolower($message) === "Human") {
+        $player->sendMessage("§7[". Implade::getInstance()->getLang("bot-nametag") ."§7]§r " . ([Implade::getInstance()->getLang("bot-chat")]), array(
+                "%player" => $player->getName()
+             ));
       }
     }
   }

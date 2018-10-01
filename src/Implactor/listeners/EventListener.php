@@ -55,11 +55,11 @@ class EventListener implements Listener {
   
   public function onPreLogin(PlayerPreLoginEvent $ev): void {
     $player = $ev->getPlayer();
-    if (!Implade::getInstance()->getServer()->isWhitelisted($player->getName())) {
+    if (!Implade::getInstance()->plugin->getServer()->isWhitelisted($player->getName())) {
       $ev->setKickMessage(Implade::getInstance()->getLang("server-whitelisted-message"));
       $ev->setCancelled(true);
     }
-    if (Implade::getInstance()->getServer()->getNameBans()->isBanned($player->getName())) {
+    if (Implade::getInstance()->plugin->getServer()->getNameBans()->isBanned($player->getName())) {
       $ev->setKickMessage(Implade::getInstance()->getLang("player-banned-message"));
       $ev->setCancelled(true);
     }
@@ -67,7 +67,7 @@ class EventListener implements Listener {
   
   public function onLogin(PlayerLoginEvent $ev): void {
     $player = $ev->getPlayer();
-    $spawn = Implade::getInstance()->getServer()->getDefaultLevel()->getSafeSpawn();
+    $spawn = Implade::getInstance()->plugin->getServer()->getDefaultLevel()->getSafeSpawn();
     $player->teleport($spawn);
   }
   
@@ -127,8 +127,10 @@ class EventListener implements Listener {
     if (Implade::getInstance()->getImplade()->get("death-particles") == true) {
       Implade::getInstance()->getScheduler()->scheduleDelayedTask(new DeathParticles(Implade::getInstance(), $player), 1);
     }
-    $deathSound = new AnvilBreakSound($player);
-    $deathSound = new GhastSound($player);
+    $deathSound = [
+          new AnvilBreakSound($player),
+          new GhastSound($player)
+    ];
     $level->addSound($deathSound);
     EntityManager::getCustom()->spawnDeath($player);
   }

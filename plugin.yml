@@ -23,7 +23,7 @@
 ---
 
 name: Implactor
-version: IR-2.0.1_BETA
+version: IR-2.0_BETA
 api:
 - 3.0.0
 - 3.2.0
@@ -125,5 +125,10 @@ permissions:
     implactor.rainbow:
      description: "Allow operators to open the rainbow armor menu UI"
      default: op
+##     
+# Not related to command permissions
+##
+    implactor.anti:
+     description: "Allow to prevent players from spamming/swearing/advertising in chat messages"
 
 ...
