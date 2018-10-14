@@ -37,14 +37,8 @@
 **Date Created**: 23 May 2018<br>
 **From**: 🇲🇾 - Malaysia
 
-## ✔ Authorized Developer Permissions:
-
-**[FreeGamingHere](http://github.com/FreeGamingHere), who is a medium plugin developer and main owner of<br>
-HyperLands Skywars server has given us a permission to continue our<br>
-projects. We should to remember to his advice that we couldn't steal<br>
-codes from private plugins!**
-
-__**Authorized on before end of the July month.**__
+## ❌ Notice!
+This repository is no longer maintained and is kept for historical purposes only.
 
 ## 🔧 How to install Implactor?
 
